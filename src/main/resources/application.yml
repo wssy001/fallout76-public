@@ -6,14 +6,22 @@ quarkus:
       --report-unsupported-elements-at-runtime
     compression:
       level: 10
+  rest-client:
+    "fallout76.restapi.GoCQHttpApiService":
+      url: ${robot-config.go-cqhttp-url}
+    "fallout76.restapi.KookApiService":
+      url: ${robot-config.kook.open-api-base-url}
   http:
     port: 35701
 #  scheduler:
 #    cron-type: spring53
 
 robot-config:
-  #cq-gohttp url 当enable-qq和enable-qq-channel均为false时失效 例： http://127.0.0.1:5700 默认：空
-  cq-gohttp-url: http://127.0.0.1:5700
+  #管理员列表，如果是QQ，便是QQ号，如果是Kook则是Kook用户Id，暂不支持QQ频道用户
+  admins:
+    - 1632812408
+  #Go-cqHttp url 当enable-qq和enable-qq-channel均为false时失效 例： http://127.0.0.1:5700 默认：空
+  go-cqhttp-url: http://127.0.0.1:5700
   #是否启用QQ机器人 true | false 默认：false
   enable-qq: true
   #是否启用QQ频道机器人 true | false 默认：false
@@ -23,6 +31,8 @@ robot-config:
 
   #Kook配置，使用webhook模式，若enable-kook为false则不生效，参数详见https://developer.kookapp.cn/bot/information
   kook:
+    #Kook API Base Url 例：https://www.kookapp.cn 默认：空
+    open-api-base-url: https://www.kookapp.cn
     #Kook机器人Token 例：sdkasfkashfk 默认：空
     token:
     #Kook机器人Verify Token 例： kjahsdkjaskj 默认：空

@@ -5,6 +5,7 @@ import io.smallrye.config.ConfigMapping;
 import io.smallrye.config.WithDefault;
 import io.smallrye.config.WithName;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -13,7 +14,8 @@ import java.util.Optional;
 public interface RobotConfig {
 
     @WithDefault("")
-    Optional<String> cqGoHttpUrl();
+    @WithName("go-cqhttp-url")
+    Optional<String> goCQHttpUrl();
 
     @WithDefault("false")
     @WithName("enable-qq")
@@ -31,7 +33,11 @@ public interface RobotConfig {
 
     Map<String, String> photos();
 
+    List<String> admins();
+
     interface Kook {
+        @WithDefault("")
+        Optional<String> openApiBaseUrl();
 
         @WithDefault("")
         Optional<String> token();

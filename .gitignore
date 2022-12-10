@@ -1,6 +1,5 @@
 #Maven
 target/
-.mvn/
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
@@ -39,3 +38,4 @@ nb-configuration.xml
 
 # Local environment
 .env
+/.mvn/

@@ -3,6 +3,7 @@ package fallout76.handler.qq;
 import fallout76.controller.QQController;
 import fallout76.entity.message.QQMessageEvent;
 import fallout76.service.PhotoService;
+import fallout76.service.ReplyService;
 import org.jboss.logging.Logger;
 
 import javax.inject.Inject;
@@ -15,8 +16,11 @@ public class WeeklyNewsHandler implements QQBaseGroupHandler {
     @Inject
     PhotoService photoService;
 
+    @Inject
+    ReplyService replyService;
+
     private static final Logger LOG = Logger.getLogger(QQController.class);
-    private static final String msgTemplate = """
+    private static final String MSG_TEMPLATE = """
             {
                 "group_id": %d,
                 "message": [
@@ -41,7 +45,8 @@ public class WeeklyNewsHandler implements QQBaseGroupHandler {
     }
 
     @Override
-    public void execute(QQMessageEvent qqMessageEvent) {
+    public void execute(QQMessageEvent qqMessageEvent, String key) {
+        LOG.infof("正在处理 %s 指令", key);
         long groupId = qqMessageEvent.getGroupId();
         String weeklyNews = photoService.getPhoto("weeklyNews");
         if (groupId == 0) {
@@ -51,9 +56,11 @@ public class WeeklyNewsHandler implements QQBaseGroupHandler {
 
         if (weeklyNews == null) {
             String msgBody = String.format(errorMsgTemplate, groupId, "无法获取周报，请联系管理员");
-
+            replyService.sendQQGroupMessage(msgBody, key);
             return;
         }
-        String msgBody = String.format(msgTemplate, groupId, weeklyNews);
+        String msgBody = String.format(MSG_TEMPLATE, groupId, weeklyNews);
+        replyService.sendQQGroupMessage(msgBody, key);
+        LOG.infof("指令 %s 处理完毕", key);
     }
 }

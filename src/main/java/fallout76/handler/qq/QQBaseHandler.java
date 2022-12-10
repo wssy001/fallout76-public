@@ -13,7 +13,7 @@ public interface QQBaseHandler {
 
     String description();
 
-    void execute(QQMessageEvent qqMessageEvent);
+    void execute(QQMessageEvent qqMessageEvent, String key);
 
     String errorMsgTemplate = """
             {
