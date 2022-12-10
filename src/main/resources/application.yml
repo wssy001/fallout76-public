@@ -1,0 +1,46 @@
+quarkus:
+  devservices:
+    enabled: false
+  native:
+    additional-build-args: --enable-preview, \
+      --report-unsupported-elements-at-runtime
+    compression:
+      level: 10
+  http:
+    port: 35701
+#  scheduler:
+#    cron-type: spring53
+
+robot-config:
+  #cq-gohttp url 当enable-qq和enable-qq-channel均为false时失效 例： http://127.0.0.1:5700 默认：空
+  cq-gohttp-url: http://127.0.0.1:5700
+  #是否启用QQ机器人 true | false 默认：false
+  enable-qq: true
+  #是否启用QQ频道机器人 true | false 默认：false
+  enable-qq-channel: true
+  #是否启用Kook机器人 true | false 默认：false
+  enable-kook: false
+
+  #Kook配置，使用webhook模式，若enable-kook为false则不生效，参数详见https://developer.kookapp.cn/bot/information
+  kook:
+    #Kook机器人Token 例：sdkasfkashfk 默认：空
+    token:
+    #Kook机器人Verify Token 例： kjahsdkjaskj 默认：空
+    verify-token:
+    #Kook机器人Encrypt Key 例：JKHsuiayda ,为空代表不启用 默认：空
+    encrypt-key:
+
+  photos:
+    weeklyNews: https://s1.ax1x.com/2022/12/07/zcrOqH.jpg
+    herbivore: https://s1.ax1x.com/2022/11/10/zpuzJ1.jpg
+    carnivore: https://s1.ax1x.com/2022/11/10/zpuxiR.jpg
+    magazine: https://s1.ax1x.com/2022/11/10/zpKpz6.jpg
+    goldVendorPlans: https://s1.ax1x.com/2022/11/10/zpKAdH.png
+    nukaCodeBG: https://s1.ax1x.com/2022/11/22/z1p5Jf.png
+    communityCalendar: https://s1.ax1x.com/2022/11/23/z8nc34.png
+    nukaWorldMap: https://s1.ax1x.com/2022/12/03/zrG91K.png
+    goldVendor: https://s1.ax1x.com/2022/12/08/z2gGuV.png
+    nukaWorldGuide1: https://i0.hdslb.com/bfs/new_dyn/8ba8eef7a72c260b2619b2ab0e92953b11144166.jpg
+    nukaWorldGuide2: https://s1.ax1x.com/2022/12/08/z2g7b8.jpg
+    nukaWorldGuide3: https://s1.ax1x.com/2022/12/08/z2goKP.png
+    nukaWorldGuide4: https://s1.ax1x.com/2022/12/08/z2gTDf.jpg
