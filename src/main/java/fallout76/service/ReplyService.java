@@ -24,15 +24,16 @@ public class ReplyService {
 
     public void sendQQGroupMessage(String body, String key) {
         Response response = goCQHttpApiService.sendGroupMessage(body);
-        handleResponse(response, key);
+        handleResponse(response, "QQ：" + key);
     }
 
     public void sendQQPrivateMessage(String body, String key) {
-
+        handleResponse(null, "QQ Private：" + key);
     }
 
     public void sendQQGuildChannelMessage(String body, String key) {
-
+        Response response = goCQHttpApiService.sendGuildChannelMessage(body);
+        handleResponse(response, "QQ Guild：" + key);
     }
 
 

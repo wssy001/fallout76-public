@@ -1,8 +1,11 @@
 package fallout76;
 
-import io.quarkus.test.junit.QuarkusIntegrationTest;
+import org.junit.jupiter.api.Test;
 
-@QuarkusIntegrationTest
-public class ExampleResourceIT extends ExampleResourceTest {
-    // Execute the same tests but in packaged mode.
+public class ExampleResourceIT {
+
+    @Test
+    void test1() {
+
+    }
 }

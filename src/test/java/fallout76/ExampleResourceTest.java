@@ -1,6 +1,7 @@
 package fallout76;
 
 import fallout76.config.RobotConfig;
+import io.quarkus.arc.All;
 import io.quarkus.test.junit.QuarkusTest;
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,7 @@ public class ExampleResourceTest {
 
     @Inject
     RobotConfig robotConfig;
+
 
     @Test
     public void testHelloEndpoint() {

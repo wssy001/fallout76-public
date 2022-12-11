@@ -13,7 +13,7 @@ public class QQMessageEvent {
     private String postType;
     private long time;
     private String messageType;
-    private String rawMessage;
+    private String message;
     private String subType;
     private String guildId;
     private String channelId;

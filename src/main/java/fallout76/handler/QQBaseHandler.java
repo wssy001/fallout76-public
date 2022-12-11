@@ -1,4 +1,4 @@
-package fallout76.handler.qq;
+package fallout76.handler;
 
 import fallout76.entity.message.QQMessageEvent;
 

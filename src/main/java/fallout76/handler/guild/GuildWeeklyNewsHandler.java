@@ -1,5 +1,6 @@
-package fallout76.handler.qq;
+package fallout76.handler.guild;
 
+import cn.hutool.core.util.StrUtil;
 import fallout76.controller.QQController;
 import fallout76.entity.message.QQMessageEvent;
 import fallout76.service.PhotoService;
@@ -11,7 +12,7 @@ import javax.inject.Singleton;
 import java.util.List;
 
 @Singleton
-public class WeeklyNewsHandler implements QQBaseGroupHandler {
+public class GuildWeeklyNewsHandler implements QQGuildChannelBaseHandler {
 
     @Inject
     PhotoService photoService;
@@ -22,7 +23,8 @@ public class WeeklyNewsHandler implements QQBaseGroupHandler {
     private static final Logger LOG = Logger.getLogger(QQController.class);
     private static final String MSG_TEMPLATE = """
             {
-                "group_id": %d,
+                "guild_id": %s,
+                "channel_id": %s,
                 "message": [
                     {
                         "type": "image",
@@ -46,21 +48,24 @@ public class WeeklyNewsHandler implements QQBaseGroupHandler {
 
     @Override
     public void execute(QQMessageEvent qqMessageEvent, String key) {
-        LOG.infof("正在处理 %s 指令", key);
-        long groupId = qqMessageEvent.getGroupId();
+        LOG.infof("正在处理 QQ Guild：%s 指令", key);
+
+        String guildId = qqMessageEvent.getGuildId();
+        String channelId = qqMessageEvent.getChannelId();
         String weeklyNews = photoService.getPhoto("weeklyNews");
-        if (groupId == 0) {
-            LOG.errorf("处理 %s 指令失败，原因：%s", getKeys().get(0), "groupId无效");
+        if (StrUtil.hasBlank(guildId, channelId)) {
+            LOG.errorf("处理 QQ Guild：%s 指令失败，原因：%s", key, "guildId或channelId无效");
             return;
         }
 
         if (weeklyNews == null) {
-            String msgBody = String.format(errorMsgTemplate, groupId, "无法获取周报，请联系管理员");
-            replyService.sendQQGroupMessage(msgBody, key);
+            String msgBody = String.format(errorMsgTemplate, guildId, channelId, "无法获取周报，请联系管理员");
+            replyService.sendQQGuildChannelMessage(msgBody, key);
             return;
         }
-        String msgBody = String.format(MSG_TEMPLATE, groupId, weeklyNews);
-        replyService.sendQQGroupMessage(msgBody, key);
-        LOG.infof("指令 %s 处理完毕", key);
+        String msgBody = String.format(MSG_TEMPLATE, guildId, channelId, weeklyNews);
+        replyService.sendQQGuildChannelMessage(msgBody, key);
+        LOG.infof("指令 QQ Guild：%s 处理完毕", key);
     }
+
 }
