@@ -41,16 +41,18 @@ robot-config:
     encrypt-key:
 
   photos:
-    weeklyNews: https://s1.ax1x.com/2022/12/07/zcrOqH.jpg
+    weeklyNews1: https://s1.ax1x.com/2022/12/14/zIQRU0.jpg
+    weeklyNews2: https://s1.ax1x.com/2022/12/14/zIQW5V.jpg
     herbivore: https://s1.ax1x.com/2022/11/10/zpuzJ1.jpg
     carnivore: https://s1.ax1x.com/2022/11/10/zpuxiR.jpg
     magazine: https://s1.ax1x.com/2022/11/10/zpKpz6.jpg
     goldVendorPlans: https://s1.ax1x.com/2022/11/10/zpKAdH.png
     nukaCodeBG: https://s1.ax1x.com/2022/11/22/z1p5Jf.png
     communityCalendar: https://s1.ax1x.com/2022/11/23/z8nc34.png
-    nukaWorldMap: https://s1.ax1x.com/2022/12/03/zrG91K.png
     goldVendor: https://s1.ax1x.com/2022/12/08/z2gGuV.png
+    nukaWorldMap: https://s1.ax1x.com/2022/12/03/zrG91K.png
     nukaWorldGuide1: https://i0.hdslb.com/bfs/new_dyn/8ba8eef7a72c260b2619b2ab0e92953b11144166.jpg
     nukaWorldGuide2: https://s1.ax1x.com/2022/12/08/z2g7b8.jpg
     nukaWorldGuide3: https://s1.ax1x.com/2022/12/08/z2goKP.png
     nukaWorldGuide4: https://s1.ax1x.com/2022/12/08/z2gTDf.jpg
+    bobbleheadEffects: https://s1.ax1x.com/2022/12/14/z5z9xg.png

@@ -11,8 +11,8 @@ import javax.inject.Singleton;
 import java.util.List;
 
 @Singleton
-public class GuildWeeklyNewsHandler implements QQGuildChannelBaseHandler {
-    private static final Logger LOG = Logger.getLogger(GuildWeeklyNewsHandler.class);
+public class GuildBobbleheadEffect implements QQGuildChannelBaseHandler {
+    private static final Logger LOG = Logger.getLogger(GuildBobbleheadEffect.class);
 
     @Inject
     PhotoService photoService;
@@ -30,18 +30,6 @@ public class GuildWeeklyNewsHandler implements QQGuildChannelBaseHandler {
                         "data": {
                             "file": "%s"
                         }
-                    },
-                    {
-                        "type": "text",
-                        "data": {
-                            "text": "\\n\\n"
-                        }
-                    },
-                    {
-                        "type": "image",
-                        "data": {
-                            "file": "%s"
-                        }
                     }
                 ]
             }
@@ -49,12 +37,12 @@ public class GuildWeeklyNewsHandler implements QQGuildChannelBaseHandler {
 
     @Override
     public List<String> getKeys() {
-        return List.of("/周报");
+        return List.of("/娃娃效果");
     }
 
     @Override
     public String description() {
-        return "获取麦片哥最新的周报";
+        return "获取游戏中娃娃消耗品的效果";
     }
 
     @Override
@@ -63,19 +51,18 @@ public class GuildWeeklyNewsHandler implements QQGuildChannelBaseHandler {
 
         String guildId = qqMessageEvent.getGuildId();
         String channelId = qqMessageEvent.getChannelId();
+        String weeklyNews = photoService.getPhoto("bobbleheadEffects");
         if (StrUtil.hasBlank(guildId, channelId)) {
             LOG.errorf("处理 QQ Guild：%s 指令失败，原因：%s", key, "guildId或channelId无效");
             return;
         }
 
-        String weeklyNews1 = photoService.getPhoto("weeklyNews1");
-        String weeklyNews2 = photoService.getPhoto("weeklyNews2");
-        if (StrUtil.hasBlank(weeklyNews1, weeklyNews2)) {
+        if (weeklyNews == null) {
             String msgBody = String.format(errorMsgTemplate, guildId, channelId, "无法获取周报，请联系管理员");
             replyService.sendQQGuildChannelMessage(msgBody, key);
             return;
         }
-        String msgBody = String.format(MSG_TEMPLATE, guildId, channelId, weeklyNews1, weeklyNews2);
+        String msgBody = String.format(MSG_TEMPLATE, guildId, channelId, weeklyNews);
         replyService.sendQQGuildChannelMessage(msgBody, key);
         LOG.infof("指令 QQ Guild：%s 处理完毕", key);
     }

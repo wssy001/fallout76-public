@@ -5,9 +5,12 @@ import fallout76.config.RobotConfig;
 import fallout76.controller.QQController;
 import fallout76.entity.message.QQMessageEvent;
 import fallout76.service.ReplyService;
+import io.quarkus.runtime.StartupEvent;
 import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.event.Observes;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.List;
@@ -15,12 +18,18 @@ import java.util.List;
 @Singleton
 public class QQHelpHandler implements QQBaseGroupHandler {
 
-    private static final Logger LOG = Logger.getLogger(QQController.class);
+    private static final Logger LOG = Logger.getLogger(QQHelpHandler.class);
 
     @Inject
     RobotConfig robotConfig;
     @Inject
     ReplyService replyService;
+
+    @Inject
+    Instance<QQBaseGroupHandler> qqBaseGroupHandlers;
+
+    @Inject
+    Instance<QQBasePrivateHandler> qqBasePrivateHandlers;
 
     @Override
     public List<String> getKeys() {
@@ -39,30 +48,64 @@ public class QQHelpHandler implements QQBaseGroupHandler {
             }
             """;
 
-    private String publicCommandJson, adminCommandJson;
+    private static String publicCommandJson = """
+            [
+                {
+                    "type": "text",
+                    "data": {
+                        "text": "%s"
+                    }
+                }
+            ]
+            """;
+    private static String adminCommandJson = """
+            [
+                {
+                    "type": "text",
+                    "data": {
+                        "text": "%s"
+                    }
+                }
+            ]
+            """;
 
-    @PostConstruct
-    public void init() {
-        publicCommandJson = """
-                [
-                    {
-                        "type": "text",
-                        "data": {
-                            "text": "/周报\\t获取麦片哥最新的周报\\n/帮助\\t/help\\t获取当前环境下所有可用指令\\n"
-                        }
-                    }
-                ]
-                """;
-        adminCommandJson = """
-                [
-                    {
-                        "type": "text",
-                        "data": {
-                            "text": "/周报\\t获取麦片哥最新的周报\\n/帮助\\t/help\\t获取当前环境下所有可用指令\\n"
-                        }
-                    }
-                ]
-                """;
+    public void initPublicCommandJson(@Observes StartupEvent event) {
+        LOG.infof("正在初始化 %s", "GuildHelpHandler");
+        if (qqBaseGroupHandlers.isUnsatisfied()) {
+            LOG.errorf("初始化 %s 失败，%s 为空", "publicCommandJson", "qqBaseGroupHandlers");
+            publicCommandJson = String.format(adminCommandJson, "暂未找到相关指令");
+            return;
+        }
+
+        StringBuffer stringBuffer = new StringBuffer();
+        qqBaseGroupHandlers.forEach(handler -> {
+            handler.getKeys()
+                    .forEach(key -> stringBuffer.append(key)
+                            .append("\\t"));
+            stringBuffer.append(handler.description())
+                    .append("\\n");
+        });
+        publicCommandJson = String.format(publicCommandJson, stringBuffer);
+        LOG.infof("初始化 %s 完成", "publicCommandJson");
+    }
+
+    public void initAdminCommandJson(@Observes StartupEvent event) {
+        LOG.infof("正在初始化 %s", "GuildHelpHandler");
+        if (qqBasePrivateHandlers.isUnsatisfied()) {
+            LOG.errorf("初始化 %s 失败，%s 为空", "adminCommandJson", "qqBasePrivateHandlers");
+            adminCommandJson = String.format(adminCommandJson, "暂未找到管理员指令");
+            return;
+        }
+        StringBuffer stringBuffer = new StringBuffer();
+        qqBasePrivateHandlers.forEach(handler -> {
+            handler.getKeys()
+                    .forEach(key -> stringBuffer.append(key)
+                            .append("\\t"));
+            stringBuffer.append(handler.description())
+                    .append("\\n");
+        });
+        adminCommandJson = String.format(adminCommandJson, stringBuffer);
+        LOG.infof("初始化 %s 完成", "adminCommandJson");
     }
 
     @Override
