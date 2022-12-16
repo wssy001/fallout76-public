@@ -1,6 +1,7 @@
 package fallout76;
 
 import fallout76.config.RobotConfig;
+import fallout76.handler.guild.GuildHelpHandler;
 import io.quarkus.arc.All;
 import io.quarkus.test.junit.QuarkusTest;
 import org.jboss.logging.Logger;
@@ -15,10 +16,18 @@ public class ExampleResourceTest {
     @Inject
     RobotConfig robotConfig;
 
+    @Inject
+    GuildHelpHandler guildHelpHandler;
+
 
     @Test
     public void testHelloEndpoint() {
         LOG.info(robotConfig);
+    }
+
+    @Test
+    void test2(){
+        guildHelpHandler.execute(null,"");
     }
 
 }

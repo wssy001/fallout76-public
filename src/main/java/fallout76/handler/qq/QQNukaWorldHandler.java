@@ -2,18 +2,17 @@ package fallout76.handler.qq;
 
 import cn.hutool.core.util.StrUtil;
 import fallout76.entity.message.QQMessageEvent;
-import fallout76.handler.guild.QQGuildChannelBaseHandler;
 import fallout76.service.PhotoService;
 import fallout76.service.ReplyService;
-import org.jboss.logging.Logger;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.List;
 
+@Slf4j
 @Singleton
 public class QQNukaWorldHandler implements QQBaseGroupHandler {
-    private static final Logger LOG = Logger.getLogger(QQNukaWorldHandler.class);
 
     @Inject
     PhotoService photoService;
@@ -127,7 +126,7 @@ public class QQNukaWorldHandler implements QQBaseGroupHandler {
 
     @Override
     public List<String> getKeys() {
-        return List.of("/核子世界","/核子世界环游");
+        return List.of("/核子世界", "/核子世界环游");
     }
 
     @Override
@@ -137,11 +136,11 @@ public class QQNukaWorldHandler implements QQBaseGroupHandler {
 
     @Override
     public void execute(QQMessageEvent qqMessageEvent, String key) {
-        LOG.infof("正在处理 QQ：%s 指令", key);
+        log.info("******QQNukaWorldHandler.execute：正在处理 QQ： {} 指令", key);
 
         long groupId = qqMessageEvent.getGroupId();
         if (groupId == 0) {
-            LOG.errorf("处理 QQ：%s 指令失败，原因：%s", key, "groupId无效");
+            log.error("******QQNukaWorldHandler.execute：处理 {} 指令失败，原因：{}", key, "groupId无效");
             return;
         }
 
@@ -157,7 +156,7 @@ public class QQNukaWorldHandler implements QQBaseGroupHandler {
         }
         String msgBody = String.format(MSG_TEMPLATE, groupId, "图1：核子世界环游公共事件奖励汇总图", nukaWorldGuide1, "图2：核子世界环游通用奖励汇总图", nukaWorldGuide2, "图3：核子电玩兑换奖励汇总图", nukaWorldGuide3, "图4：核子世界环游新增食物汇总图", nukaWorldGuide4, "图5：核子世界环游乐园导览指南", nukaWorldMap);
         replyService.sendQQGuildChannelMessage(msgBody, key);
-        LOG.infof("指令 QQ：%s 处理完毕", key);
+        log.info("******QQNukaWorldHandler.execute：处理 QQ： {} 指令完毕", key);
     }
 
 }

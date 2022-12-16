@@ -3,7 +3,7 @@ package fallout76.handler.guild;
 import fallout76.entity.message.QQMessageEvent;
 import fallout76.service.ReplyService;
 import io.quarkus.runtime.StartupEvent;
-import org.jboss.logging.Logger;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Instance;
@@ -11,9 +11,9 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.List;
 
+@Slf4j
 @Singleton
 public class GuildHelpHandler implements QQGuildChannelBaseHandler {
-    private static final Logger LOG = Logger.getLogger(GuildHelpHandler.class);
 
     @Inject
     Instance<QQGuildChannelBaseHandler> qqGuildChannelBaseHandlers;
@@ -47,9 +47,9 @@ public class GuildHelpHandler implements QQGuildChannelBaseHandler {
             """;
 
     public void init(@Observes StartupEvent event) {
-        LOG.infof("正在初始化 %s", "GuildHelpHandler");
+        log.info("******GuildHelpHandler.init：正在初始化");
         if (qqGuildChannelBaseHandlers.isUnsatisfied()) {
-            LOG.errorf("初始化 %s 失败，%s 为空", "GuildHelpHandler", "qqGuildChannelBaseHandlers");
+            log.info("******GuildHelpHandler.init：初始化 {} 失败，{} 为空", "GuildHelpHandler", "qqGuildChannelBaseHandlers");
             MSG_TEMPLATE = String.format(MSG_TEMPLATE, "%s", "%s", "暂未找到相应指令");
             return;
         }
@@ -63,19 +63,19 @@ public class GuildHelpHandler implements QQGuildChannelBaseHandler {
                     .append("\\n");
         });
         MSG_TEMPLATE = String.format(MSG_TEMPLATE, "%s", "%s", stringBuffer);
-        LOG.infof("初始化 %s 完成", "GuildHelpHandler");
+        log.info("******GuildHelpHandler.init：初始化完成");
     }
 
     @Override
     public void execute(QQMessageEvent qqMessageEvent, String key) {
-        LOG.infof("正在处理 QQ Guild： %s 指令", key);
+        log.info("******GuildHelpHandler.execute：正在处理 QQ Guild： {} 指令",key);
 
         String guildId = qqMessageEvent.getGuildId();
         String channelId = qqMessageEvent.getChannelId();
         String msgBody = String.format(MSG_TEMPLATE, guildId, channelId);
         replyService.sendQQGuildChannelMessage(msgBody, key);
 
-        LOG.infof("处理 QQ Guild： %s 指令完毕", key);
+        log.info("******GuildHelpHandler.execute：处理 QQ Guild： {} 指令完毕", key);
     }
 
 }

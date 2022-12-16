@@ -4,15 +4,15 @@ import cn.hutool.core.util.StrUtil;
 import fallout76.entity.message.QQMessageEvent;
 import fallout76.service.PhotoService;
 import fallout76.service.ReplyService;
-import org.jboss.logging.Logger;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.List;
 
+@Slf4j
 @Singleton
 public class GuildWeeklyNewsHandler implements QQGuildChannelBaseHandler {
-    private static final Logger LOG = Logger.getLogger(GuildWeeklyNewsHandler.class);
 
     @Inject
     PhotoService photoService;
@@ -59,12 +59,12 @@ public class GuildWeeklyNewsHandler implements QQGuildChannelBaseHandler {
 
     @Override
     public void execute(QQMessageEvent qqMessageEvent, String key) {
-        LOG.infof("正在处理 QQ Guild：%s 指令", key);
+        log.info("******GuildWeeklyNewsHandler.execute：正在处理 QQ Guild：{} 指令", key);
 
         String guildId = qqMessageEvent.getGuildId();
         String channelId = qqMessageEvent.getChannelId();
         if (StrUtil.hasBlank(guildId, channelId)) {
-            LOG.errorf("处理 QQ Guild：%s 指令失败，原因：%s", key, "guildId或channelId无效");
+            log.error("******GuildWeeklyNewsHandler.execute：处理 QQ Guild：{} 指令失败，原因：{}", key, "guildId或channelId无效");
             return;
         }
 
@@ -77,7 +77,7 @@ public class GuildWeeklyNewsHandler implements QQGuildChannelBaseHandler {
         }
         String msgBody = String.format(MSG_TEMPLATE, guildId, channelId, weeklyNews1, weeklyNews2);
         replyService.sendQQGuildChannelMessage(msgBody, key);
-        LOG.infof("指令 QQ Guild：%s 处理完毕", key);
+        log.info("******GuildWeeklyNewsHandler.execute：指令 QQ Guild：{} 处理完毕", key);
     }
 
 }

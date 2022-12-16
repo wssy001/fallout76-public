@@ -1,19 +1,18 @@
 package fallout76.handler.qq;
 
 import cn.hutool.core.util.StrUtil;
-import fallout76.controller.QQController;
 import fallout76.entity.message.QQMessageEvent;
 import fallout76.service.PhotoService;
 import fallout76.service.ReplyService;
-import org.jboss.logging.Logger;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.List;
 
+@Slf4j
 @Singleton
 public class QQWeeklyNewsHandler implements QQBaseGroupHandler {
-    private static final Logger LOG = Logger.getLogger(QQWeeklyNewsHandler.class);
 
     @Inject
     PhotoService photoService;
@@ -59,11 +58,11 @@ public class QQWeeklyNewsHandler implements QQBaseGroupHandler {
 
     @Override
     public void execute(QQMessageEvent qqMessageEvent, String key) {
-        LOG.infof("正在处理 QQ： %s 指令", key);
+        log.info("******QQWeeklyNewsHandler.execute：正在处理 QQ： {} 指令", key);
         long groupId = qqMessageEvent.getGroupId();
 
         if (groupId == 0) {
-            LOG.errorf("处理 %s 指令失败，原因：%s", key, "groupId无效");
+            log.error("******QQWeeklyNewsHandler.execute：处理 {} 指令失败，原因：{}", key, "groupId无效");
             return;
         }
 
@@ -76,7 +75,7 @@ public class QQWeeklyNewsHandler implements QQBaseGroupHandler {
         }
         String msgBody = String.format(MSG_TEMPLATE, groupId, weeklyNews1, weeklyNews2);
         replyService.sendQQGroupMessage(msgBody, key);
-        LOG.infof("处理 QQ： %s 指令完毕", key);
+        log.info("******QQWeeklyNewsHandler.execute：处理 QQ： {} 指令完毕", key);
     }
 
 }

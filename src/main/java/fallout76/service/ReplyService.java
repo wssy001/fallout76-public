@@ -1,17 +1,18 @@
 package fallout76.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import fallout76.restapi.GoCQHttpApiService;
 import fallout76.restapi.KookApiService;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
-import org.jboss.logging.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.core.Response;
 
+@Slf4j
 @Singleton
 public class ReplyService {
-    private static final Logger LOG = Logger.getLogger(ReplyService.class);
 
     @Inject
     @RestClient
@@ -39,12 +40,12 @@ public class ReplyService {
 
     public void handleResponse(Response response, String key) {
         int status = response.getStatus();
-
+        log.info("******ReplyService.handleResponse：{}", 44);
         if (status != 200) {
-            LOG.errorf("回复 %s 失败，Http Code：%s", key, status);
+            log.error("******ReplyService.handleResponse：回复 {} 失败，Http Code：{}", key, status);
             return;
         }
 
-        LOG.infof("回复 %s 成功", key);
+        log.info("******ReplyService.handleResponse：回复 {} 成功", key);
     }
 }

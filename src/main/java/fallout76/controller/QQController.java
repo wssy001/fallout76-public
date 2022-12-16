@@ -5,12 +5,12 @@ import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fallout76.config.RobotConfig;
 import fallout76.entity.message.QQMessageEvent;
-import fallout76.handler.qq.QQBaseGroupHandler;
-import fallout76.handler.QQGuildBaseHandler;
 import fallout76.handler.QQBaseHandler;
+import fallout76.handler.QQGuildBaseHandler;
+import fallout76.handler.qq.QQBaseGroupHandler;
 import fallout76.handler.qq.QQBasePrivateHandler;
 import io.smallrye.common.annotation.RunOnVirtualThread;
-import org.jboss.logging.Logger;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Instance;
@@ -23,12 +23,12 @@ import javax.ws.rs.core.MediaType;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Slf4j
 @Path("")
 @RunOnVirtualThread
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class QQController {
-    private static final Logger LOG = Logger.getLogger(QQController.class);
 
     @Inject
     ObjectMapper objectMapper;
@@ -79,9 +79,9 @@ public class QQController {
         String postType = qqMessageEvent.getPostType();
         if (!postType.equals("message")) {
             try {
-                LOG.info(objectMapper.writeValueAsString(qqMessageEvent));
+                log.info("******QQController.webhook：{}", objectMapper.writeValueAsString(qqMessageEvent));
             } catch (Exception e) {
-                LOG.errorf("处理Post Type： %s 异常，原因：%s", postType, e.getCause().toString());
+                log.error("******QQController.webhook：处理Post Type： {} 异常，原因：{}", postType, e.getMessage());
             }
             return;
         }
@@ -99,34 +99,30 @@ public class QQController {
                 execute(qqMessageEvent, key, qqGuildBaseHandler);
                 return;
             }
-            LOG.errorf("指令 QQ Guild： %s 未找到", key);
+            log.error("******QQController.webhook：指令 QQ Guild： {} 未找到", key);
         } else if (messageType.equals("group") && enableQQ) {
             if (qqBaseGroupHandlerMap.containsKey(key)) {
                 QQBaseGroupHandler qqBaseHandler = qqBaseGroupHandlerMap.get(key);
                 execute(qqMessageEvent, key, qqBaseHandler);
                 return;
             }
-            LOG.errorf("指令 QQ： %s 未找到", key);
+            log.error("******QQController.webhook：指令 QQ： {} 未找到", key);
         } else if (messageType.equals("private") && enableQQ) {
             return;
         } else {
             try {
-                LOG.info(objectMapper.writeValueAsString(qqMessageEvent));
+                log.info("******QQController.webhook：{}", objectMapper.writeValueAsString(qqMessageEvent));
             } catch (Exception e) {
-                LOG.errorf("处理 %s 异常，原因：%s", messageType, e.getCause().toString());
+                log.error("******QQController.webhook：处理 {} 异常，原因：{}", messageType, e.getCause().toString());
             }
         }
     }
 
     public void execute(QQMessageEvent qqMessageEvent, String key, QQBaseHandler qqBaseHandler) {
-        Thread.ofVirtual()
-                .name("处理 QQ：" + key + " 指令")
-                .start(() -> qqBaseHandler.execute(qqMessageEvent, key));
+        qqBaseHandler.execute(qqMessageEvent, key);
     }
 
     public void execute(QQMessageEvent qqMessageEvent, String key, QQGuildBaseHandler qqGuildBaseHandler) {
-        Thread.ofVirtual()
-                .name("处理 QQ Guild：" + key + " 指令")
-                .start(() -> qqGuildBaseHandler.execute(qqMessageEvent, key));
+        qqGuildBaseHandler.execute(qqMessageEvent, key);
     }
 }

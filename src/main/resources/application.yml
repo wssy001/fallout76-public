@@ -3,9 +3,13 @@ quarkus:
     enabled: false
   native:
     additional-build-args: --enable-preview, \
-      --report-unsupported-elements-at-runtime
-    compression:
-      level: 10
+      --report-unsupported-elements-at-runtime, \
+      --trace-object-instantiation=java.lang.Thread, \
+      -J-XX:+UseStringDeduplication, \
+      --native-image-info, \
+      --verbose
+  #    compression:
+  #      level: 10
   rest-client:
     "fallout76.restapi.GoCQHttpApiService":
       url: ${robot-config.go-cqhttp-url}
@@ -13,6 +17,8 @@ quarkus:
       url: ${robot-config.kook.open-api-base-url}
   http:
     port: 35701
+  log:
+    level: ALL
 #  scheduler:
 #    cron-type: spring53
 
@@ -21,7 +27,7 @@ robot-config:
   admins:
     - 12345
   #Go-cqHttp url 当enable-qq和enable-qq-channel均为false时失效 例： http://127.0.0.1:5700 默认：空
-  go-cqhttp-url: http://127.0.0.1:5700
+  go-cqhttp-url: http://192.168.123.73:5700
   #是否启用QQ机器人 true | false 默认：false
   enable-qq: true
   #是否启用QQ频道机器人 true | false 默认：false

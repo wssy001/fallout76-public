@@ -4,15 +4,15 @@ import cn.hutool.core.util.StrUtil;
 import fallout76.entity.message.QQMessageEvent;
 import fallout76.service.PhotoService;
 import fallout76.service.ReplyService;
-import org.jboss.logging.Logger;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.List;
 
+@Slf4j
 @Singleton
 public class GuildBobbleheadEffect implements QQGuildChannelBaseHandler {
-    private static final Logger LOG = Logger.getLogger(GuildBobbleheadEffect.class);
 
     @Inject
     PhotoService photoService;
@@ -47,13 +47,13 @@ public class GuildBobbleheadEffect implements QQGuildChannelBaseHandler {
 
     @Override
     public void execute(QQMessageEvent qqMessageEvent, String key) {
-        LOG.infof("正在处理 QQ Guild：%s 指令", key);
+        log.info("******GuildBobbleheadEffect.execute：正在处理 QQ Guild： {} 指令", key);
 
         String guildId = qqMessageEvent.getGuildId();
         String channelId = qqMessageEvent.getChannelId();
         String weeklyNews = photoService.getPhoto("bobbleheadEffects");
         if (StrUtil.hasBlank(guildId, channelId)) {
-            LOG.errorf("处理 QQ Guild：%s 指令失败，原因：%s", key, "guildId或channelId无效");
+            log.error("******GuildBobbleheadEffect.execute：处理 {} 指令失败，原因：{}", key, "groupId无效");
             return;
         }
 
@@ -64,7 +64,7 @@ public class GuildBobbleheadEffect implements QQGuildChannelBaseHandler {
         }
         String msgBody = String.format(MSG_TEMPLATE, guildId, channelId, weeklyNews);
         replyService.sendQQGuildChannelMessage(msgBody, key);
-        LOG.infof("指令 QQ Guild：%s 处理完毕", key);
+        log.info("******GuildBobbleheadEffect.execute：处理 QQ Guild： {} 指令完毕", key);
     }
 
 }
