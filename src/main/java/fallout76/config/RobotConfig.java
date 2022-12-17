@@ -6,7 +6,6 @@ import io.smallrye.config.WithDefault;
 import io.smallrye.config.WithName;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @StaticInitSafe
@@ -28,10 +27,7 @@ public interface RobotConfig {
     @WithDefault("false")
     Optional<Boolean> enableKook();
 
-
     Kook kook();
-
-    Map<String, String> photos();
 
     List<String> admins();
 

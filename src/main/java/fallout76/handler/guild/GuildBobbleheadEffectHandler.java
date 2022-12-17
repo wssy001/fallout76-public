@@ -12,7 +12,7 @@ import java.util.List;
 
 @Slf4j
 @Singleton
-public class GuildBobbleheadEffect implements QQGuildChannelBaseHandler {
+public class GuildBobbleheadEffectHandler implements QQGuildChannelBaseHandler {
 
     @Inject
     PhotoService photoService;

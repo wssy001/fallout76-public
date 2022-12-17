@@ -1,5 +1,6 @@
 package fallout76.handler.guild;
 
+import cn.hutool.core.util.StrUtil;
 import fallout76.entity.message.QQMessageEvent;
 import fallout76.service.ReplyService;
 import io.quarkus.runtime.StartupEvent;
@@ -72,6 +73,11 @@ public class GuildHelpHandler implements QQGuildChannelBaseHandler {
 
         String guildId = qqMessageEvent.getGuildId();
         String channelId = qqMessageEvent.getChannelId();
+        if (StrUtil.hasBlank(guildId, channelId)) {
+            log.error("******GuildHelpHandler.execute：处理 QQ Guild：{} 指令失败，原因：{}", key, "guildId或channelId无效");
+            return;
+        }
+
         String msgBody = String.format(MSG_TEMPLATE, guildId, channelId);
         replyService.sendQQGuildChannelMessage(msgBody, key);
 

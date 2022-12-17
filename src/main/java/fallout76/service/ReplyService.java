@@ -29,7 +29,7 @@ public class ReplyService {
     }
 
     public void sendQQPrivateMessage(String body, String key) {
-        handleResponse(null, "QQ Private：" + key);
+
     }
 
     public void sendQQGuildChannelMessage(String body, String key) {
@@ -46,6 +46,7 @@ public class ReplyService {
             return;
         }
 
-        log.info("******ReplyService.handleResponse：回复 {} 成功", key);
+        JsonNode jsonNode = response.readEntity(JsonNode.class);
+        log.info("******ReplyService.handleResponse：回复 {} 成功，返回结果：{}", key, jsonNode.toPrettyString());
     }
 }

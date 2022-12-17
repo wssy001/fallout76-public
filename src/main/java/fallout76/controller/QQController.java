@@ -77,7 +77,7 @@ public class QQController {
             QQMessageEvent qqMessageEvent
     ) {
         String postType = qqMessageEvent.getPostType();
-        if (!postType.equals("message")) {
+        if (postType == null || !postType.equals("message")) {
             try {
                 log.info("******QQController.webhook：{}", objectMapper.writeValueAsString(qqMessageEvent));
             } catch (Exception e) {
