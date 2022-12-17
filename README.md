@@ -4,14 +4,6 @@ Fallout 76小助手
 </div>
 
 ***
-## 目录
-> ### 写在开头
-> ### 项目简介
-> ### 如何运行
->>#### Native
->>#### Jar包
->>#### Docker
-***
 ## 写在开头
 > ## 本项目 不强制用户安装使用JDK
 > ### 本项目 不强制用户安装使用JDK
@@ -29,10 +21,10 @@ Fallout 76小助手
 ## 如何运行
 ### Native
 >#### （推荐）运行中不需要JVM，不强制用户安装使用JDK
-> #### 进入 [Release]() 页面，选择最新版本以及相应平台的可执行文件，点击下载即可
+> #### 进入 [Release](https://github.com/wssy001/fallout76-public/releases) 页面，选择最新版本以及相应平台的可执行文件，点击下载即可
 ### Docker
 > ####  （推荐）运行中不需要JVM，不强制用户安装使用JDK
-> ####   前往[本项目Docker仓库]()，选择合适的镜像，使用<code>docker run -itd --name fallout76-assistant -p 35701:35701 -v /path/to/config:/docker/image/path/to/config fallout76:latest</code>
+> ####   前往[本项目Docker仓库](https://hub.docker.com/r/wssy001/fallout76-public)，选择合适的镜像，使用<code>docker run -itd --name fallout76-assistant -p 35701:35701 -v /path/to/config:/docker/image/path/to/config fallout76:latest</code>
 ### Jar包
 >#### （不推荐此类方式）运行中需要JVM，强制用户安装使用JDK
 >####  下载前请先确保你安装了JDK 19
