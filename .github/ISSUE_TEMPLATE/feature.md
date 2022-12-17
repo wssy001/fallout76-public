@@ -2,7 +2,7 @@
 name: 新的特性
 about: 申请为Fallout 76小助手 添加新的功能或支持新的平台
 title: ''
-labels: 't:feature request'
+labels: feature request
 assignees: ''
 
 ---

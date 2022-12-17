@@ -2,7 +2,7 @@
 name: 使用时遇到了困难
 about: 申请开发者提供帮助
 title: ''
-labels: 't:question'
+labels: question
 assignees: ''
 
 ---

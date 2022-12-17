@@ -2,7 +2,7 @@
 name: 代码改进
 about: 发现项目中一段代码的不合理，在此说明改进理由
 title: ''
-labels: 't:enhancement'
+labels: enhancement
 assignees: ''
 
 ---
