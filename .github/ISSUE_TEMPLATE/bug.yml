@@ -7,7 +7,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        感谢你来到这里
+        感谢您来到这里
 
         在反馈前, 请确认您已经做了下面这些事情
         - 阅读过 [「提问的智慧」](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/main/README-zh_CN.md)
