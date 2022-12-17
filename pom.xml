@@ -20,6 +20,7 @@
         <surefire-plugin.version>3.0.0-M7</surefire-plugin.version>
         <lombok.version>1.18.24</lombok.version>
         <hutool.version>5.8.10</hutool.version>
+        <netty.version>4.1.86.Final</netty.version>
     </properties>
 
     <dependencyManagement>
@@ -49,6 +50,26 @@
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-resteasy</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.netty</groupId>
+                    <artifactId>netty-codec-haproxy</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.netty</groupId>
+                    <artifactId>netty-codec</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-codec-haproxy</artifactId>
+            <version>${netty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-codec</artifactId>
+            <version>${netty.version}</version>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>

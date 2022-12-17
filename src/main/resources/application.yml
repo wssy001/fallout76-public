@@ -19,6 +19,8 @@ quarkus:
     port: 35701
   log:
     level: INFO
+  package:
+    type: uber-jar
 #  scheduler:
 #    cron-type: spring53
 
