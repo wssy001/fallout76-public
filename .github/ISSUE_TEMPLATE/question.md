@@ -1,8 +1,8 @@
 ---
-name: 新的特性
-about: 申请为Fallout 76小助手 添加新的功能或支持新的平台
+name: 使用时遇到了困难
+about: 申请开发者提供帮助
 title: ''
-labels: 't:feature request'
+labels: 't:question'
 assignees: ''
 
 ---
@@ -10,8 +10,7 @@ assignees: ''
 <!-- 
   感谢你来到这里,
   在反馈前, 请确认你已经做了下面这些事情
-  - 对照 releases，相关特性未实现
-  - 搜索了已有的 issues 列表中有没相关的信息
+  - 搜索了已有的 [issues - question](https://github.com/wssy001/fallout76-public/labels/question) 列表中有没相关的信息
 -->
 
 <!--
