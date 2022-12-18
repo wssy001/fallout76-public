@@ -13,7 +13,7 @@ import java.util.List;
 
 @Slf4j
 @Singleton
-public class KookGuildWeeklyNewsHandler implements KookGuildHandler {
+public class KookGuildBobbleheadEffectHandler implements KookGuildHandler {
 
     @Inject
     ReplyService replyService;
@@ -28,7 +28,7 @@ public class KookGuildWeeklyNewsHandler implements KookGuildHandler {
             }
             """;
 
-    private static final String WEEKLY_NEWS_CARD = """
+    private static final String BOBBLEHEAD_EFFECT_CARD = """
             [
               {
                 "type": "card",
@@ -39,18 +39,11 @@ public class KookGuildWeeklyNewsHandler implements KookGuildHandler {
                     "type": "header",
                     "text": {
                       "type": "plain-text",
-                      "content": "周报"
+                      "content": "娃娃效果"
                     }
                   },
                   {
                     "type": "divider"
-                  },
-                  {
-                    "type": "section",
-                    "text": {
-                      "type": "kmarkdown",
-                      "content": "**图一：原子商店**"
-                    }
                   },
                   {
                     "type": "container",
@@ -66,13 +59,6 @@ public class KookGuildWeeklyNewsHandler implements KookGuildHandler {
                     "text": {
                       "type": "kmarkdown",
                       "content": "[点击查看大图](%s)\\n\\n"
-                    }
-                  },
-                  {
-                    "type": "section",
-                    "text": {
-                      "type": "kmarkdown",
-                      "content": "**图二：其他**"
                     }
                   },
                   {
@@ -115,42 +101,43 @@ public class KookGuildWeeklyNewsHandler implements KookGuildHandler {
 
     @Override
     public List<String> getKeys() {
-        return List.of("/周报");
+        return List.of("/娃娃效果");
     }
 
     @Override
     public String description() {
-        return "获取麦片哥最新的周报";
+        return "获取游戏中娃娃消耗品的效果";
     }
 
 
     @Override
     public void execute(KookEvent kookEvent, String key) {
-        log.info("******KookGuildWeeklyNewsHandler.execute：正在处理 Kook Guild： {} 指令", key);
+        log.info("******KookGuildBobbleheadEffectHandler.execute：正在处理 Kook Guild： {} 指令", key);
 
         String targetId = kookEvent.getTargetId();
         if (StrUtil.hasBlank(targetId)) {
-            log.error("******KookGuildWeeklyNewsHandler.execute：处理 Kook Guild：{} 指令失败，原因：{}", key, "targetId无效");
+            log.error("******KookGuildBobbleheadEffectHandler.execute：处理 Kook Guild：{} 指令失败，原因：{}", key, "targetId无效");
             return;
         }
 
         try {
-            String weeklyNews1 = photoService.getPhoto("weeklyNews1");
-            String weeklyNews2 = photoService.getPhoto("weeklyNews2");
-            if (StrUtil.hasBlank(weeklyNews2, weeklyNews1)) {
-                log.error("******KookGuildWeeklyNewsHandler.execute：周报图片获取失败");
-                String msgBody = String.format(errorMsgTemplate, targetId, "无法获取周报信息，请联系管理员");
-                replyService.sendQQGuildChannelMessage(msgBody, key);
+            String bobbleheadEffects1 = photoService.getPhoto("bobbleheadEffects1");
+            String bobbleheadEffects2 = photoService.getPhoto("bobbleheadEffects2");
+            if (StrUtil.hasBlank(bobbleheadEffects1, bobbleheadEffects2)) {
+                log.error("******KookGuildBobbleheadEffectHandler.execute：娃娃效果图片获取失败");
+                String format = String.format(errorMsgCard, "娃娃效果图片获取失败，请联系管理员");
+                String body = String.format(MSG_TEMPLATE, targetId, StringEscapeUtils.escapeJava(format));
+                replyService.sendKookGuildChannelMessage(body, key);
                 return;
             }
 
-            String format = String.format(WEEKLY_NEWS_CARD, weeklyNews1, weeklyNews1, weeklyNews2, weeklyNews2);
+            String format = String.format(BOBBLEHEAD_EFFECT_CARD, bobbleheadEffects1, bobbleheadEffects1, bobbleheadEffects2, bobbleheadEffects2);
             String body = String.format(MSG_TEMPLATE, targetId, StringEscapeUtils.escapeJava(format));
             replyService.sendKookGuildChannelMessage(body, key);
         } catch (Exception e) {
-            log.error("******KookGuildWeeklyNewsHandler.execute：回复 Kook Guild：{} 指令失败，原因：{}", key, e.getMessage());
+            log.error("******KookGuildBobbleheadEffectHandler.execute：回复 Kook Guild：{} 指令失败，原因：{}", key, e.getMessage());
         }
 
-        log.info("******KookGuildWeeklyNewsHandler.execute：处理 Kook Guild：{} 指令完毕", key);
+        log.info("******KookGuildBobbleheadEffectHandler.execute：处理 Kook Guild：{} 指令完毕", key);
     }
 }

@@ -72,7 +72,7 @@ public class KookGuildNukaWorldHandler implements KookGuildHandler {
                     "type": "section",
                     "text": {
                       "type": "kmarkdown",
-                      "content": "[点击查看上图大图](%s)\\n"
+                      "content": "[点击查看大图](%s)\\n\\n"
                     }
                   },
                   {
@@ -95,7 +95,7 @@ public class KookGuildNukaWorldHandler implements KookGuildHandler {
                     "type": "section",
                     "text": {
                       "type": "kmarkdown",
-                      "content": "[点击查看上图大图](%s)\\n"
+                      "content": "[点击查看大图](%s)\\n\\n"
                     }
                   },
                   {
@@ -118,7 +118,7 @@ public class KookGuildNukaWorldHandler implements KookGuildHandler {
                     "type": "section",
                     "text": {
                       "type": "kmarkdown",
-                      "content": "[点击查看上图大图](%s)\\n"
+                      "content": "[点击查看大图](%s)\\n\\n"
                     }
                   },
                   {
@@ -141,7 +141,7 @@ public class KookGuildNukaWorldHandler implements KookGuildHandler {
                     "type": "section",
                     "text": {
                       "type": "kmarkdown",
-                      "content": "[点击查看上图大图](%s)\\n"
+                      "content": "[点击查看大图](%s)\\n\\n"
                     }
                   },
                   {
@@ -155,7 +155,7 @@ public class KookGuildNukaWorldHandler implements KookGuildHandler {
                     "type": "section",
                     "text": {
                       "type": "kmarkdown",
-                      "content": "[点击查看上图大图](%s)\\n"
+                      "content": "[点击查看大图](%s)\\n\\n"
                     }
                   },
                   {

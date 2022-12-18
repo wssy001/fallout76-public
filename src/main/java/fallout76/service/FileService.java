@@ -77,7 +77,9 @@ public class FileService {
               "nukaWorldGuide2": "https://s1.ax1x.com/2022/12/08/z2g7b8.jpg",
               "nukaWorldGuide3": "https://s1.ax1x.com/2022/12/08/z2goKP.png",
               "nukaWorldGuide4": "https://s1.ax1x.com/2022/12/08/z2gTDf.jpg",
-              "bobbleheadEffects": "https://s1.ax1x.com/2022/12/14/z5z9xg.png"
+              "bobbleheadEffects": "https://s1.ax1x.com/2022/12/14/z5z9xg.png",
+              "bobbleheadEffects1": "https://s1.ax1x.com/2022/12/18/zqPFxA.jpg",
+              "bobbleheadEffects2": "https://s1.ax1x.com/2022/12/18/zqPi2d.jpg"
             }
             """;
 
