@@ -32,4 +32,3 @@ Fallout 76小助手
 >####  下载最新版本的.jar文件，使用<code>java -server --enable-preview -Xmx512m -Xms128m -jar xxx.jar</code> 即可运行
 ***
 ### 如有疑问，欢迎交流
-<img width="30%" height="30%" src="https://s1.ax1x.com/2022/12/17/zHjNuD.jpg" alt="QQ群 QR Code">
