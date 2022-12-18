@@ -150,12 +150,13 @@ public class QQNukaWorldHandler implements QQBaseGroupHandler {
         String nukaWorldGuide4 = photoService.getPhoto("nukaWorldGuide4");
         String nukaWorldMap = photoService.getPhoto("nukaWorldMap");
         if (StrUtil.hasBlank(nukaWorldGuide1, nukaWorldGuide2, nukaWorldGuide3, nukaWorldGuide4, nukaWorldMap)) {
-            String msgBody = String.format(errorMsgTemplate, groupId, "无法获取周报，请联系管理员");
-            replyService.sendQQGuildChannelMessage(msgBody, key);
+            log.error("******QQNukaWorldHandler.execute：核子世界环游图片获取失败");
+            String msgBody = String.format(errorMsgTemplate, groupId, "无法获取核子世界环游信息，请联系管理员");
+            replyService.sendQQGroupMessage(msgBody, key);
             return;
         }
         String msgBody = String.format(MSG_TEMPLATE, groupId, "图1：核子世界环游公共事件奖励汇总图", nukaWorldGuide1, "图2：核子世界环游通用奖励汇总图", nukaWorldGuide2, "图3：核子电玩兑换奖励汇总图", nukaWorldGuide3, "图4：核子世界环游新增食物汇总图", nukaWorldGuide4, "图5：核子世界环游乐园导览指南", nukaWorldMap);
-        replyService.sendQQGuildChannelMessage(msgBody, key);
+        replyService.sendQQGroupMessage(msgBody, key);
         log.info("******QQNukaWorldHandler.execute：处理 QQ： {} 指令完毕", key);
     }
 

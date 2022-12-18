@@ -1,6 +1,7 @@
 package fallout76.service;
 
 import cn.hutool.core.date.DateTime;
+import cn.hutool.core.io.file.FileWriter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -16,6 +17,7 @@ import javax.inject.Singleton;
 import javax.ws.rs.core.Response;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -40,8 +42,23 @@ public class NukaCodeService {
     public void init() {
         log.info("******NukaCodeService.init：正在读取 nukaCode.json");
         try {
-            JsonNode jsonNode = objectMapper.readTree(new File(PathUtil.getJarPath() + "/config/nukaCode.json"));
+            File file = new File(PathUtil.getJarPath() + "/config/nukaCode.json");
+            JsonNode jsonNode = objectMapper.readTree(file);
             NukaCode nukaCode = objectMapper.convertValue(jsonNode, NukaCode.class);
+            Date expireTime = nukaCode.getExpireTime();
+            if (expireTime.before(new Date())) {
+                log.info("******NukaCodeService.init：nukaCode.json 数据过期，正在更新");
+                try {
+                    nukaCode = getNukaCodeFromWebsite();
+                    if (nukaCode == null) throw new Exception("从 Website 获取 nukaCode 失败");
+
+                    String json = objectMapper.writeValueAsString(nukaCode);
+                    writeFile(file.getPath(), json);
+                    log.info("******NukaCodeService.init：更新 nukaCode.json 成功");
+                } catch (Exception e) {
+                    log.error("******NukaCodeService.init：写入 nukaCode.json 失败，原因：{}", e.getMessage());
+                }
+            }
             updateNukaCodeCache(nukaCode);
             log.info("******NukaCodeService.init：读取 nukaCode.json 完毕");
         } catch (IOException e) {
@@ -108,6 +125,14 @@ public class NukaCodeService {
             log.error("******NukaCodeService.getNukaCodeFromWebsite：获取nukaCode失败，原因：{}", e.getMessage());
             return null;
         }
+    }
+
+
+    private boolean writeFile(String filePathAndName, String content) {
+        FileWriter writer = new FileWriter(filePathAndName);
+        if (content == null) content = "";
+        writer.write(content);
+        return true;
     }
 }
 

@@ -106,7 +106,7 @@ public class QQController {
                 execute(qqMessageEvent, key, qqBaseHandler);
                 return;
             }
-            log.error("******QQController.webhook：指令 QQ： {} 未找到", key);
+            log.error("******QQController.webhook：指令 QQ Group： {} 未找到", key);
         } else if (messageType.equals("private") && enableQQ) {
             return;
         } else {

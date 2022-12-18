@@ -17,7 +17,7 @@ public class JackSonConfig implements ObjectMapperCustomizer {
     public void customize(ObjectMapper objectMapper) {
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objectMapper.setAnnotationIntrospector(new JacksonAnnotationIntrospector());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
         objectMapper.setDateFormat(dateFormat);
         objectMapper.setTimeZone(TimeZone.getTimeZone("GMT+8"));
         objectMapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);

@@ -69,6 +69,7 @@ public class QQWeeklyNewsHandler implements QQBaseGroupHandler {
         String weeklyNews1 = photoService.getPhoto("weeklyNews1");
         String weeklyNews2 = photoService.getPhoto("weeklyNews2");
         if (StrUtil.hasBlank(weeklyNews1, weeklyNews2)) {
+            log.error("******QQWeeklyNewsHandler.execute：周报图片获取失败");
             String msgBody = String.format(errorMsgTemplate, groupId, "无法获取周报，请联系管理员");
             replyService.sendQQGroupMessage(msgBody, key);
             return;
