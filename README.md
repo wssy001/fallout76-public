@@ -16,7 +16,7 @@ Fallout 76小助手
 ### 这是一个使用 Quarkus + Project Loom + GraalVM 开发的项目
 ### 本项目使用Open JDK 19，并提供了无需JVM环境使用的解决方案
 ### 目前 辐射76小助手 可以为 QQ、QQ频道以及Kook（原开黑了）的用户提供服务
-### 如果你有想在其他平台上使用本项目，欢迎提交[点此提交issue](https://github.com/wssy001/fallout76-public/issues/new?assignees=&labels=feature+request&template=feature.md&title=)
+### 如果你有想在其他平台上使用本项目，欢迎[点此提交issue](https://github.com/wssy001/fallout76-public/issues/new?assignees=&labels=feature+request&template=feature.md&title=)
 ***
 
 ## 如何运行
