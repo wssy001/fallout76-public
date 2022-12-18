@@ -1,7 +1,6 @@
 package fallout76.restapi;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import fallout76.config.CustomHeaderFactory;
+import fallout76.config.CustomKookHeaderFactory;
 import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
 
 import javax.inject.Singleton;
@@ -15,12 +14,17 @@ import javax.ws.rs.core.Response;
 @Singleton
 @Path("api/v3")
 @Consumes(MediaType.APPLICATION_JSON)
-@RegisterClientHeaders(CustomHeaderFactory.class)
+@RegisterClientHeaders(CustomKookHeaderFactory.class)
 public interface KookApiService {
 
     @POST
     @Path("message/create")
     @Produces(MediaType.APPLICATION_JSON)
-    Response createMessage(JsonNode body);
+    Response sendGuildMessage(String body);
 
+
+    @POST
+    @Path("user-chat/create")
+    @Produces(MediaType.APPLICATION_JSON)
+    Response sendGuildPrivateMessage(String body);
 }

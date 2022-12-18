@@ -9,9 +9,10 @@ import java.util.Date;
 
 @Getter
 @Setter
-@Accessors(chain = true)
 @RegisterForReflection
+@Accessors(chain = true)
 public class NukaCode {
+
     private String alpha;
     private String bravo;
     private String charlie;

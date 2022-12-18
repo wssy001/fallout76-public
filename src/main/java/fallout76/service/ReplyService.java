@@ -25,11 +25,12 @@ public class ReplyService {
 
     public void sendQQGroupMessage(String body, String key) {
         Response response = goCQHttpApiService.sendGroupMessage(body);
-        handleResponse(response, "QQ：" + key);
+        handleResponse(response, "QQ Group：" + key);
     }
 
     public void sendQQPrivateMessage(String body, String key) {
-
+        Response response = goCQHttpApiService.sendPrivateMessage(body);
+        handleResponse(response, "QQ Private：" + key);
     }
 
     public void sendQQGuildChannelMessage(String body, String key) {
@@ -37,10 +38,18 @@ public class ReplyService {
         handleResponse(response, "QQ Guild：" + key);
     }
 
+    public void sendKookGuildChannelMessage(String body, String key) {
+        Response response = kookApiService.sendGuildMessage(body);
+        handleResponse(response, "Kook Guild：" + key);
+    }
+
+    public void sendKookGuildPrivateMessage(String body, String key) {
+        Response response = kookApiService.sendGuildPrivateMessage(body);
+        handleResponse(response, "Kook Private：" + key);
+    }
 
     public void handleResponse(Response response, String key) {
         int status = response.getStatus();
-        log.info("******ReplyService.handleResponse：{}", 44);
         if (status != 200) {
             log.error("******ReplyService.handleResponse：回复 {} 失败，Http Code：{}", key, status);
             return;
@@ -49,4 +58,5 @@ public class ReplyService {
         JsonNode jsonNode = response.readEntity(JsonNode.class);
         log.info("******ReplyService.handleResponse：回复 {} 成功，返回结果：{}", key, jsonNode.toPrettyString());
     }
+
 }
