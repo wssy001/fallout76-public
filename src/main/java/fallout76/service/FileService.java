@@ -73,7 +73,7 @@ public class FileService {
               "communityCalendar": "https://s1.ax1x.com/2022/11/23/z8nc34.png",
               "goldVendor": "https://s1.ax1x.com/2022/12/08/z2gGuV.png",
               "nukaWorldMap": "https://s1.ax1x.com/2022/12/03/zrG91K.png",
-              "nukaWorldGuide1": "https://fallout76.wssy001.cn/8ba8eef7a72c260b2619b2ab0e92953b11144166.jpg",
+              "nukaWorldGuide1": "https://photo.aws.wssy001.cyou/8ba8eef7a72c260b2619b2ab0e92953b11144166.jpg",
               "nukaWorldGuide2": "https://s1.ax1x.com/2022/12/08/z2g7b8.jpg",
               "nukaWorldGuide3": "https://s1.ax1x.com/2022/12/08/z2goKP.png",
               "nukaWorldGuide4": "https://s1.ax1x.com/2022/12/08/z2gTDf.jpg",
