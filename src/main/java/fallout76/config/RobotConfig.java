@@ -43,5 +43,12 @@ public interface RobotConfig {
 
         @WithDefault("")
         Optional<String> encryptKey();
+
+        @WithDefault("http://bot.gekj.net")
+        Optional<String> botMarketOnlineApiUrl();
+
+        @WithDefault("")
+        @WithName("bot-market-uuid")
+        Optional<String> botMarketUUID();
     }
 }

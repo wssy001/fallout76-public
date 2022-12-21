@@ -27,4 +27,5 @@ public interface KookApiService {
     @Path("user-chat/create")
     @Produces(MediaType.APPLICATION_JSON)
     Response sendGuildPrivateMessage(String body);
+
 }

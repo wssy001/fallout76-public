@@ -25,15 +25,32 @@ public class FileService {
 
     public static final String APPLICATION_YML = """
             quarkus:
+              devservices:
+                enabled: false
+              native:
+                additional-build-args: --enable-preview, \\
+                  --report-unsupported-elements-at-runtime, \\
+                  --trace-object-instantiation=java.lang.Thread, \\
+                  -J-XX:+UseStringDeduplication, \\
+                  --native-image-info, \\
+                  --verbose
+              #    compression:
+              #      level: 10
               rest-client:
                 "fallout76.restapi.GoCQHttpApiService":
                   url: ${robot-config.go-cqhttp-url}
                 "fallout76.restapi.KookApiService":
                   url: ${robot-config.kook.open-api-base-url}
+                "fallout76.restapi.KookBotMarketApiService":
+                  url: ${robot-config.kook.bot-market-online-api-url}
               http:
                 port: 35701
-            #  scheduler:
-            #    cron-type: spring53
+              log:
+                level: INFO
+              package:
+                type: uber-jar
+              scheduler:
+                cron-type: spring53
                         
             robot-config:
               #管理员列表，如果是QQ，便是QQ号，如果是Kook则是Kook用户Id，暂不支持QQ频道用户
@@ -58,7 +75,11 @@ public class FileService {
                 verify-token:
                 #Kook机器人Encrypt Key 例：JKHsuiayda ,为空代表不启用 默认：空
                 encrypt-key:
-            
+                #Kook Bot Market Online接口地址 默认：http://bot.gekj.net
+                bot-market-online-api-url:
+                #Kook Bot Market UUID
+                bot-market-uuid:
+                        
             """;
 
     public static final String PHOTO_JSON = """
