@@ -107,6 +107,7 @@ public class KookController {
 
         String content = kookEvent.getContent();
         String key = ReUtil.getGroup0("^/[\u4e00-\u9fa5a-z]+", content);
+        if (StrUtil.isBlank(key)) return null;
         if (channelType.equals("PERSON")) {
             KookPrivateHandler kookPrivateHandler = kookPrivateHandlerMap.get(key);
             if (kookPrivateHandler != null) {
@@ -124,7 +125,6 @@ public class KookController {
         } else {
             log.info("******KookController.webhook：\n{}", jsonNode.toPrettyString());
         }
-
 
         return null;
     }

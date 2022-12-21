@@ -101,8 +101,9 @@ public class KookGuildHelpHandler implements KookGuildHandler {
             handler.getKeys()
                     .forEach(key -> stringBuffer.append(key)
                             .append("\\t"));
-            stringBuffer.append("`");
-            stringBuffer.append(handler.description())
+            stringBuffer.append("`")
+                    .append("\\t\\t")
+                    .append(handler.description())
                     .append("\\n");
         });
         publicCommandJson = String.format(publicCommandJson, stringBuffer);
