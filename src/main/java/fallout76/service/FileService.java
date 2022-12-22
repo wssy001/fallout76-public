@@ -49,7 +49,7 @@ public class FileService {
                   level: ALL
                   enable: true
                   path: ${user.dir}/log/fallout76-public.log
-                  encoding: utf-8
+                  encoding: UTF-8
                   rotation:
                     file-suffix: .yyyy-MM-dd
                     max-backup-index: 31
