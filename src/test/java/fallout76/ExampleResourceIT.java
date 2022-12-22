@@ -11,8 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
+import java.util.*;
 
 @Slf4j
 public class ExampleResourceIT {
@@ -74,5 +73,11 @@ public class ExampleResourceIT {
                 """;
 
         log.info("******ExampleResourceIT.test2：{}", StringEscapeUtils.escapeJava(json));
+    }
+
+    @Test
+    void test3(){
+        Map<String, String> getenv = System.getenv();
+        log.info("******ExampleResourceIT.test3：");
     }
 }

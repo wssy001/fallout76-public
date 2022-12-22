@@ -34,8 +34,6 @@ public class FileService {
                   -J-XX:+UseStringDeduplication, \\
                   --native-image-info, \\
                   --verbose
-              #    compression:
-              #      level: 10
               rest-client:
                 "fallout76.restapi.GoCQHttpApiService":
                   url: ${robot-config.go-cqhttp-url}
@@ -47,6 +45,14 @@ public class FileService {
                 port: 35701
               log:
                 level: INFO
+                file:
+                  level: ALL
+                  enable: true
+                  path: ${user.dir}/log/fallout76-public.log
+                  encoding: utf-8
+                  rotation:
+                    file-suffix: .yyyy-MM-dd
+                    max-backup-index: 31
               package:
                 type: uber-jar
               scheduler:
