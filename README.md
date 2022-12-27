@@ -12,7 +12,6 @@ Fallout 76小助手
 > 
 ***
 ## 项目简介
-### 基于 [Go CQHttp](https://github.com/Mrs4s/go-cqhttp) 开发
 ### 这是一个使用 Quarkus + Project Loom + GraalVM 开发的项目
 ### 本项目使用Open JDK 19，并提供了无需JVM环境使用的解决方案
 ### 目前 辐射76小助手 可以为 QQ、QQ频道以及Kook（原开黑了）的用户提供服务
