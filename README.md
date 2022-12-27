@@ -22,7 +22,8 @@ Fallout 76小助手
 ## 如何运行
 ### Native
 >#### （推荐）运行中不需要JVM，不强制用户安装使用JDK
-> #### 进入 [Release](https://github.com/wssy001/fallout76-public/releases) 页面，选择最新版本以及相应平台的可执行文件，点击下载即可
+> #### 进入 [Release](https://github.com/wssy001/fallout76-public/releases) 页面，选择最新版本以及相应平台的可执行文件，点击下载
+> #### （以Linux ARM64  1.0.0版为例）执行 <code>./fallout76-assistant-1.0.0-linux-arm64 -Xmx50m</code> 启动程序
 ### Docker
 > ####  （推荐）运行中不需要JVM，不强制用户安装使用JDK
 > ####   前往[本项目Docker仓库](https://hub.docker.com/r/wssy001/fallout76-public)，选择合适的镜像，使用<code>docker run -itd --name fallout76-assistant -p 35701:35701 -v /path/to/config:/docker/image/path/to/config fallout76:latest</code>
