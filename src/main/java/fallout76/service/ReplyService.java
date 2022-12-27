@@ -1,6 +1,7 @@
 package fallout76.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import fallout76.entity.KookLimit;
 import fallout76.restapi.GoCQHttpApiService;
 import fallout76.restapi.KookApiService;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,9 @@ import javax.ws.rs.core.Response;
 @Slf4j
 @Singleton
 public class ReplyService {
+
+    @Inject
+    KookAPILimiterService kookAPILimiterService;
 
     @Inject
     @RestClient
@@ -39,13 +43,17 @@ public class ReplyService {
     }
 
     public void sendKookGuildChannelMessage(String body, String key) {
+        boolean permit = kookAPILimiterService.checkPermit("message/create");
+        if (!permit) log.error("******ReplyService.sendKookGuildChannelMessage：回复 {} 失败，API限速", key);
         Response response = kookApiService.sendGuildMessage(body);
         handleResponse(response, "Kook Guild：" + key);
+        handleKookAPILimit(response);
     }
 
     public void sendKookGuildPrivateMessage(String body, String key) {
         Response response = kookApiService.sendGuildPrivateMessage(body);
         handleResponse(response, "Kook Private：" + key);
+        handleKookAPILimit(response);
     }
 
     public void handleResponse(Response response, String key) {
@@ -57,6 +65,21 @@ public class ReplyService {
 
         JsonNode jsonNode = response.readEntity(JsonNode.class);
         log.info("******ReplyService.handleResponse：回复 {} 成功，返回结果：{}", key, jsonNode.toPrettyString());
+
+    }
+
+    public void handleKookAPILimit(Response response) {
+        String limit = response.getHeaderString("X-Rate-Limit-Limit");
+        String remaining = response.getHeaderString("X-Rate-Limit-Remaining");
+        String reset = response.getHeaderString("X-Rate-Limit-Reset");
+        String bucket = response.getHeaderString("X-Rate-Limit-Bucket");
+
+        KookLimit kookLimit = new KookLimit()
+                .setBucket(bucket)
+                .setLimit(Integer.parseInt(limit))
+                .setRemaining(Integer.parseInt(remaining))
+                .setResetWait(Long.parseLong(reset));
+        kookAPILimiterService.updateBucketKookLimitMap(bucket, kookLimit);
     }
 
 }
