@@ -19,11 +19,14 @@ Fallout 76小助手
 ### 如果你有想在其他平台上使用本项目，欢迎[点此提交issue](https://github.com/wssy001/fallout76-public/issues/new?assignees=&labels=feature+request&template=feature.md&title=)
 ***
 
+## 使用帮助
+> #### 初次运行程序，会在项目同级目录下生成 <code>config</code> 文件夹，内部有 `application.yml`（项目配置文件）、`nukaCode.json`（核弹密码，会自动检测有效期并自动更新）和`photos.json`（图片，指令所需图片的Url）
+> #### 接入 `Kook` 、`Go-CQHttp` 时，与程序的连接方式选 `webhook`
 ## 如何运行
 ### Native
 >#### （推荐）运行中不需要JVM，不强制用户安装使用JDK
-> #### 进入 [Release](https://github.com/wssy001/fallout76-public/releases) 页面，选择最新版本以及相应平台的可执行文件，点击下载
-> #### （以Linux ARM64  1.0.0版为例）执行 <code>./fallout76-assistant-1.0.0-linux-arm64 -Xmx50m</code> 启动程序
+> #### 进入 [Release](https://github.com/wssy001/fallout76-public/releases) 页面，选择最新版本以及相应平台，下载相应的压缩包并解压
+> #### 执行压缩包内的 <code>run.sh</code> 即可启动程序
 ### Docker
 > ####  （推荐）运行中不需要JVM，不强制用户安装使用JDK
 > ####   前往[本项目Docker仓库](https://hub.docker.com/r/wssy001/fallout76-public)，选择合适的镜像，使用<code>docker run -itd --name fallout76-assistant -p 35701:35701 -v /path/to/config:/docker/image/path/to/config fallout76:latest</code>
