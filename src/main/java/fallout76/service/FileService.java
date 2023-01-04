@@ -90,8 +90,8 @@ public class FileService {
 
     public static final String PHOTO_JSON = """
             {
-              "weeklyNews1": "https://s1.ax1x.com/2022/12/14/zIQRU0.jpg",
-              "weeklyNews2": "https://s1.ax1x.com/2022/12/14/zIQW5V.jpg",
+              "weeklyNews1": "https://s1.ax1x.com/2023/01/04/pSFGGGQ.jpg",
+              "weeklyNews2": "https://s1.ax1x.com/2023/01/04/pSFGIiD.jpg",
               "herbivore": "https://s1.ax1x.com/2022/11/10/zpuzJ1.jpg",
               "carnivore": "https://s1.ax1x.com/2022/11/10/zpuxiR.jpg",
               "magazine": "https://s1.ax1x.com/2022/11/10/zpKpz6.jpg",
