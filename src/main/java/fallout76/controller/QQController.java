@@ -111,7 +111,7 @@ public class QQController {
             return;
         } else {
             try {
-                log.info("******QQController.webhook：{}", objectMapper.writeValueAsString(qqMessageEvent));
+                log.debug("******QQController.webhook：{}", objectMapper.writeValueAsString(qqMessageEvent));
             } catch (Exception e) {
                 log.error("******QQController.webhook：处理 {} 异常，原因：{}", messageType, e.getCause().toString());
             }
