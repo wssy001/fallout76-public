@@ -1,10 +1,10 @@
 package fallout76.service;
 
 import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.file.FileWriter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import fallout76.entity.NukaCode;
 import fallout76.restapi.NukaCodeApiService;
 import fallout76.util.PathUtil;
@@ -26,7 +26,7 @@ import java.util.concurrent.locks.ReentrantLock;
 @Singleton
 public class NukaCodeService {
     public static final String BODY = """
-            {"operationName":"dashboard","variables":{},"query":"query dashboard {\\n  dashboard {\\n    id\\n    results\\n    __typename\\n  }\\n}\\n"}
+            {"operationName":null,"variables":{},"query":"{\\n  nukeCodes {\\n    alpha\\n    bravo\\n    charlie\\n    __typename\\n  }\\n}"}
             """;
 
     @Inject
@@ -96,31 +96,21 @@ public class NukaCodeService {
 
         try {
             Response response = nukaCodeApiService.getNukaCode(BODY);
-            JsonNode nukaCode = response.readEntity(JsonNode.class);
+            JsonNode body = response.readEntity(JsonNode.class);
 
-            if (nukaCode == null || nukaCode.isEmpty()) {
+            if (body == null || body.isEmpty()) {
                 log.error("******NukaCodeService.getNukaCodeFromWebsite：获取nukaCode失败");
                 return null;
             }
 
-            JsonNode nukaCodes = nukaCode.get("data")
-                    .get("dashboard")
-                    .get("results")
-                    .get("nukecodes");
+            JsonNode nukaCodes = body.get("data")
+                    .get("nukeCodes");
 
-            JsonNode jsonArray = nukaCodes
-                    .get("codes");
-            ObjectNode objectNode = objectMapper.createObjectNode();
-            jsonArray.forEach(object -> objectNode.setAll((ObjectNode) object));
-
-            jsonArray = nukaCodes
-                    .get("range");
-            DateTime createTime = new DateTime(jsonArray.get(0).asText());
-            DateTime expireTime = new DateTime(jsonArray.get(1).asText());
-            NukaCode nukaCode1 = objectMapper.convertValue(objectNode, NukaCode.class);
-            nukaCode1.setCreateTime(createTime);
-            nukaCode1.setExpireTime(expireTime);
-            return nukaCode1;
+            DateTime createTime = DateUtil.beginOfWeek(new Date(), false);
+            DateTime expireTime = DateUtil.offsetWeek(createTime, 1);
+            NukaCode nukaCode = objectMapper.convertValue(nukaCodes, NukaCode.class);
+            nukaCode.setExpireTime(expireTime);
+            return nukaCode;
         } catch (Exception e) {
             log.error("******NukaCodeService.getNukaCodeFromWebsite：获取nukaCode失败，原因：{}", e.getMessage());
             return null;

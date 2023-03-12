@@ -16,7 +16,7 @@ import javax.ws.rs.core.Response;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @RegisterClientHeaders(CustomHeaderFactory.class)
-@RegisterRestClient(baseUri = "https://a.roguetrader.com")
+@RegisterRestClient(baseUri = "https://nukacrypt.com/graphql")
 public interface NukaCodeApiService {
 
     @POST
