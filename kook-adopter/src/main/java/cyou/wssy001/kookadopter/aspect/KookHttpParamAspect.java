@@ -15,6 +15,7 @@ import cyou.wssy001.kookadopter.config.KookConfig;
 import cyou.wssy001.kookadopter.dto.KookEventDTO;
 import jakarta.servlet.ServletInputStream;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -38,6 +39,7 @@ public class KookHttpParamAspect {
     private final KookConfig kookConfig;
     private final CheckUser<KookEventDTO> checkUser;
     private final HttpServletRequest httpServletRequest;
+    private final HttpServletResponse httpServletResponse;
 
 
     @Pointcut("execution(void cyou.wssy001.kookadopter.controller.KookEventController.handleKookEvent(..))")
@@ -47,10 +49,11 @@ public class KookHttpParamAspect {
     @Around("pointcut()")
     public Object checkKookHttpParam(ProceedingJoinPoint joinPoint) throws Throwable {
         String compress = httpServletRequest.getParameter("compress");
+        if (StrUtil.isBlank(compress)) compress = "1";
         JSONObject jsonObject;
         try (ServletInputStream inputStream = httpServletRequest.getInputStream()) {
             byte[] bytes = inputStream.readAllBytes();
-            if ("1".equals(compress)) {
+            if (compress.equals("1")) {
                 jsonObject = unCompress(bytes);
             } else {
                 jsonObject = JSON.parseObject(bytes);
@@ -81,7 +84,9 @@ public class KookHttpParamAspect {
                             "challenge":"%s"
                         }
                         """;
-                return String.format(body, kookEventDTO.getChallenge());
+                httpServletResponse.getWriter()
+                        .write(String.format(body, kookEventDTO.getChallenge()));
+                return null;
             }
             case "PERSON" -> {
                 if (StrUtil.isBlank(key)) return null;
