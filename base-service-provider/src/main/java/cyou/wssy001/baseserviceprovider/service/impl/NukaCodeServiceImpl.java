@@ -45,7 +45,7 @@ public class NukaCodeServiceImpl implements NukaCodeService, ApplicationListener
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        log.info("******NukaCodeServiceImpl.onApplicationEvent：初始化核弹密码");
+        log.info("******NukaCodeServiceImpl.onApplicationEvent：正在初始化核弹密码");
 
         NukaCode nukaCode = fileCacheService.getNukaCode();
         if (nukaCode == null) {

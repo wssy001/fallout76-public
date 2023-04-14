@@ -2,6 +2,7 @@ package cyou.wssy001.kookadopter.controller;
 
 import cyou.wssy001.common.entity.BaseEvent;
 import cyou.wssy001.common.service.HandlerService;
+import cyou.wssy001.kookadopter.dto.KookEventDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,8 +19,9 @@ public class KookEventController {
 
     @PostMapping("/webhook")
     public void handleKookEvent(
-            BaseEvent baseEvent
+            BaseEvent baseEvent,
+            KookEventDTO kookEventDTO
     ) {
-        handlerService.handle(baseEvent);
+        handlerService.handle(baseEvent, kookEventDTO);
     }
 }

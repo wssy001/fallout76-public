@@ -13,10 +13,11 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-public abstract class BaseReplyMsg {
+public abstract class BaseReplyMsgDTO {
+
     // 出发的指令
-    private String eventKey;
+    public String eventKey;
 
     //封装好的回复消息
-    private String msg;
+    public String msg;
 }

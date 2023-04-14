@@ -1,6 +1,6 @@
 package cyou.wssy001.kookadopter.dto;
 
-import cyou.wssy001.common.dto.BaseReplyMsg;
+import cyou.wssy001.common.dto.BaseReplyMsgDTO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -14,6 +14,6 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class KookReplyMsgDTO extends BaseReplyMsg {
-    private String url;
+public class KookReplyMsgDTO extends BaseReplyMsgDTO {
+    private String apiEndPoint;
 }

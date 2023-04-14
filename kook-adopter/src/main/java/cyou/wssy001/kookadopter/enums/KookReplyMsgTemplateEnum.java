@@ -109,7 +109,7 @@ public enum KookReplyMsgTemplateEnum {
                     "elements": [
                       {
                         "type": "image",
-                        "src": "https://s1.ax1x.com/2022/11/22/z1p5Jf.png"
+                        "src": "https://img.kookapp.cn/attachments/2023-04/14/QVqh6zbPCZ1hc0tw.png"
                       }
                     ]
                   },
@@ -123,7 +123,7 @@ public enum KookReplyMsgTemplateEnum {
                   {
                     "type": "countdown",
                     "mode": "day",
-                    "endTime": %d
+                    "endTime": %s
                   },
                   {
                     "type": "divider"

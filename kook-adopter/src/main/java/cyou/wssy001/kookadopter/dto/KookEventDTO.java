@@ -2,6 +2,7 @@ package cyou.wssy001.kookadopter.dto;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.annotation.JSONField;
+import cyou.wssy001.common.dto.BasePlatformEventDTO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -15,7 +16,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class KookEventDTO {
+public class KookEventDTO extends BasePlatformEventDTO {
     private String challenge;
 
     private String channelType;

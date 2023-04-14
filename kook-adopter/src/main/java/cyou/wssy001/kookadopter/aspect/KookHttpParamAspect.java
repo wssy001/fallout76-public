@@ -113,7 +113,7 @@ public class KookHttpParamAspect {
             }
         }
 
-        return joinPoint.proceed(new Object[]{baseEvent});
+        return joinPoint.proceed(new Object[]{baseEvent, kookEventDTO});
     }
 
     private JSONObject unCompress(byte[] bytes) {

@@ -42,3 +42,4 @@ nb-configuration.xml
 /config/
 /src/test/
 /log/
+/base-service-provider/src/test/

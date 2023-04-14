@@ -1,6 +1,7 @@
 package cyou.wssy001.common.service;
 
-import cyou.wssy001.common.dto.BaseReplyMsg;
+import cyou.wssy001.common.dto.BaseReplyMsgDTO;
+import cyou.wssy001.common.enums.PlatformEnum;
 
 /**
  * @Description: 消息回复服务类
@@ -9,10 +10,11 @@ import cyou.wssy001.common.dto.BaseReplyMsg;
  * @Version: 1.0
  */
 public interface ReplyService {
+    PlatformEnum getPlatform();
 
     // 消息回复，回复方式在 BaseReplyMsg 中
-    void reply(BaseReplyMsg msg);
+    void reply(BaseReplyMsgDTO msg);
 
     // 消息回复，回复方式需要自定义
-    void reply(BaseReplyMsg msg, Object target);
+    void reply(BaseReplyMsgDTO msg, Object target);
 }
