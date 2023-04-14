@@ -1,0 +1,45 @@
+server:
+  port: 35701
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+
+logging:
+  level:
+    web: info
+    root: info
+    sql: info
+
+robot-config:
+  #Go-CQHTTP 配置，采用Webhook模式
+  qq:
+    #QQ、QQ频道的管理员列表
+    admins:
+      - 12345
+    #Go-cqHttp url 当enable-qq和enable-qq-channel均为false时失效 例： http://127.0.0.1:5700 默认：空
+    go-cqhttp-url: http://127.0.0.1:5700
+    #是否启用QQ机器人 true | false 默认：false
+    enable-qq: true
+    #是否启用QQ频道机器人 true | false 默认：false
+    enable-qq-channel: true
+
+  #Kook配置，使用webhook模式，若enable-kook为false则不生效，参数详见https://developer.kookapp.cn/bot/information
+  kook:
+    #Kook的管理员列表
+    admins:
+      - "sadajhsdjkahds"
+    #是否启用Kook机器人 true | false 默认：false
+    enable: true
+    #Kook API Base Url 例：https://www.kookapp.cn 默认：空
+    open-api-base-url: https://www.kookapp.cn
+    #Kook机器人Token 例：sdkasfkashfk 默认：空
+    token:
+    #Kook机器人Verify Token 例： kjahsdkjaskj 默认：空
+    verify-token:
+    #Kook机器人Encrypt Key 例：JKHsuiayda ,为空代表不启用 默认：空
+    encrypt-key:
+    #Kook Bot Market Online接口地址 默认：http://bot.gekj.net
+    bot-market-online-api-url: http://bot.gekj.net
+    #Kook Bot Market UUID
+    bot-market-uuid: f1e29386-93d7-4fbc-99a5-0b62e64c02ec
