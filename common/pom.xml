@@ -4,7 +4,7 @@
     <parent>
         <groupId>cyou.wssy001</groupId>
         <artifactId>fallout76-assistant</artifactId>
-        <version>1.0.2</version>
+        <version>1.1.0.dev</version>
     </parent>
 
     <artifactId>common</artifactId>
