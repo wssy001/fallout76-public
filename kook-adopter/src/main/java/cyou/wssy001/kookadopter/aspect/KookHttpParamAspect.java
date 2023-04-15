@@ -48,6 +48,8 @@ public class KookHttpParamAspect {
 
     @Around("pointcut()")
     public Object checkKookHttpParam(ProceedingJoinPoint joinPoint) throws Throwable {
+        if (!kookConfig.isEnable()) return null;
+
         String compress = httpServletRequest.getParameter("compress");
         if (StrUtil.isBlank(compress)) compress = "1";
         JSONObject jsonObject;

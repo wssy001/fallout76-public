@@ -4,13 +4,21 @@ server:
 spring:
   main:
     allow-bean-definition-overriding: true
+    allow-circular-references: true
 
 robot-config:
   #Go-CQHTTP 配置，采用Webhook模式
   qq:
-    #QQ、QQ频道的管理员列表
+    #QQ的管理员列表
     admins:
       - 12345
+    #QQ频道的管理员列表（暂无实现）
+    channel-admins:
+      - 12345
+    # Go-CQHttp 访问令牌
+    access-token: ''
+    # Go-CQHttp 签名
+    secret: ''
     #Go-cqHttp url 当enable-qq和enable-qq-channel均为false时失效 例： http://127.0.0.1:5700 默认：空
     go-cqhttp-url: http://127.0.0.1:5700
     #是否启用QQ机器人 true | false 默认：false

@@ -5,8 +5,9 @@ import cyou.wssy001.common.dto.BasePlatformEventDTO;
 import cyou.wssy001.common.dto.BaseReplyMsgDTO;
 import cyou.wssy001.common.entity.BaseEvent;
 import cyou.wssy001.common.entity.BasePrivateEvent;
+import cyou.wssy001.common.enums.EventEnum;
 import cyou.wssy001.common.enums.PlatformEnum;
-import cyou.wssy001.common.handler.BasePrivateHandler;
+import cyou.wssy001.common.handler.BaseHandler;
 import cyou.wssy001.kookadopter.dto.KookEventDTO;
 import cyou.wssy001.kookadopter.dto.KookReplyMsgDTO;
 import cyou.wssy001.kookadopter.enums.KookReplyMsgTemplateEnum;
@@ -23,10 +24,15 @@ import java.util.Set;
  */
 @Service
 @RequiredArgsConstructor
-public class GetUserIdKookEventHandler implements BasePrivateHandler {
+public class GetUserIdKookEventHandler implements BaseHandler {
     @Override
     public PlatformEnum platform() {
         return PlatformEnum.Kook;
+    }
+
+    @Override
+    public EventEnum eventType() {
+        return EventEnum.friend;
     }
 
     @Override

@@ -1,42 +1,41 @@
-package cyou.wssy001.kookadopter.handler;
+package cyou.wssy001.qqadopter.handler;
 
 import cn.hutool.core.util.StrUtil;
 import cyou.wssy001.common.dto.BasePlatformEventDTO;
 import cyou.wssy001.common.dto.BaseReplyMsgDTO;
+import cyou.wssy001.common.entity.BaseAdminEvent;
 import cyou.wssy001.common.entity.BaseEvent;
 import cyou.wssy001.common.enums.EventEnum;
 import cyou.wssy001.common.enums.PlatformEnum;
 import cyou.wssy001.common.handler.BaseHandler;
 import cyou.wssy001.common.handler.BaseHelpHandler;
-import cyou.wssy001.kookadopter.dto.KookEventDTO;
-import cyou.wssy001.kookadopter.dto.KookReplyMsgDTO;
-import cyou.wssy001.kookadopter.enums.KookReplyMsgTemplateEnum;
-import org.apache.commons.text.StringEscapeUtils;
+import cyou.wssy001.qqadopter.dto.QQEventDTO;
+import cyou.wssy001.qqadopter.dto.QQReplyMsgDTO;
+import cyou.wssy001.qqadopter.enums.QQReplyMsgTemplateEnum;
 import org.springframework.stereotype.Component;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
- * @Description: Kook帮助指令处理器
+ * @Description: QQ管理员帮助指令处理器
  * @Author: Tyler
  * @Date: 2023/4/14 23:57
  * @Version: 1.0
  */
 @Component
-public class GetHelpKookEventHandler implements BaseHelpHandler {
+public class GetAdminHelpQQEventHandler implements BaseHelpHandler {
     private final String msg;
 
 
-    public GetHelpKookEventHandler(List<BaseHandler> baseHandlers) {
+    public GetAdminHelpQQEventHandler(List<BaseHandler> baseHandlers) {
         StringBuilder stringBuilder = new StringBuilder();
 
         for (BaseHandler baseHandler : baseHandlers) {
             if (baseHandler.getKeys().contains("/help")) continue;
-            if (!baseHandler.platform().equals(PlatformEnum.Kook)) continue;
-            if (!baseHandler.eventType().equals(EventEnum.group)) continue;
+            if (!baseHandler.platform().equals(PlatformEnum.QQ)) continue;
 
-            stringBuilder.append("`");
             Iterator<String> iterator = baseHandler.getKeys()
                     .iterator();
             while (iterator.hasNext()) {
@@ -44,8 +43,7 @@ public class GetHelpKookEventHandler implements BaseHelpHandler {
                 stringBuilder.append(key);
                 if (iterator.hasNext()) stringBuilder.append("\\t");
             }
-            stringBuilder.append("`")
-                    .append("\\t\\t")
+            stringBuilder.append("\\t\\t")
                     .append(baseHandler.description())
                     .append("\\n");
         }
@@ -54,29 +52,40 @@ public class GetHelpKookEventHandler implements BaseHelpHandler {
 
     @Override
     public PlatformEnum platform() {
-        return PlatformEnum.Kook;
+        return PlatformEnum.QQ;
+    }
+
+    @Override
+    public Set<String> getKeys() {
+        return Set.of("/help", "/帮助");
     }
 
     @Override
     public EventEnum eventType() {
-        return EventEnum.group;
+        return EventEnum.admin;
+    }
+
+    @Override
+    public String description() {
+        return "获取当前环境下所有可用指令";
     }
 
     @Override
     public BaseReplyMsgDTO consume(BaseEvent baseEvent, BasePlatformEventDTO basePlatformEventDTO) {
-        if (basePlatformEventDTO instanceof KookEventDTO kookEventDTO) {
+        if (baseEvent instanceof BaseAdminEvent && basePlatformEventDTO instanceof QQEventDTO qqEventDTO) {
+
             String replyMsg;
-            String targetId = kookEventDTO.getTargetId();
+            Long userId = qqEventDTO.getUserId();
             if (StrUtil.isBlank(msg)) {
-                String format = String.format(KookReplyMsgTemplateEnum.ERROR_MSG_CARD.getMsg(), "暂无帮助内容，请联系管理员添加");
-                replyMsg = String.format(KookReplyMsgTemplateEnum.ERROR_MSG.getMsg(), targetId, StringEscapeUtils.escapeJava(format));
+                String format = String.format(QQReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "暂无帮助内容，请联系管理员添加");
+                replyMsg = String.format(QQReplyMsgTemplateEnum.PRIVATE_TEXT_MSG.getMsg(), userId, format);
             } else {
-                String format = String.format(KookReplyMsgTemplateEnum.HELP_MSG_CARD.getMsg(), msg);
-                replyMsg = String.format(KookReplyMsgTemplateEnum.CARD_MSG.getMsg(), targetId, StringEscapeUtils.escapeJava(format));
+                String format = String.format(QQReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), msg);
+                replyMsg = String.format(QQReplyMsgTemplateEnum.PRIVATE_TEXT_MSG.getMsg(), userId, format);
             }
 
-            return new KookReplyMsgDTO()
-                    .setApiEndPoint("/api/v3/message/create")
+            return new QQReplyMsgDTO()
+                    .setApiEndPoint("/send_private_msg")
                     .setEventKey(baseEvent.getEventKey())
                     .setMsg(replyMsg);
         }

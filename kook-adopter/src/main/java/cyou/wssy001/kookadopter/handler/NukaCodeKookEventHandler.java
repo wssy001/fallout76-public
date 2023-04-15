@@ -4,6 +4,7 @@ import cyou.wssy001.common.dto.BasePlatformEventDTO;
 import cyou.wssy001.common.dto.BaseReplyMsgDTO;
 import cyou.wssy001.common.entity.BaseEvent;
 import cyou.wssy001.common.entity.NukaCode;
+import cyou.wssy001.common.enums.EventEnum;
 import cyou.wssy001.common.enums.PlatformEnum;
 import cyou.wssy001.common.handler.BaseHandler;
 import cyou.wssy001.common.service.NukaCodeService;
@@ -34,6 +35,11 @@ public class NukaCodeKookEventHandler implements BaseHandler {
     @Override
     public PlatformEnum platform() {
         return PlatformEnum.Kook;
+    }
+
+    @Override
+    public EventEnum eventType() {
+        return EventEnum.group;
     }
 
     @Override

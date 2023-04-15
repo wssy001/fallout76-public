@@ -8,19 +8,22 @@ import cyou.wssy001.common.enums.PlatformEnum;
 
 import java.util.Set;
 
-public interface BaseHandler {
+public interface BaseHelpHandler {
 
     // 事件触发的平台
     PlatformEnum platform();
 
-    // 事件类型
+    // 事件触发的关键字集合
+    default Set<String> getKeys() {
+        return Set.of("/help", "/帮助");
+    }
+
     EventEnum eventType();
 
-    // 事件触发的关键字集合
-    Set<String> getKeys();
-
     // 描述
-    String description();
+    default String description() {
+        return "获取当前环境下所有可用指令";
+    }
 
     // 消费
     BaseReplyMsgDTO consume(BaseEvent baseEvent, BasePlatformEventDTO basePlatformEventDTO);

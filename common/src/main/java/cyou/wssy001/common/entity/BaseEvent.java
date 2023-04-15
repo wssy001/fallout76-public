@@ -1,5 +1,6 @@
 package cyou.wssy001.common.entity;
 
+import cyou.wssy001.common.enums.EventEnum;
 import cyou.wssy001.common.enums.PlatformEnum;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,4 +19,6 @@ public class BaseEvent {
     PlatformEnum platform;
 
     String eventKey;
+
+    EventEnum eventType = EventEnum.group;
 }

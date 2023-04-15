@@ -3,8 +3,6 @@ package cyou.wssy001.common.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.Arrays;
-
 /**
  * @Description: 消息来源平台的一些常量
  * @Author: Tyler
@@ -13,11 +11,11 @@ import java.util.Arrays;
  */
 @Getter
 @AllArgsConstructor
-public enum PlatformEnum {
-    QQ(1, "QQ"),
-    QQ_GUILD(2, "QQ 频道"),
-    Kook(3, "Kook"),
-    ;
+public enum EventEnum {
+    group(1, "群"),
+    friend(2, "好友"),
+
+    admin(3, "管理员");
 
     private final int code;
     private final String description;

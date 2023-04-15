@@ -3,6 +3,8 @@ package cyou.wssy001.common.service;
 import cyou.wssy001.common.dto.BaseReplyMsgDTO;
 import cyou.wssy001.common.enums.PlatformEnum;
 
+import java.util.List;
+
 /**
  * @Description: 消息回复服务类
  * @Author: Tyler
@@ -10,7 +12,7 @@ import cyou.wssy001.common.enums.PlatformEnum;
  * @Version: 1.0
  */
 public interface ReplyService {
-    PlatformEnum getPlatform();
+    List<PlatformEnum> getPlatforms();
 
     // 消息回复，回复方式在 BaseReplyMsg 中
     void reply(BaseReplyMsgDTO msg);

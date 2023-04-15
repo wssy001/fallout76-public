@@ -5,8 +5,10 @@ import cyou.wssy001.common.dto.BasePlatformEventDTO;
 import cyou.wssy001.common.dto.BaseReplyMsgDTO;
 import cyou.wssy001.common.entity.BaseEvent;
 import cyou.wssy001.common.entity.BasePrivateEvent;
+import cyou.wssy001.common.enums.EventEnum;
 import cyou.wssy001.common.enums.PlatformEnum;
-import cyou.wssy001.common.handler.BasePrivateHandler;
+import cyou.wssy001.common.handler.BaseHandler;
+import cyou.wssy001.common.handler.BaseHelpHandler;
 import cyou.wssy001.kookadopter.dto.KookEventDTO;
 import cyou.wssy001.kookadopter.dto.KookReplyMsgDTO;
 import cyou.wssy001.kookadopter.enums.KookReplyMsgTemplateEnum;
@@ -15,7 +17,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @Description: Kook私人帮助指令处理器
@@ -24,28 +25,32 @@ import java.util.Set;
  * @Version: 1.0
  */
 @Component
-public class GetPrivateHelpKookEventHandler implements BasePrivateHandler {
+public class GetPrivateHelpKookEventHandler implements BaseHelpHandler {
     private final String msg;
 
 
-    public GetPrivateHelpKookEventHandler(List<BasePrivateHandler> basePrivateHandlers) {
-        StringBuffer stringBuffer = new StringBuffer();
+    public GetPrivateHelpKookEventHandler(List<BaseHandler> baseHandlers) {
+        StringBuilder stringBuilder = new StringBuilder();
 
-        for (BasePrivateHandler basePrivateHandler : basePrivateHandlers) {
-            stringBuffer.append("`");
-            Iterator<String> iterator = basePrivateHandler.getKeys()
+        for (BaseHandler baseHandler : baseHandlers) {
+            if (baseHandler.getKeys().contains("/help")) continue;
+            if (!baseHandler.platform().equals(PlatformEnum.Kook)) continue;
+            if (!baseHandler.eventType().equals(EventEnum.friend)) continue;
+
+            stringBuilder.append("`");
+            Iterator<String> iterator = baseHandler.getKeys()
                     .iterator();
             while (iterator.hasNext()) {
                 String key = iterator.next();
-                stringBuffer.append(key);
-                if (iterator.hasNext()) stringBuffer.append("\\t");
+                stringBuilder.append(key);
+                if (iterator.hasNext()) stringBuilder.append("\\t");
             }
-            stringBuffer.append("`")
+            stringBuilder.append("`")
                     .append("\\t\\t")
-                    .append(basePrivateHandler.description())
+                    .append(baseHandler.description())
                     .append("\\n");
         }
-        msg = stringBuffer.toString();
+        msg = stringBuilder.toString();
     }
 
     @Override
@@ -54,13 +59,8 @@ public class GetPrivateHelpKookEventHandler implements BasePrivateHandler {
     }
 
     @Override
-    public Set<String> getKeys() {
-        return Set.of("/help", "/帮助");
-    }
-
-    @Override
-    public String description() {
-        return "获取当前环境下所有可用指令";
+    public EventEnum eventType() {
+        return EventEnum.friend;
     }
 
     @Override

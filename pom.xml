@@ -18,6 +18,7 @@
         <module>base-service-provider</module>
         <module>common</module>
         <module>kook-adopter</module>
+        <module>qq-adopter</module>
     </modules>
 
     <packaging>pom</packaging>
@@ -48,6 +49,11 @@
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-core</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-crypto</artifactId>
                 <version>${hutool.version}</version>
             </dependency>
 
