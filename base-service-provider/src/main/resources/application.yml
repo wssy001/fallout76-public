@@ -1,5 +1,10 @@
 server:
   port: 35701
+  ssl:
+    enabled: true
+    key-store-password: ''
+    key-store-type: JKS
+    key-store: ''
 
 spring:
   main:
@@ -26,7 +31,7 @@ robot-config:
     #是否启用QQ频道机器人 true | false 默认：false
     enable-qq-channel: true
 
-  #Kook配置，使用webhook模式，若enable-kook为false则不生效，参数详见https://developer.kookapp.cn/bot/information
+  #Kook配置，使用webhook模式，若enable为false则不生效，参数详见https://developer.kookapp.cn/bot/information
   kook:
     #Kook的管理员列表
     admins:
@@ -45,3 +50,19 @@ robot-config:
     bot-market-online-api-url: http://bot.gekj.net
     #Kook Bot Market UUID
     bot-market-uuid: f1e29386-93d7-4fbc-99a5-0b62e64c02ec
+
+  #DoDo配置，使用webhook模式，若enable为false则不生效，参数详见https://doker.imdodo.com/application
+  dodo:
+    #Dodo的管理员列表
+    admins:
+      - "sadajhsdjkahds"
+    #是否启用DoDo机器人 true | false 默认：false
+    enable: true
+    #DoDo 应用唯一标识
+    client-id: ''
+    #机器人鉴权Token
+    bot-token: ''
+    #事件密钥
+    secret-key: ''
+    #DoDo API Base Url 例：https://botopen.imdodo.com 默认：空
+    open-api-base-url: ''

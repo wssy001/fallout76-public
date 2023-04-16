@@ -12,10 +12,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum EventEnum {
-    group(1, "群"),
-    friend(2, "好友"),
-
-    admin(3, "管理员");
+    GROUP(1, "群"),
+    FRIEND(2, "好友"),
+    ADMIN(3, "管理员");
 
     private final int code;
     private final String description;

@@ -8,7 +8,6 @@ import cyou.wssy001.common.entity.BasePrivateEvent;
 import cyou.wssy001.common.enums.EventEnum;
 import cyou.wssy001.common.enums.PlatformEnum;
 import cyou.wssy001.common.handler.BaseHandler;
-import cyou.wssy001.common.handler.BaseHelpHandler;
 import cyou.wssy001.qqadopter.dto.QQEventDTO;
 import cyou.wssy001.qqadopter.dto.QQReplyMsgDTO;
 import cyou.wssy001.qqadopter.enums.QQReplyMsgTemplateEnum;
@@ -37,7 +36,7 @@ public class GetUserIdQQEventHandler implements BaseHandler {
 
     @Override
     public EventEnum eventType() {
-        return EventEnum.friend;
+        return EventEnum.FRIEND;
     }
 
     @Override

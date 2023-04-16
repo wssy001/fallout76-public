@@ -1,5 +1,6 @@
-package cyou.wssy001.kookadopter.handler;
+package cyou.wssy001.dodoadopter.handler;
 
+import com.alibaba.fastjson2.JSONObject;
 import cyou.wssy001.common.dto.BasePlatformEventDTO;
 import cyou.wssy001.common.dto.BaseReplyMsgDTO;
 import cyou.wssy001.common.entity.BaseEvent;
@@ -8,19 +9,18 @@ import cyou.wssy001.common.enums.EventEnum;
 import cyou.wssy001.common.enums.PlatformEnum;
 import cyou.wssy001.common.handler.BaseHandler;
 import cyou.wssy001.common.service.NukaCodeService;
-import cyou.wssy001.kookadopter.dto.KookEventDTO;
-import cyou.wssy001.kookadopter.dto.KookReplyMsgDTO;
-import cyou.wssy001.kookadopter.enums.KookReplyMsgTemplateEnum;
+import cyou.wssy001.dodoadopter.dto.DoDoEventDTO;
+import cyou.wssy001.dodoadopter.dto.DoDoReplyMsgDTO;
+import cyou.wssy001.dodoadopter.enums.DoDoReplyMsgTemplateEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.ZoneOffset;
 import java.util.Set;
 
 /**
- * @Description: Kook核弹密码事件处理器
+ * @Description: DoDo核弹密码事件处理器
  * @Author: Tyler
  * @Date: 2023/3/16 10:36
  * @Version: 1.0
@@ -28,13 +28,13 @@ import java.util.Set;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class NukaCodeKookEventHandler implements BaseHandler {
+public class NukaCodeDoDoEventHandler implements BaseHandler {
     private final NukaCodeService nukaCodeService;
 
 
     @Override
     public PlatformEnum platform() {
-        return PlatformEnum.KOOK;
+        return PlatformEnum.DODO;
     }
 
     @Override
@@ -54,25 +54,28 @@ public class NukaCodeKookEventHandler implements BaseHandler {
 
     @Override
     public BaseReplyMsgDTO consume(BaseEvent baseEvent, BasePlatformEventDTO basePlatformEventDTO) {
-        if (basePlatformEventDTO instanceof KookEventDTO kookEventDTO) {
-            String targetId = kookEventDTO.getTargetId();
+        if (basePlatformEventDTO instanceof DoDoEventDTO dodoEventDTO) {
+            String eventKey = baseEvent.getEventKey();
+            DoDoEventDTO.EventBody dodoEventDTOData = dodoEventDTO.getData();
+            JSONObject eventBody = dodoEventDTOData.getEventBody();
+            String channelId = eventBody.getString("channelId");
             NukaCode nukaCode = nukaCodeService.getNukaCode();
             String replyMsg;
             if (nukaCode == null) {
-                log.error("******NukaCodeKookEventHandler.consume：nukaCode获取失败");
-                String format = String.format(KookReplyMsgTemplateEnum.ERROR_MSG_CARD.getMsg(), "nukaCode获取失败，请联系管理员");
-                replyMsg = String.format(KookReplyMsgTemplateEnum.ERROR_MSG.getMsg(), targetId, StringEscapeUtils.escapeJava(format));
+                log.error("******NukaCodeDoDoEventHandler.consume：nukaCode获取失败");
+                String format = String.format(DoDoReplyMsgTemplateEnum.ERROR_MSG_TEMPLATE.getMsg(), "nukaCode获取失败，请联系管理员", eventKey);
+                replyMsg = String.format(DoDoReplyMsgTemplateEnum.CHANNEL_CARD_MSG.getMsg(), channelId, format);
             } else {
                 long epochMilli = nukaCode.getExpireTime()
                         .toInstant(ZoneOffset.ofHours(8))
                         .toEpochMilli();
-                String format = String.format(KookReplyMsgTemplateEnum.NUKA_CODE_CARD.getMsg(), nukaCode.getAlpha(), nukaCode.getBravo(), nukaCode.getCharlie(), epochMilli);
-                replyMsg = String.format(KookReplyMsgTemplateEnum.CARD_MSG.getMsg(), targetId, StringEscapeUtils.escapeJava(format));
+                String format = String.format(DoDoReplyMsgTemplateEnum.NUKACODE_CARD_TEMPLATE.getMsg(), nukaCode.getAlpha(), nukaCode.getBravo(), nukaCode.getCharlie(), epochMilli, eventKey);
+                replyMsg = String.format(DoDoReplyMsgTemplateEnum.CHANNEL_CARD_MSG.getMsg(), channelId, format);
             }
 
-            return new KookReplyMsgDTO()
-                    .setApiEndPoint("/api/v3/message/create")
-                    .setEventKey(baseEvent.getEventKey())
+            return new DoDoReplyMsgDTO()
+                    .setApiEndPoint("/api/v2/channel/message/send")
+                    .setEventKey(eventKey)
                     .setMsg(replyMsg);
         }
         return null;

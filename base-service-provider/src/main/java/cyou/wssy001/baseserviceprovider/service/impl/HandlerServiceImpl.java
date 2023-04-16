@@ -2,9 +2,7 @@ package cyou.wssy001.baseserviceprovider.service.impl;
 
 import cyou.wssy001.common.dto.BasePlatformEventDTO;
 import cyou.wssy001.common.dto.BaseReplyMsgDTO;
-import cyou.wssy001.common.entity.BaseAdminEvent;
 import cyou.wssy001.common.entity.BaseEvent;
-import cyou.wssy001.common.entity.BasePrivateEvent;
 import cyou.wssy001.common.enums.EventEnum;
 import cyou.wssy001.common.enums.PlatformEnum;
 import cyou.wssy001.common.handler.BaseHandler;
@@ -78,8 +76,8 @@ public class HandlerServiceImpl implements HandlerService {
         EventEnum eventType = baseHandler.eventType();
         String mapName;
         switch (eventType) {
-            case friend -> mapName = "private";
-            case admin -> mapName = "admin";
+            case FRIEND -> mapName = "private";
+            case ADMIN -> mapName = "admin";
             default -> mapName = "public";
         }
 
@@ -106,10 +104,10 @@ public class HandlerServiceImpl implements HandlerService {
         String key = code + "-" + eventKey + "-" + eventType.getCode();
 
         switch (eventType) {
-            case friend -> {
+            case FRIEND -> {
                 return privateHandlerMap.get(key);
             }
-            case admin -> {
+            case ADMIN -> {
                 return adminHandlerMap.get(key);
             }
             default -> {

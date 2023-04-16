@@ -31,8 +31,12 @@ public class GetPrivateHelpQQEventHandler implements BaseHelpHandler {
     public GetPrivateHelpQQEventHandler(List<BaseHandler> baseHandlers) {
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (BaseHandler basePrivateHandler : baseHandlers) {
-            Iterator<String> iterator = basePrivateHandler.getKeys()
+        for (BaseHandler baseHandler : baseHandlers) {
+            if (baseHandler.getKeys().contains("/help")) continue;
+            if (!baseHandler.platform().equals(PlatformEnum.QQ)) continue;
+            if (!baseHandler.eventType().equals(EventEnum.FRIEND)) continue;
+
+            Iterator<String> iterator = baseHandler.getKeys()
                     .iterator();
             while (iterator.hasNext()) {
                 String key = iterator.next();
@@ -40,7 +44,7 @@ public class GetPrivateHelpQQEventHandler implements BaseHelpHandler {
                 if (iterator.hasNext()) stringBuilder.append("\\t");
             }
             stringBuilder.append("\\t\\t")
-                    .append(basePrivateHandler.description())
+                    .append(baseHandler.description())
                     .append("\\n");
         }
         msg = stringBuilder.toString();
@@ -53,7 +57,7 @@ public class GetPrivateHelpQQEventHandler implements BaseHelpHandler {
 
     @Override
     public EventEnum eventType() {
-        return EventEnum.friend;
+        return EventEnum.FRIEND;
     }
 
     @Override

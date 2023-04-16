@@ -27,12 +27,12 @@ import java.util.Set;
 public class GetUserIdKookEventHandler implements BaseHandler {
     @Override
     public PlatformEnum platform() {
-        return PlatformEnum.Kook;
+        return PlatformEnum.KOOK;
     }
 
     @Override
     public EventEnum eventType() {
-        return EventEnum.friend;
+        return EventEnum.FRIEND;
     }
 
     @Override

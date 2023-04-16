@@ -96,18 +96,18 @@ public class KookHttpParamAspect {
                 if (checkUser.check(kookEventDTO)) {
                     baseEvent = new BaseAdminEvent()
                             .setEventKey(key)
-                            .setPlatform(PlatformEnum.Kook);
+                            .setPlatform(PlatformEnum.KOOK);
                 } else {
                     baseEvent = new BasePrivateEvent()
                             .setEventKey(key)
-                            .setPlatform(PlatformEnum.Kook);
+                            .setPlatform(PlatformEnum.KOOK);
                 }
             }
             case "GROUP" -> {
                 if (StrUtil.isBlank(key)) return null;
                 baseEvent = new BaseEvent()
                         .setEventKey(key)
-                        .setPlatform(PlatformEnum.Kook);
+                        .setPlatform(PlatformEnum.KOOK);
             }
             default -> {
                 log.debug("******KookController.handleKookEvent：未知的channelType：{}", channelType);

@@ -44,6 +44,8 @@ public class QQHttpParamAspect {
     @Around("pointcut()")
     @RegisterReflectionForBinding({QQEventDTO.class, QQChannelEventDTO.class})
     public Object checkQQHttpParam(ProceedingJoinPoint joinPoint) throws Throwable {
+        if (!qqConfig.isEnableQQ() && !qqConfig.isEnableQQChannel()) return null;
+
         byte[] body = httpServletRequest.getInputStream()
                 .readAllBytes();
         String secret = qqConfig.getSecret();
@@ -67,18 +69,24 @@ public class QQHttpParamAspect {
         if (StrUtil.isBlank(messageType)) return null;
         switch (messageType) {
             case "guild" -> {
+                if (!qqConfig.isEnableQQChannel()) return null;
+
                 baseEvent = new BaseEvent()
                         .setEventKey(key)
                         .setPlatform(PlatformEnum.QQ_GUILD);
                 basePlatformEventDTO = jsonObject.toJavaObject(QQChannelEventDTO.class);
             }
             case "group" -> {
+                if (!qqConfig.isEnableQQ()) return null;
+
                 baseEvent = new BaseEvent()
                         .setEventKey(key)
                         .setPlatform(PlatformEnum.QQ);
                 basePlatformEventDTO = jsonObject.toJavaObject(QQEventDTO.class);
             }
             case "private" -> {
+                if (!qqConfig.isEnableQQ()) return null;
+
                 basePlatformEventDTO = jsonObject.toJavaObject(QQEventDTO.class);
                 if (checkUser.check((QQEventDTO) basePlatformEventDTO)) {
                     baseEvent = new BaseAdminEvent()

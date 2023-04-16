@@ -33,6 +33,7 @@ public class GetHelpQQEventHandler implements BaseHelpHandler {
         for (BaseHandler baseHandler : baseHandlers) {
             if (baseHandler.getKeys().contains("/help")) continue;
             if (!baseHandler.platform().equals(PlatformEnum.QQ)) continue;
+            if (!baseHandler.eventType().equals(EventEnum.GROUP)) continue;
 
             Iterator<String> iterator = baseHandler.getKeys()
                     .iterator();
@@ -55,7 +56,7 @@ public class GetHelpQQEventHandler implements BaseHelpHandler {
 
     @Override
     public EventEnum eventType() {
-        return EventEnum.group;
+        return EventEnum.GROUP;
     }
 
     @Override

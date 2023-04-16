@@ -19,6 +19,7 @@
         <module>common</module>
         <module>kook-adopter</module>
         <module>qq-adopter</module>
+        <module>dodo-adopter</module>
     </modules>
 
     <packaging>pom</packaging>
@@ -29,6 +30,7 @@
         <hutool.version>5.8.15</hutool.version>
         <lombok.version>1.18.24</lombok.version>
         <apache-commons.version>1.10.0</apache-commons.version>
+        <bouncycastle.version>1.73</bouncycastle.version>
     </properties>
 
     <dependencyManagement>
@@ -55,6 +57,11 @@
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-crypto</artifactId>
                 <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk18on</artifactId>
+                <version>${bouncycastle.version}</version>
             </dependency>
 
             <!--Apache commons-->

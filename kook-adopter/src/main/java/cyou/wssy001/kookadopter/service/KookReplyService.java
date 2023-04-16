@@ -36,7 +36,7 @@ public class KookReplyService implements ReplyService {
 
     @Override
     public List<PlatformEnum> getPlatforms() {
-        return List.of(PlatformEnum.Kook);
+        return List.of(PlatformEnum.KOOK);
     }
 
     @Override

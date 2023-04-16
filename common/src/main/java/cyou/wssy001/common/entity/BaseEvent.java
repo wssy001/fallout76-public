@@ -20,5 +20,5 @@ public class BaseEvent {
 
     String eventKey;
 
-    EventEnum eventType = EventEnum.group;
+    EventEnum eventType = EventEnum.GROUP;
 }

@@ -17,5 +17,5 @@ import lombok.experimental.Accessors;
 public class BasePrivateEvent extends BaseEvent {
     private final boolean privateOnly = true;
 
-    private final EventEnum eventType = EventEnum.friend;
+    private final EventEnum eventType = EventEnum.FRIEND;
 }

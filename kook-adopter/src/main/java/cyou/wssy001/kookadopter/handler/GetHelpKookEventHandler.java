@@ -33,8 +33,8 @@ public class GetHelpKookEventHandler implements BaseHelpHandler {
 
         for (BaseHandler baseHandler : baseHandlers) {
             if (baseHandler.getKeys().contains("/help")) continue;
-            if (!baseHandler.platform().equals(PlatformEnum.Kook)) continue;
-            if (!baseHandler.eventType().equals(EventEnum.group)) continue;
+            if (!baseHandler.platform().equals(PlatformEnum.KOOK)) continue;
+            if (!baseHandler.eventType().equals(EventEnum.GROUP)) continue;
 
             stringBuilder.append("`");
             Iterator<String> iterator = baseHandler.getKeys()
@@ -54,12 +54,12 @@ public class GetHelpKookEventHandler implements BaseHelpHandler {
 
     @Override
     public PlatformEnum platform() {
-        return PlatformEnum.Kook;
+        return PlatformEnum.KOOK;
     }
 
     @Override
     public EventEnum eventType() {
-        return EventEnum.group;
+        return EventEnum.GROUP;
     }
 
     @Override

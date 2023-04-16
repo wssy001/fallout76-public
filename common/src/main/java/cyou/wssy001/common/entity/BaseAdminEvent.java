@@ -17,5 +17,5 @@ import lombok.experimental.Accessors;
 public class BaseAdminEvent extends BaseEvent {
     private final boolean adminOnly = true;
 
-    private final EventEnum eventType = EventEnum.admin;
+    private final EventEnum eventType = EventEnum.ADMIN;
 }

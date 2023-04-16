@@ -38,7 +38,7 @@ public class NukaCodeQQEventHandler implements BaseHandler {
 
     @Override
     public EventEnum eventType() {
-        return EventEnum.group;
+        return EventEnum.GROUP;
     }
 
     @Override
