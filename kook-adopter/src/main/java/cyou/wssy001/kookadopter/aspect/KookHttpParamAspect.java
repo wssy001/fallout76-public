@@ -1,5 +1,6 @@
 package cyou.wssy001.kookadopter.aspect;
 
+import cn.hutool.core.codec.Base64Encoder;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
@@ -55,6 +56,7 @@ public class KookHttpParamAspect {
         JSONObject jsonObject;
         try (ServletInputStream inputStream = httpServletRequest.getInputStream()) {
             byte[] bytes = inputStream.readAllBytes();
+            log.debug("******KookHttpParamAspect.checkKookHttpParam：传入的数据 BASE64：{}", Base64Encoder.encode(bytes));
             if (compress.equals("1")) {
                 jsonObject = unCompress(bytes);
             } else {
@@ -116,6 +118,7 @@ public class KookHttpParamAspect {
         }
 
         return joinPoint.proceed(new Object[]{baseEvent, kookEventDTO});
+//        return joinPoint.proceed();
     }
 
     private JSONObject unCompress(byte[] bytes) {

@@ -1,5 +1,6 @@
 package cyou.wssy001.dodoadopter.aspect;
 
+import cn.hutool.core.codec.Base64Encoder;
 import cn.hutool.core.util.HexUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
@@ -52,6 +53,7 @@ public class DoDoHttpParamAspect {
 
         byte[] body = httpServletRequest.getInputStream()
                 .readAllBytes();
+        log.debug("******DoDoHttpParamAspect.checkDoDoHttpParam：传入的数据 BASE64：{}", Base64Encoder.encode(body));
         JSONObject jsonObject = JSON.parseObject(body);
         String clientId = dodoConfig.getClientId();
         if (StrUtil.isBlank(clientId)) {

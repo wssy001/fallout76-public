@@ -1,5 +1,6 @@
 package cyou.wssy001.qqadopter.aspect;
 
+import cn.hutool.core.codec.Base64Encoder;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
@@ -17,7 +18,6 @@ import cyou.wssy001.qqadopter.config.QQConfig;
 import cyou.wssy001.qqadopter.dto.QQChannelEventDTO;
 import cyou.wssy001.qqadopter.dto.QQEventDTO;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -48,6 +48,7 @@ public class QQHttpParamAspect {
 
         byte[] body = httpServletRequest.getInputStream()
                 .readAllBytes();
+        log.debug("******QQHttpParamAspect.checkQQHttpParam：传入的数据 BASE64：{}", Base64Encoder.encode(body));
         String secret = qqConfig.getSecret();
         String verifySign = httpServletRequest.getHeader("X-Signature");
         if (StrUtil.isNotBlank(verifySign)) {
