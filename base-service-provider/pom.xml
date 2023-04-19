@@ -62,6 +62,7 @@
                     <buildArgs combine.children="append">
                         <buildArg>-H:+StaticExecutableWithDynamicLibC</buildArg>
                         <buildArg>--enable-preview</buildArg>
+                        <buildArg>--enable-https</buildArg>
                     </buildArgs>
                 </configuration>
             </plugin>

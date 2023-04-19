@@ -1,5 +1,6 @@
 package cyou.wssy001.baseserviceprovider.config;
 
+import cyou.wssy001.common.util.PathUtil;
 import cyou.wssy001.dodoadopter.aspect.DoDoHttpParamAspect;
 import cyou.wssy001.kookadopter.aspect.KookHttpParamAspect;
 import cyou.wssy001.qqadopter.aspect.QQHttpParamAspect;
@@ -14,7 +15,10 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.boot.availability.ApplicationAvailability;
 import org.springframework.context.ApplicationListener;
 
+import java.util.List;
+
 public class ProjectRuntimeHintRegister implements RuntimeHintsRegistrar {
+    private static final List<String> DEFAULT_LOCATIONS = List.of(PathUtil.getJarPath() + "/config");
 
     @Override
     public void registerHints(RuntimeHints hints, ClassLoader classLoader) {
@@ -30,6 +34,15 @@ public class ProjectRuntimeHintRegister implements RuntimeHintsRegistrar {
                     builder -> builder.withMembers(MemberCategory.INVOKE_DECLARED_METHODS));
             hints.proxies().registerJdkProxy(FactoryBean.class, BeanClassLoaderAware.class, ApplicationListener.class);
             hints.proxies().registerJdkProxy(ApplicationAvailability.class, ApplicationListener.class);
+
+            ClassLoader classLoaderToUse = (classLoader != null) ? classLoader : getClass().getClassLoader();
+            String[] locations = DEFAULT_LOCATIONS.stream()
+                    .filter((candidate) -> classLoaderToUse.getResource(candidate) != null)
+                    .map((location) -> location + "*")
+                    .toArray(String[]::new);
+            if (locations.length > 0) {
+                hints.resources().registerPattern((hint) -> hint.includes(locations));
+            }
         } catch (Exception e) {
             throw new RuntimeException("Could not register RuntimeHint: " + e.getMessage());
         }
