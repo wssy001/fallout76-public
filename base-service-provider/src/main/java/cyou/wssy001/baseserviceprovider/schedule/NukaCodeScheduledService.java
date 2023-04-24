@@ -23,7 +23,7 @@ public class NukaCodeScheduledService {
     @Scheduled(cron = "0 10 8,9,10 ? * SUN")
     public void refreshNukaCode() {
         log.info("******NukaCodeScheduledService.refreshNukaCode：正在更新NukaCode");
-        boolean updated = nukaCodeService.refreshNukaCode();
+        boolean updated = nukaCodeService.refreshNukaCode(true);
 
         if (!updated) {
             log.error("******NukaCodeScheduledService.refreshNukaCode：更新NukaCode失败");

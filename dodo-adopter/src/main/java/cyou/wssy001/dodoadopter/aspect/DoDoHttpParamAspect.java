@@ -53,6 +53,8 @@ public class DoDoHttpParamAspect {
 
         byte[] body = httpServletRequest.getInputStream()
                 .readAllBytes();
+        if (body.length == 0) return null;
+
         log.debug("******DoDoHttpParamAspect.checkDoDoHttpParam：传入的数据 BASE64：{}", Base64Encoder.encode(body));
         JSONObject jsonObject = JSON.parseObject(body);
         String clientId = dodoConfig.getClientId();
@@ -85,12 +87,10 @@ public class DoDoHttpParamAspect {
         BaseEvent baseEvent;
         switch (dodoEventDTOData.getEventType()) {
 //            消息事件
-            case "2001" -> {
-                baseEvent = new BaseEvent()
-                        .setEventKey(key)
-                        .setPlatform(PlatformEnum.DODO)
-                        .setEventType(EventEnum.GROUP);
-            }
+            case "2001" -> baseEvent = new BaseEvent()
+                    .setEventKey(key)
+                    .setPlatform(PlatformEnum.DODO)
+                    .setEventType(EventEnum.GROUP);
 //            私信事件
             case "1001" -> {
                 if (checkUser.check(dodoEventDTO)) {

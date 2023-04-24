@@ -14,7 +14,9 @@ import lombok.Getter;
 public enum HttpEnum {
     USER_AGENT("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36"),
     NUKA_CODE_WEB_URL("https://nukacrypt.com/graphql/graphql"),
-    NUKA_CODE_WEB_QUERY_BODY("{\"operationName\":null,\"variables\":{},\"query\":\"{\\n  nukeCodes {\\n    alpha\\n    bravo\\n    charlie\\n    __typename\\n  }\\n}\"}");
+    NUKA_CODE_WEB_QUERY_BODY("{\"operationName\":null,\"variables\":{},\"query\":\"{\\n  nukeCodes {\\n    alpha\\n    bravo\\n    charlie\\n    __typename\\n  }\\n}\"}"),
+    PHOTOS_WEB_URL(""),
+    ;
 
     private final String value;
 }

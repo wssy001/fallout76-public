@@ -11,7 +11,7 @@ import cyou.wssy001.common.entity.NukaCode;
 public interface NukaCodeService {
 
     // 从网站获取信息以刷新核弹密码
-    boolean refreshNukaCode();
+    boolean refreshNukaCode(boolean cache);
 
     // 更新内存中的核弹密码信息
     boolean updateNukaCode(NukaCode nukaCode);

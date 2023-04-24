@@ -1,6 +1,9 @@
 package cyou.wssy001.common.service;
 
 import cyou.wssy001.common.entity.NukaCode;
+import cyou.wssy001.common.entity.PhotoInfo;
+
+import java.util.List;
 
 /**
  * @Description: 文件缓存服务类
@@ -15,4 +18,8 @@ public interface FileCacheService {
 
     // 将核弹密码覆盖写入文件进行缓存
     boolean cacheNukaCode(NukaCode nukaCode);
+
+    List<PhotoInfo> getPhotos();
+
+    boolean cachePhotos(List<PhotoInfo> photos);
 }

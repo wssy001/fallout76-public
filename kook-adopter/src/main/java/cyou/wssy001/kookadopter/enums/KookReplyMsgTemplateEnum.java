@@ -191,7 +191,145 @@ public enum KookReplyMsgTemplateEnum {
               }
             ]
             """),
-    ;
+
+    PITT_CARD("""
+            [
+              {
+                "type": "card",
+                "theme": "secondary",
+                "size": "sm",
+                "modules": [
+                  {
+                    "type": "header",
+                    "text": {
+                      "type": "plain-text",
+                      "content": "远征匹兹堡奖励清单"
+                    }
+                  },
+                  {
+                    "type": "divider"
+                  },
+                  {
+                    "type": "container",
+                    "elements": [
+                      {
+                        "type": "image",
+                        "src": "%s"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "divider"
+                  },
+                  {
+                    "type": "context",
+                    "elements": [
+                      {
+                        "type": "image",
+                        "src": "https://img.kookapp.cn/assets/2022-06/N6ymk3YYuC0sg0sg.png"
+                      },
+                      {
+                        "type": "kmarkdown",
+                        "content": "[辐射76小助手](https://www.kookapp.cn/app/oauth2/authorize?id=11214&permissions=268288&client_id=L1CBDfziwUZWykMC&redirect_uri=&scope=bot)"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+            """),
+    GOLD_VENDOR_CARD("""
+            [
+              {
+                "type": "card",
+                "theme": "secondary",
+                "size": "sm",
+                "modules": [
+                  {
+                    "type": "header",
+                    "text": {
+                      "type": "plain-text",
+                      "content": "米诺瓦日程表"
+                    }
+                  },
+                  {
+                    "type": "divider"
+                  },
+                  {
+                    "type": "container",
+                    "elements": [
+                      {
+                        "type": "image",
+                        "src": "%s"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "divider"
+                  },
+                  {
+                    "type": "context",
+                    "elements": [
+                      {
+                        "type": "image",
+                        "src": "https://img.kookapp.cn/assets/2022-06/N6ymk3YYuC0sg0sg.png"
+                      },
+                      {
+                        "type": "kmarkdown",
+                        "content": "[辐射76小助手](https://www.kookapp.cn/app/oauth2/authorize?id=11214&permissions=268288&client_id=L1CBDfziwUZWykMC&redirect_uri=&scope=bot)"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+            """),
+    SEASON_CALENDAR_CARD("""
+            [
+              {
+                "type": "card",
+                "theme": "secondary",
+                "size": "lg",
+                "modules": [
+                  {
+                    "type": "header",
+                    "text": {
+                      "type": "plain-text",
+                      "content": "社区日程表"
+                    }
+                  },
+                  {
+                    "type": "divider"
+                  },
+                  {
+                    "type": "container",
+                    "elements": [
+                      {
+                        "type": "image",
+                        "src": "%s"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "divider"
+                  },
+                  {
+                    "type": "context",
+                    "elements": [
+                      {
+                        "type": "image",
+                        "src": "https://img.kookapp.cn/assets/2022-06/N6ymk3YYuC0sg0sg.png"
+                      },
+                      {
+                        "type": "kmarkdown",
+                        "content": "[辐射76小助手](https://www.kookapp.cn/app/oauth2/authorize?id=11214&permissions=268288&client_id=L1CBDfziwUZWykMC&redirect_uri=&scope=bot)"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+            """);
 
     private final String msg;
 }

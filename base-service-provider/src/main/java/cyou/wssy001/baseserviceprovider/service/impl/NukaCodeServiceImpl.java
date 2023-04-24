@@ -23,7 +23,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @Description: 核弹密码服务实现类
@@ -36,12 +36,10 @@ import java.util.concurrent.locks.ReentrantLock;
 @RequiredArgsConstructor
 public class NukaCodeServiceImpl implements NukaCodeService, ApplicationListener<ContextRefreshedEvent> {
     private final HttpClient httpClient;
-
     private final FileCacheService fileCacheService;
 
-    private static final ReentrantLock REENTRANT_LOCK = new ReentrantLock();
+    private final AtomicReference<NukaCode> nukaCode = new AtomicReference<>();
 
-    private NukaCode nukaCode;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -49,12 +47,12 @@ public class NukaCodeServiceImpl implements NukaCodeService, ApplicationListener
 
         NukaCode nukaCode = fileCacheService.getNukaCode();
         if (nukaCode == null) {
-            refreshNukaCode();
-            fileCacheService.cacheNukaCode(this.nukaCode);
+            refreshNukaCode(false);
+            fileCacheService.cacheNukaCode(this.nukaCode.get());
         } else if (nukaCode.getExpireTime().isBefore(LocalDateTime.now(ZoneId.of("GMT+8")))) {
             log.info("******NukaCodeServiceImpl.onApplicationEvent：文件缓存过期，正在读取最新数据");
-            refreshNukaCode();
-            fileCacheService.cacheNukaCode(this.nukaCode);
+            refreshNukaCode(false);
+            fileCacheService.cacheNukaCode(this.nukaCode.get());
         } else {
             updateNukaCode(nukaCode);
         }
@@ -63,7 +61,7 @@ public class NukaCodeServiceImpl implements NukaCodeService, ApplicationListener
     }
 
     @RegisterReflectionForBinding(NukaCode.class)
-    public boolean refreshNukaCode() {
+    public boolean refreshNukaCode(boolean cache) {
         log.info("******NukaCodeServiceImpl.refreshNukaCode：正在获取最新的核弹密码");
         String body = "";
         HttpRequest request = HttpRequest.newBuilder()
@@ -78,18 +76,18 @@ public class NukaCodeServiceImpl implements NukaCodeService, ApplicationListener
             body = response.body();
             int code = response.statusCode();
             if (code != 200) {
-                log.error("******NukaCodeService.refreshNukaCode：请求发送失败，状态码：{}，结果：{}", code, body);
+                log.error("******NukaCodeServiceImpl.refreshNukaCode：请求发送失败，状态码：{}，结果：{}", code, body);
                 return false;
             }
 
-            log.info("******BotMarketScheduledService.heartBeat：心跳发送成功");
+            log.info("******NukaCodeServiceImpl.refreshNukaCode：请求发送成功");
         } catch (Exception e) {
-            log.error("******NukaCodeService.refreshNukaCode：无法建立连接，原因：{}，返回体：{}", e.getMessage(), body);
+            log.error("******NukaCodeServiceImpl.refreshNukaCode：无法建立连接，原因：{}，返回体：{}", e.getMessage(), body);
             return false;
         }
 
         if (StrUtil.isBlank(body)) {
-            log.error("******NukaCodeService.refreshNukaCode：读取Response失败");
+            log.error("******NukaCodeServiceImpl.refreshNukaCode：读取Response失败");
             return false;
         }
 
@@ -105,26 +103,17 @@ public class NukaCodeServiceImpl implements NukaCodeService, ApplicationListener
                 .plusHours(8);
         NukaCode nukaCode = nukaCodes.toJavaObject(NukaCode.class);
         nukaCode.setExpireTime(expireTime);
+        if (cache) fileCacheService.cacheNukaCode(nukaCode);
         return updateNukaCode(nukaCode);
     }
 
     public boolean updateNukaCode(NukaCode nukaCode) {
-        try {
-            REENTRANT_LOCK.lock();
-            if (nukaCode == null) return false;
-
-            this.nukaCode = nukaCode;
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        } finally {
-            REENTRANT_LOCK.unlock();
-        }
+        NukaCode oldValue = this.nukaCode.get();
+        return this.nukaCode.compareAndSet(oldValue, nukaCode);
     }
 
     public NukaCode getNukaCode() {
-        return nukaCode;
+        return nukaCode.get();
     }
 
 }
