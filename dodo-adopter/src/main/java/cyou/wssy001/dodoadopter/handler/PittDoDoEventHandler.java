@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -58,7 +58,7 @@ public class PittDoDoEventHandler implements BaseHandler {
             DoDoEventDTO.EventBody dodoEventDTOData = dodoEventDTO.getData();
             JSONObject eventBody = dodoEventDTOData.getEventBody();
             String channelId = eventBody.getString("channelId");
-            LinkedHashMap<String, String> pittPicUrls = photoService.getPhotoUrls("pitt", PlatformEnum.DODO);
+            Map<String, String> pittPicUrls = photoService.getPhotoUrls("pitt", PlatformEnum.DODO);
             String replyMsg;
             if (CollUtil.isEmpty(pittPicUrls)) {
                 log.error("******PittDoDoEventHandler.consume：匹兹堡奖励清单图片获取失败");

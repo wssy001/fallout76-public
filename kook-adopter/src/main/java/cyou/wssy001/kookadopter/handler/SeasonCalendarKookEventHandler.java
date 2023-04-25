@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -56,7 +56,7 @@ public class SeasonCalendarKookEventHandler implements BaseHandler {
     public BaseReplyMsgDTO consume(BaseEvent baseEvent, BasePlatformEventDTO basePlatformEventDTO) {
         if (basePlatformEventDTO instanceof KookEventDTO kookEventDTO) {
             String targetId = kookEventDTO.getTargetId();
-            LinkedHashMap<String, String> seasonCalendarPicUrls = photoService.getPhotoUrls("seasonCalendar", PlatformEnum.KOOK);
+            Map<String, String> seasonCalendarPicUrls = photoService.getPhotoUrls("seasonCalendar", PlatformEnum.KOOK);
             String replyMsg;
             if (CollUtil.isEmpty(seasonCalendarPicUrls)) {
                 log.error("******SeasonCalendarKookEventHandler.consume：社区日程表图片获取失败");

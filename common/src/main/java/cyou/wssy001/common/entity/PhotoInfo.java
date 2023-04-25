@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -15,7 +15,7 @@ public class PhotoInfo {
     @JSONField(name = "code")
     private PlatformEnum platform;
     private String key;
-    private LinkedHashMap<String, String> urlMap;
+    private Map<String, String> urlMap;
 
     public void setPlatform(int code) {
         for (PlatformEnum platform : PlatformEnum.values()) {

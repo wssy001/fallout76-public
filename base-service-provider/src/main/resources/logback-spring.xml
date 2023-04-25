@@ -12,6 +12,9 @@
 
     <!-- 控制台输出 -->
     <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
         <encoder>
             <pattern>${CONSOLE_LOG_PATTERN}</pattern>
         </encoder>
@@ -61,8 +64,6 @@
     <root level="DEBUG">
         <appender-ref ref="errorAppender"/>
         <appender-ref ref="fileAppender"/>
-    </root>
-    <root level="INFO">
         <appender-ref ref="consoleAppender"/>
     </root>
 </configuration>

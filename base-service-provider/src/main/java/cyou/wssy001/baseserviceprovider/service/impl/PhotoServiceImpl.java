@@ -23,6 +23,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @Slf4j
@@ -51,7 +52,7 @@ public class PhotoServiceImpl implements PhotoService, ApplicationListener<Conte
     }
 
     @Override
-    public LinkedHashMap<String, String> getPhotoUrls(String name, PlatformEnum platform) {
+    public Map<String, String> getPhotoUrls(String name, PlatformEnum platform) {
         return photoInfoList.stream()
                 .filter(photoInfo -> photoInfo.getKey().equals(name) && (platform == null || photoInfo.getPlatform().equals(platform)))
                 .findFirst()

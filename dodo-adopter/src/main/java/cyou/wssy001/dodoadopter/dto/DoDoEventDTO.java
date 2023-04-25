@@ -5,7 +5,6 @@ import cyou.wssy001.common.dto.BasePlatformEventDTO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 /**
  * @Description: DoDoEventDTO
@@ -18,13 +17,8 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 @Accessors(chain = true)
 public class DoDoEventDTO extends BasePlatformEventDTO {
     private int type;
-    @NestedConfigurationProperty
-    private final EventBody data;
+    private EventBody data;
     private String version;
-
-    public DoDoEventDTO(EventBody data) {
-        this.data = data;
-    }
 
     @Getter
     @Setter

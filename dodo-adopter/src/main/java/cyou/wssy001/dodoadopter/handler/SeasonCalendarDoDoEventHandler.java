@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -58,7 +58,7 @@ public class SeasonCalendarDoDoEventHandler implements BaseHandler {
             DoDoEventDTO.EventBody dodoEventDTOData = dodoEventDTO.getData();
             JSONObject eventBody = dodoEventDTOData.getEventBody();
             String channelId = eventBody.getString("channelId");
-            LinkedHashMap<String, String> seasonCalendarPicUrls = photoService.getPhotoUrls("seasonCalendar", PlatformEnum.DODO);
+            Map<String, String> seasonCalendarPicUrls = photoService.getPhotoUrls("seasonCalendar", PlatformEnum.DODO);
             String replyMsg;
             if (CollUtil.isEmpty(seasonCalendarPicUrls)) {
                 log.error("******SeasonCalendarDoDoEventHandler.consume：社区日程表图片获取失败");

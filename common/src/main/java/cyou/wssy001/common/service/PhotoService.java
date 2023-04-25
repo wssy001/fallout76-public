@@ -3,8 +3,8 @@ package cyou.wssy001.common.service;
 import cyou.wssy001.common.entity.PhotoInfo;
 import cyou.wssy001.common.enums.PlatformEnum;
 
-import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Description: 图片服务类
@@ -15,7 +15,7 @@ import java.util.List;
 public interface PhotoService {
 
     // 通过图片名获取图片URL （不带.jpg等后缀名）
-    LinkedHashMap<String, String> getPhotoUrls(String name, PlatformEnum platform);
+    Map<String, String> getPhotoUrls(String name, PlatformEnum platform);
 
     // 获取所有图片信息（Key为图片名，不带.jpg等后缀名，Value为图片URL）
     List<PhotoInfo> getPhotos();

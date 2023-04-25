@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -56,7 +56,7 @@ public class GoldVendorKookEventHandler implements BaseHandler {
     public BaseReplyMsgDTO consume(BaseEvent baseEvent, BasePlatformEventDTO basePlatformEventDTO) {
         if (basePlatformEventDTO instanceof KookEventDTO kookEventDTO) {
             String targetId = kookEventDTO.getTargetId();
-            LinkedHashMap<String, String> goldVendorPicUrls = photoService.getPhotoUrls("goldVendor", PlatformEnum.KOOK);
+            Map<String, String> goldVendorPicUrls = photoService.getPhotoUrls("goldVendor", PlatformEnum.KOOK);
             String replyMsg;
             if (CollUtil.isEmpty(goldVendorPicUrls)) {
                 log.error("******GoldVendorKookEventHandler.consume：米诺瓦日程表图片获取失败");

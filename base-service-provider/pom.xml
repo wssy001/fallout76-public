@@ -63,6 +63,14 @@
                         <buildArg>-H:+StaticExecutableWithDynamicLibC</buildArg>
                         <buildArg>--enable-preview</buildArg>
                         <buildArg>--enable-https</buildArg>
+                        <buildArg>--features=cyou.wssy001.baseserviceprovider.config.BouncyCastleFeature</buildArg>
+                        <buildArg>-H:ClassInitialization=org.bouncycastle.crypto.CryptoServicesRegistrar:rerun
+                        </buildArg>
+                        <buildArg>-H:ClassInitialization=org.bouncycastle.jcajce.provider.drbg.DRBG:rerun</buildArg>
+                        <buildArg>-H:ClassInitialization=org.bouncycastle.jcajce.provider.drbg.DRBG$Default:rerun
+                        </buildArg>
+                        <buildArg>-H:ClassInitialization=org.bouncycastle.jcajce.provider.drbg.DRBG$NonceAndIV:rerun
+                        </buildArg>
                     </buildArgs>
                 </configuration>
             </plugin>

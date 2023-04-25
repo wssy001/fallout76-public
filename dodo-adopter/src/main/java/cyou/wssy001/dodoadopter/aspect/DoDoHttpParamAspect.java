@@ -4,7 +4,6 @@ import cn.hutool.core.codec.Base64Encoder;
 import cn.hutool.core.util.HexUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.crypto.symmetric.AES;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import cyou.wssy001.common.entity.BaseAdminEvent;
@@ -25,6 +24,11 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.stereotype.Component;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import java.security.AlgorithmParameters;
 
 @Slf4j
 @Aspect
@@ -65,6 +69,7 @@ public class DoDoHttpParamAspect {
 
         String payload = jsonObject.getString("payload");
         String decrypt = decrypt(payload, secretKey);
+        log.debug("******DoDoHttpParamAspect.checkDoDoHttpParam：解密后的数据：{}", decrypt);
         DoDoEventDTO dodoEventDTO = JSON.parseObject(decrypt, DoDoEventDTO.class);
         int type = dodoEventDTO.getType();
         if (type == 2) {
@@ -113,11 +118,16 @@ public class DoDoHttpParamAspect {
         return joinPoint.proceed(new Object[]{baseEvent, dodoEventDTO});
     }
 
-    private String decrypt(String encrypt, String secretKey) {
+    private String decrypt(String encrypt, String secretKey) throws Exception {
         byte[] bytes = HexUtil.decodeHex(encrypt);
         byte[] keyBytes = HexUtil.decodeHex(secretKey);
-        AES aes = new AES("CBC", "PKCS7Padding", keyBytes, new byte[16]);
-        return aes.decryptStr(bytes);
+        SecretKeySpec sKeySpec = new SecretKeySpec(keyBytes, "AES");
+        AlgorithmParameters params = AlgorithmParameters.getInstance("AES");
+        params.init(new IvParameterSpec(new byte[16]));
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
+        cipher.init(Cipher.DECRYPT_MODE, sKeySpec, params);
+        byte[] bytes1 = cipher.doFinal(bytes);
+        return new String(bytes1);
     }
 
 }
