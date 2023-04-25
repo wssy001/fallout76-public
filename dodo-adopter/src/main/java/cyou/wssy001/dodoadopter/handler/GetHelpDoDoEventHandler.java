@@ -36,10 +36,10 @@ public class GetHelpDoDoEventHandler implements BaseHelpHandler {
             if (!baseHandler.platform().equals(PlatformEnum.DODO)) continue;
             if (!baseHandler.eventType().equals(EventEnum.GROUP)) continue;
 
+            stringBuilder.append("`");
             Iterator<String> iterator = baseHandler.getKeys()
                     .iterator();
             while (iterator.hasNext()) {
-                stringBuilder.append("`");
                 String key = iterator.next();
                 stringBuilder.append(key);
                 if (iterator.hasNext()) stringBuilder.append("\\t");

@@ -1,14 +1,14 @@
 package cyou.wssy001.dodoadopter.handler;
 
+import cn.hutool.core.collection.CollUtil;
 import com.alibaba.fastjson2.JSONObject;
 import cyou.wssy001.common.dto.BasePlatformEventDTO;
 import cyou.wssy001.common.dto.BaseReplyMsgDTO;
 import cyou.wssy001.common.entity.BaseEvent;
-import cyou.wssy001.common.entity.NukaCode;
 import cyou.wssy001.common.enums.EventEnum;
 import cyou.wssy001.common.enums.PlatformEnum;
 import cyou.wssy001.common.handler.BaseHandler;
-import cyou.wssy001.common.service.NukaCodeService;
+import cyou.wssy001.common.service.PhotoService;
 import cyou.wssy001.dodoadopter.dto.DoDoEventDTO;
 import cyou.wssy001.dodoadopter.dto.DoDoReplyMsgDTO;
 import cyou.wssy001.dodoadopter.enums.DoDoReplyMsgTemplateEnum;
@@ -16,20 +16,20 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.ZoneOffset;
+import java.util.LinkedHashMap;
 import java.util.Set;
 
 /**
- * @Description: DoDo核弹密码事件处理器
+ * @Description:
  * @Author: Tyler
- * @Date: 2023/3/16 10:36
+ * @Date: 2023/4/24 14:42
  * @Version: 1.0
  */
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class NukaCodeDoDoEventHandler implements BaseHandler {
-    private final NukaCodeService nukaCodeService;
+public class GoldVendorDoDoEventHandler implements BaseHandler {
+    private final PhotoService photoService;
 
 
     @Override
@@ -44,38 +44,34 @@ public class NukaCodeDoDoEventHandler implements BaseHandler {
 
     @Override
     public Set<String> getKeys() {
-        return Set.of("/核弹密码");
+        return Set.of("/金条商人", "/金条游商");
     }
 
     @Override
     public String description() {
-        return "获取目前最新的核弹密码";
+        return "获取米诺瓦日程表";
     }
 
     @Override
     public BaseReplyMsgDTO consume(BaseEvent baseEvent, BasePlatformEventDTO basePlatformEventDTO) {
         if (basePlatformEventDTO instanceof DoDoEventDTO dodoEventDTO) {
-            String eventKey = baseEvent.getEventKey();
             DoDoEventDTO.EventBody dodoEventDTOData = dodoEventDTO.getData();
             JSONObject eventBody = dodoEventDTOData.getEventBody();
             String channelId = eventBody.getString("channelId");
-            NukaCode nukaCode = nukaCodeService.getNukaCode();
+            LinkedHashMap<String, String> goldVendorPicUrls = photoService.getPhotoUrls("goldVendor", PlatformEnum.DODO);
             String replyMsg;
-            if (nukaCode == null) {
-                log.error("******NukaCodeDoDoEventHandler.consume：nukaCode获取失败");
-                String format = String.format(DoDoReplyMsgTemplateEnum.ERROR_MSG_TEMPLATE.getMsg(), "nukaCode获取失败，请联系管理员", eventKey);
+            if (CollUtil.isEmpty(goldVendorPicUrls)) {
+                log.error("******GoldVendorDoDoEventHandler.consume：米诺瓦日程表图片获取失败");
+                String format = String.format(DoDoReplyMsgTemplateEnum.ERROR_MSG_TEMPLATE.getMsg(), "米诺瓦日程表图片获取失败，请联系管理员");
                 replyMsg = String.format(DoDoReplyMsgTemplateEnum.CHANNEL_CARD_MSG.getMsg(), channelId, format);
             } else {
-                long epochMilli = nukaCode.getExpireTime()
-                        .toInstant(ZoneOffset.ofHours(8))
-                        .toEpochMilli();
-                String format = String.format(DoDoReplyMsgTemplateEnum.NUKA_CODE_CARD.getMsg(), nukaCode.getAlpha(), nukaCode.getBravo(), nukaCode.getCharlie(), epochMilli, eventKey);
+                String format = String.format(DoDoReplyMsgTemplateEnum.GOLD_VENDOR_CARD.getMsg(), goldVendorPicUrls.get("1"));
                 replyMsg = String.format(DoDoReplyMsgTemplateEnum.CHANNEL_CARD_MSG.getMsg(), channelId, format);
             }
 
             return new DoDoReplyMsgDTO()
                     .setApiEndPoint("/api/v2/channel/message/send")
-                    .setEventKey(eventKey)
+                    .setEventKey(baseEvent.getEventKey())
                     .setMsg(replyMsg);
         }
         return null;

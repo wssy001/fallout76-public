@@ -56,14 +56,14 @@ public class PittKookEventHandler implements BaseHandler {
     public BaseReplyMsgDTO consume(BaseEvent baseEvent, BasePlatformEventDTO basePlatformEventDTO) {
         if (basePlatformEventDTO instanceof KookEventDTO kookEventDTO) {
             String targetId = kookEventDTO.getTargetId();
-            LinkedHashMap<String, String> seasonCalendarUrls = photoService.getPhotoUrls("pitt", PlatformEnum.KOOK);
+            LinkedHashMap<String, String> pittPicUrls = photoService.getPhotoUrls("pitt", PlatformEnum.KOOK);
             String replyMsg;
-            if (CollUtil.isEmpty(seasonCalendarUrls)) {
+            if (CollUtil.isEmpty(pittPicUrls)) {
                 log.error("******PittKookEventHandler.consume：匹兹堡奖励清单图片获取失败");
                 String format = String.format(KookReplyMsgTemplateEnum.ERROR_MSG_CARD.getMsg(), "匹兹堡奖励清单图片获取失败，请联系管理员");
                 replyMsg = String.format(KookReplyMsgTemplateEnum.ERROR_MSG.getMsg(), targetId, StringEscapeUtils.escapeJava(format));
             } else {
-                String format = String.format(KookReplyMsgTemplateEnum.PITT_CARD.getMsg(), seasonCalendarUrls.get("1"));
+                String format = String.format(KookReplyMsgTemplateEnum.PITT_CARD.getMsg(), pittPicUrls.get("1"));
                 replyMsg = String.format(KookReplyMsgTemplateEnum.CARD_MSG.getMsg(), targetId, StringEscapeUtils.escapeJava(format));
             }
 

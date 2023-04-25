@@ -56,14 +56,14 @@ public class GoldVendorKookEventHandler implements BaseHandler {
     public BaseReplyMsgDTO consume(BaseEvent baseEvent, BasePlatformEventDTO basePlatformEventDTO) {
         if (basePlatformEventDTO instanceof KookEventDTO kookEventDTO) {
             String targetId = kookEventDTO.getTargetId();
-            LinkedHashMap<String, String> pittPicUrls = photoService.getPhotoUrls("goldVendor", PlatformEnum.KOOK);
+            LinkedHashMap<String, String> goldVendorPicUrls = photoService.getPhotoUrls("goldVendor", PlatformEnum.KOOK);
             String replyMsg;
-            if (CollUtil.isEmpty(pittPicUrls)) {
+            if (CollUtil.isEmpty(goldVendorPicUrls)) {
                 log.error("******GoldVendorKookEventHandler.consume：米诺瓦日程表图片获取失败");
                 String format = String.format(KookReplyMsgTemplateEnum.ERROR_MSG_CARD.getMsg(), "米诺瓦日程表图片获取失败，请联系管理员");
                 replyMsg = String.format(KookReplyMsgTemplateEnum.ERROR_MSG.getMsg(), targetId, StringEscapeUtils.escapeJava(format));
             } else {
-                String format = String.format(KookReplyMsgTemplateEnum.GOLD_VENDOR_CARD.getMsg(), pittPicUrls.get("1"));
+                String format = String.format(KookReplyMsgTemplateEnum.GOLD_VENDOR_CARD.getMsg(), goldVendorPicUrls.get("1"));
                 replyMsg = String.format(KookReplyMsgTemplateEnum.CARD_MSG.getMsg(), targetId, StringEscapeUtils.escapeJava(format));
             }
 
