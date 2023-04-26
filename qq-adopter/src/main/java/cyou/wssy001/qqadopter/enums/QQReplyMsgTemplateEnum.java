@@ -127,6 +127,54 @@ public enum QQReplyMsgTemplateEnum {
                 }
             ]
             """),
+    BOBBLE_HEAD_MSG_TEMPLATE("""
+            [
+                {
+                    "type": "text",
+                    "data": {
+                        "text": "娃娃效果图"
+                    }
+                },
+                {
+                    "type": "image",
+                    "data": {
+                        "file": "%s"
+                    }
+                }
+            ]
+            """),
+    MOTH_MAN_MSG_TEMPLATE("""
+            [
+                {
+                    "type": "text",
+                    "data": {
+                        "text": "天蛾人春分季节性攻略指南"
+                    }
+                },
+                {
+                    "type": "image",
+                    "data": {
+                        "file": "%s"
+                    }
+                }
+            ]
+            """),
+    DAILY_OPS_MSG_TEMPLATE("""
+            [
+                {
+                    "type": "text",
+                    "data": {
+                        "text": "日常行动独特奖励速览"
+                    }
+                },
+                {
+                    "type": "image",
+                    "data": {
+                        "file": "%s"
+                    }
+                }
+            ]
+            """),
     ;
     private final String msg;
 }

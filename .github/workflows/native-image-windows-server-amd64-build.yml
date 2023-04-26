@@ -1,4 +1,4 @@
-name: Native Image Build
+name: Native Image Windows Build
 on:
   release:
     types: [published]
