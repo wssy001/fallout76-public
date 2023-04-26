@@ -33,8 +33,8 @@ public class GetAdminHelpKookEventHandler implements BaseHelpHandler {
 
         for (BaseHelpHandler baseHelpHandler : baseHelpHandlers) {
             if (baseHelpHandler.getKeys().contains("/help")) continue;
-            if (!baseHelpHandler.platform().equals(PlatformEnum.KOOK)) continue;
-            if (!baseHelpHandler.eventType().equals(EventEnum.ADMIN)) continue;
+            if (!baseHelpHandler.getPlatform().equals(PlatformEnum.KOOK)) continue;
+            if (!baseHelpHandler.getEventType().equals(EventEnum.ADMIN)) continue;
 
             stringBuilder.append("`");
             Iterator<String> iterator = baseHelpHandler.getKeys()
@@ -46,19 +46,19 @@ public class GetAdminHelpKookEventHandler implements BaseHelpHandler {
             }
             stringBuilder.append("`")
                     .append("\\t\\t")
-                    .append(baseHelpHandler.description())
+                    .append(baseHelpHandler.getDescription())
                     .append("\\n");
         }
         msg = stringBuilder.toString();
     }
 
     @Override
-    public PlatformEnum platform() {
+    public PlatformEnum getPlatform() {
         return PlatformEnum.KOOK;
     }
 
     @Override
-    public EventEnum eventType() {
+    public EventEnum getEventType() {
         return EventEnum.ADMIN;
     }
 

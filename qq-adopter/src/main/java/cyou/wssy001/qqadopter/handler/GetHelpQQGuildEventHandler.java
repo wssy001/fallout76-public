@@ -1,4 +1,4 @@
-package cyou.wssy001.kookadopter.handler;
+package cyou.wssy001.qqadopter.handler;
 
 import cn.hutool.core.util.StrUtil;
 import cyou.wssy001.common.dto.BasePlatformEventDTO;
@@ -8,35 +8,33 @@ import cyou.wssy001.common.enums.EventEnum;
 import cyou.wssy001.common.enums.PlatformEnum;
 import cyou.wssy001.common.handler.BaseHandler;
 import cyou.wssy001.common.handler.BaseHelpHandler;
-import cyou.wssy001.kookadopter.dto.KookEventDTO;
-import cyou.wssy001.kookadopter.dto.KookReplyMsgDTO;
-import cyou.wssy001.kookadopter.enums.KookReplyMsgTemplateEnum;
-import org.apache.commons.text.StringEscapeUtils;
+import cyou.wssy001.qqadopter.dto.QQChannelEventDTO;
+import cyou.wssy001.qqadopter.dto.QQReplyMsgDTO;
+import cyou.wssy001.qqadopter.enums.QQReplyMsgTemplateEnum;
 import org.springframework.stereotype.Component;
 
 import java.util.Iterator;
 import java.util.List;
 
 /**
- * @Description: Kook帮助指令处理器
+ * @Description: QQ频道帮助指令处理器
  * @Author: Tyler
  * @Date: 2023/4/14 23:57
  * @Version: 1.0
  */
 @Component
-public class GetHelpKookEventHandler implements BaseHelpHandler {
+public class GetHelpQQGuildEventHandler implements BaseHelpHandler {
     private final String msg;
 
 
-    public GetHelpKookEventHandler(List<BaseHandler> baseHandlers) {
+    public GetHelpQQGuildEventHandler(List<BaseHandler> baseHandlers) {
         StringBuilder stringBuilder = new StringBuilder();
 
         for (BaseHandler baseHandler : baseHandlers) {
             if (baseHandler.getKeys().contains("/help")) continue;
-            if (!baseHandler.getPlatform().equals(PlatformEnum.KOOK)) continue;
+            if (!baseHandler.getPlatform().equals(PlatformEnum.QQ_GUILD)) continue;
             if (!baseHandler.getEventType().equals(EventEnum.GROUP)) continue;
 
-            stringBuilder.append("`");
             Iterator<String> iterator = baseHandler.getKeys()
                     .iterator();
             while (iterator.hasNext()) {
@@ -44,8 +42,7 @@ public class GetHelpKookEventHandler implements BaseHelpHandler {
                 stringBuilder.append(key);
                 if (iterator.hasNext()) stringBuilder.append("\\t");
             }
-            stringBuilder.append("`")
-                    .append("\\t\\t")
+            stringBuilder.append("\\t\\t")
                     .append(baseHandler.getDescription())
                     .append("\\n");
         }
@@ -54,7 +51,7 @@ public class GetHelpKookEventHandler implements BaseHelpHandler {
 
     @Override
     public PlatformEnum getPlatform() {
-        return PlatformEnum.KOOK;
+        return PlatformEnum.QQ_GUILD;
     }
 
     @Override
@@ -64,19 +61,20 @@ public class GetHelpKookEventHandler implements BaseHelpHandler {
 
     @Override
     public BaseReplyMsgDTO consume(BaseEvent baseEvent, BasePlatformEventDTO basePlatformEventDTO) {
-        if (basePlatformEventDTO instanceof KookEventDTO kookEventDTO) {
+        if (basePlatformEventDTO instanceof QQChannelEventDTO qqChannelEventDTO) {
             String replyMsg;
-            String targetId = kookEventDTO.getTargetId();
+            String guildId = qqChannelEventDTO.getGuildId();
+            String channelId = qqChannelEventDTO.getChannelId();
             if (StrUtil.isBlank(msg)) {
-                String format = String.format(KookReplyMsgTemplateEnum.ERROR_MSG_CARD.getMsg(), "暂无帮助内容，请联系管理员添加");
-                replyMsg = String.format(KookReplyMsgTemplateEnum.ERROR_MSG.getMsg(), targetId, StringEscapeUtils.escapeJava(format));
+                String format = String.format(QQReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "暂无帮助内容，请联系管理员添加");
+                replyMsg = String.format(QQReplyMsgTemplateEnum.GUILD_TEXT_MSG.getMsg(), guildId, channelId, format);
             } else {
-                String format = String.format(KookReplyMsgTemplateEnum.HELP_MSG_CARD.getMsg(), msg);
-                replyMsg = String.format(KookReplyMsgTemplateEnum.CARD_MSG.getMsg(), targetId, StringEscapeUtils.escapeJava(format));
+                String format = String.format(QQReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), msg);
+                replyMsg = String.format(QQReplyMsgTemplateEnum.GUILD_TEXT_MSG.getMsg(), guildId, channelId, format);
             }
 
-            return new KookReplyMsgDTO()
-                    .setApiEndPoint("/api/v3/message/create")
+            return new QQReplyMsgDTO()
+                    .setApiEndPoint("/send_guild_channel_msg")
                     .setEventKey(baseEvent.getEventKey())
                     .setMsg(replyMsg);
         }

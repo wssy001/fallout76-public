@@ -25,7 +25,7 @@ import java.util.Set;
 public class GetUserIdQQEventHandler implements BaseHandler {
 
     @Override
-    public PlatformEnum platform() {
+    public PlatformEnum getPlatform() {
         return PlatformEnum.QQ;
     }
 
@@ -35,12 +35,12 @@ public class GetUserIdQQEventHandler implements BaseHandler {
     }
 
     @Override
-    public EventEnum eventType() {
+    public EventEnum getEventType() {
         return EventEnum.FRIEND;
     }
 
     @Override
-    public String description() {
+    public String getDescription() {
         return "获取您的QQ号，可用于添加QQ管理员列表（指令仅限好友聊天）";
     }
 

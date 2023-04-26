@@ -9,7 +9,7 @@ import cyou.wssy001.common.enums.EventEnum;
 import cyou.wssy001.common.enums.PlatformEnum;
 import cyou.wssy001.common.handler.BaseHandler;
 import cyou.wssy001.common.service.NukaCodeService;
-import cyou.wssy001.qqadopter.dto.QQEventDTO;
+import cyou.wssy001.qqadopter.dto.QQChannelEventDTO;
 import cyou.wssy001.qqadopter.dto.QQReplyMsgDTO;
 import cyou.wssy001.qqadopter.enums.QQReplyMsgTemplateEnum;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.Set;
 
 /**
- * @Description: QQ核弹密码事件处理器
+ * @Description: QQ频道核弹密码事件处理器
  * @Author: Tyler
  * @Date: 2023/3/16 10:36
  * @Version: 1.0
@@ -27,13 +27,13 @@ import java.util.Set;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class NukaCodeQQEventHandler implements BaseHandler {
+public class NukaCodeQQGuildEventHandler implements BaseHandler {
     private final NukaCodeService nukaCodeService;
 
 
     @Override
     public PlatformEnum getPlatform() {
-        return PlatformEnum.QQ;
+        return PlatformEnum.QQ_GUILD;
     }
 
     @Override
@@ -53,22 +53,23 @@ public class NukaCodeQQEventHandler implements BaseHandler {
 
     @Override
     public BaseReplyMsgDTO consume(BaseEvent baseEvent, BasePlatformEventDTO basePlatformEventDTO) {
-        if (basePlatformEventDTO instanceof QQEventDTO qqEventDTO) {
-            Long groupId = qqEventDTO.getGroupId();
+        if (basePlatformEventDTO instanceof QQChannelEventDTO qqChannelEventDTO) {
+            String guildId = qqChannelEventDTO.getGuildId();
+            String channelId = qqChannelEventDTO.getChannelId();
             NukaCode nukaCode = nukaCodeService.getNukaCode();
             String replyMsg;
             if (nukaCode == null) {
-                log.error("******NukaCodeQQEventHandler.consume：nukaCode获取失败");
+                log.error("******NukaCodeQQGuildEventHandler.consume：nukaCode获取失败");
                 String format = String.format(QQReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "nukaCode获取失败，请联系管理员");
-                replyMsg = String.format(QQReplyMsgTemplateEnum.GROUP_TEXT_MSG.getMsg(), groupId, format);
+                replyMsg = String.format(QQReplyMsgTemplateEnum.GUILD_TEXT_MSG.getMsg(), guildId, channelId, format);
             } else {
                 String expireTime = LocalDateTimeUtil.format(nukaCode.getExpireTime(), "yyyy年MM月dd日 HH点mm分");
                 String format = String.format(QQReplyMsgTemplateEnum.NUKA_CODE_MSG_TEMPLATE.getMsg(), nukaCode.getAlpha(), nukaCode.getBravo(), nukaCode.getCharlie(), expireTime);
-                replyMsg = String.format(QQReplyMsgTemplateEnum.GROUP_TEXT_MSG.getMsg(), groupId, format);
+                replyMsg = String.format(QQReplyMsgTemplateEnum.GUILD_TEXT_MSG.getMsg(), guildId, channelId, format);
             }
 
             return new QQReplyMsgDTO()
-                    .setApiEndPoint("/send_group_msg")
+                    .setApiEndPoint("/send_guild_channel_msg")
                     .setEventKey(baseEvent.getEventKey())
                     .setMsg(replyMsg);
         }

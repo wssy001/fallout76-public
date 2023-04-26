@@ -11,16 +11,16 @@ import java.util.Set;
 public interface BaseHandler {
 
     // 事件触发的平台
-    PlatformEnum platform();
+    PlatformEnum getPlatform();
 
     // 事件类型
-    EventEnum eventType();
+    EventEnum getEventType();
 
     // 事件触发的关键字集合
     Set<String> getKeys();
 
     // 描述
-    String description();
+    String getDescription();
 
     // 消费
     BaseReplyMsgDTO consume(BaseEvent baseEvent, BasePlatformEventDTO basePlatformEventDTO);

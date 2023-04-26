@@ -33,12 +33,12 @@ public class SeasonCalendarKookEventHandler implements BaseHandler {
 
 
     @Override
-    public PlatformEnum platform() {
+    public PlatformEnum getPlatform() {
         return PlatformEnum.KOOK;
     }
 
     @Override
-    public EventEnum eventType() {
+    public EventEnum getEventType() {
         return EventEnum.GROUP;
     }
 
@@ -48,7 +48,7 @@ public class SeasonCalendarKookEventHandler implements BaseHandler {
     }
 
     @Override
-    public String description() {
+    public String getDescription() {
         return "获取社区日程表";
     }
 
@@ -56,7 +56,7 @@ public class SeasonCalendarKookEventHandler implements BaseHandler {
     public BaseReplyMsgDTO consume(BaseEvent baseEvent, BasePlatformEventDTO basePlatformEventDTO) {
         if (basePlatformEventDTO instanceof KookEventDTO kookEventDTO) {
             String targetId = kookEventDTO.getTargetId();
-            Map<String, String> seasonCalendarPicUrls = photoService.getPhotoUrls("seasonCalendar", PlatformEnum.KOOK);
+            Map<String, String> seasonCalendarPicUrls = photoService.getPhotoUrls("seasonCalendar", this.getPlatform());
             String replyMsg;
             if (CollUtil.isEmpty(seasonCalendarPicUrls)) {
                 log.error("******SeasonCalendarKookEventHandler.consume：社区日程表图片获取失败");

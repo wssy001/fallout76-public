@@ -1,11 +1,10 @@
 package cyou.wssy001.qqadopter.aspect;
 
 import cn.hutool.core.codec.Base64Encoder;
+import cn.hutool.core.util.HexUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.crypto.digest.HMac;
-import cn.hutool.crypto.digest.HmacAlgorithm;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import cyou.wssy001.common.dto.BasePlatformEventDTO;
@@ -17,6 +16,7 @@ import cyou.wssy001.common.service.CheckUser;
 import cyou.wssy001.qqadopter.config.QQConfig;
 import cyou.wssy001.qqadopter.dto.QQChannelEventDTO;
 import cyou.wssy001.qqadopter.dto.QQEventDTO;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +27,9 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+
 @Slf4j
 @Aspect
 @Component
@@ -36,6 +39,17 @@ public class QQHttpParamAspect {
     private final CheckUser<QQEventDTO> checkUser;
     private final HttpServletRequest httpServletRequest;
 
+    private Mac mac;
+
+    @PostConstruct
+    public void init() throws Exception {
+        String secret = qqConfig.getSecret();
+        if (StrUtil.isBlank(secret)) return;
+
+        SecretKeySpec keySpec = new SecretKeySpec(secret.getBytes(), "HmacSHA1");
+        mac = Mac.getInstance("HmacSHA1");
+        mac.init(keySpec);
+    }
 
     @Pointcut("execution(void cyou.wssy001.qqadopter.controller.GoCQHttpEventController.handleQQEvent(..))")
     public void pointcut() {
@@ -49,10 +63,10 @@ public class QQHttpParamAspect {
         byte[] body = httpServletRequest.getInputStream()
                 .readAllBytes();
         log.debug("******QQHttpParamAspect.checkQQHttpParam：传入的数据 BASE64：{}", Base64Encoder.encode(body));
-        String secret = qqConfig.getSecret();
         String verifySign = httpServletRequest.getHeader("X-Signature");
         if (StrUtil.isNotBlank(verifySign)) {
-            if (!verifyBody(verifySign, body, secret)) {
+            log.debug("******QQHttpParamAspect.checkQQHttpParam：传入的 X-Signature：{}", verifySign);
+            if (!verifyBody(verifySign, body)) {
                 log.error("******QQHttpParamAspect.checkQQHttpParam：签名验证失败，暂不处理请求：{}", new String(body));
                 return null;
             }
@@ -109,14 +123,15 @@ public class QQHttpParamAspect {
         return joinPoint.proceed(new Object[]{baseEvent, basePlatformEventDTO});
     }
 
-    private boolean verifyBody(String verifySign, byte[] body, String key) {
-        if (StrUtil.isBlank(key)) {
+    private boolean verifyBody(String verifySign, byte[] body) {
+        if (mac == null) {
             log.error("******QQHttpParamAspect.verifyBody：无法获取HmacSHA1密钥，请先配置robot-config.qq.secret");
             return false;
         }
         if (verifySign.contains("sha1")) verifySign = verifySign.substring(5);
-        HMac mac = new HMac(HmacAlgorithm.HmacSHA1, key.getBytes());
-        String sign = mac.digestHex(body);
+
+        byte[] hex = mac.doFinal(body);
+        String sign = HexUtil.encodeHexStr(hex);
         return verifySign.equals(sign);
     }
 

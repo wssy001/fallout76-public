@@ -26,12 +26,12 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class GetUserIdKookEventHandler implements BaseHandler {
     @Override
-    public PlatformEnum platform() {
+    public PlatformEnum getPlatform() {
         return PlatformEnum.KOOK;
     }
 
     @Override
-    public EventEnum eventType() {
+    public EventEnum getEventType() {
         return EventEnum.FRIEND;
     }
 
@@ -41,7 +41,7 @@ public class GetUserIdKookEventHandler implements BaseHandler {
     }
 
     @Override
-    public String description() {
+    public String getDescription() {
         return "获取您在Kook的Open Id，可用于添加Kook管理员列表（指令仅限私聊）";
     }
 

@@ -14,6 +14,7 @@ import cyou.wssy001.common.enums.PlatformEnum;
 import cyou.wssy001.common.service.CheckUser;
 import cyou.wssy001.dodoadopter.config.DoDoConfig;
 import cyou.wssy001.dodoadopter.dto.DoDoEventDTO;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +41,21 @@ public class DoDoHttpParamAspect {
     private final HttpServletRequest httpServletRequest;
     private final HttpServletResponse httpServletResponse;
 
+    private Cipher cipher;
+
+    @PostConstruct
+    public void init() throws Exception {
+        String secretKey = dodoConfig.getSecretKey();
+        if (StrUtil.isBlank(secretKey)) return;
+
+        byte[] keyBytes = HexUtil.decodeHex(secretKey);
+        SecretKeySpec sKeySpec = new SecretKeySpec(keyBytes, "AES");
+        AlgorithmParameters params = AlgorithmParameters.getInstance("AES");
+        params.init(new IvParameterSpec(new byte[16]));
+        cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
+        cipher.init(Cipher.DECRYPT_MODE, sKeySpec, params);
+    }
+
 
     @Pointcut("execution(void cyou.wssy001.dodoadopter.controller.DoDoHttpEventController.handleDoDoEvent(..))")
     public void pointcut() {
@@ -49,8 +65,7 @@ public class DoDoHttpParamAspect {
     @RegisterReflectionForBinding(DoDoEventDTO.class)
     public Object checkDoDoHttpParam(ProceedingJoinPoint joinPoint) throws Throwable {
         if (!dodoConfig.isEnable()) return null;
-        String secretKey = dodoConfig.getSecretKey();
-        if (StrUtil.isBlank(secretKey)) {
+        if (cipher == null) {
             log.error("******DoDoHttpParamAspect.checkDoDoHttpParam：事件密钥不能为空，请先配置robot-config.dodo.secret-key");
             return null;
         }
@@ -68,7 +83,7 @@ public class DoDoHttpParamAspect {
         }
 
         String payload = jsonObject.getString("payload");
-        String decrypt = decrypt(payload, secretKey);
+        String decrypt = decrypt(payload);
         log.debug("******DoDoHttpParamAspect.checkDoDoHttpParam：解密后的数据：{}", decrypt);
         DoDoEventDTO dodoEventDTO = JSON.parseObject(decrypt, DoDoEventDTO.class);
         int type = dodoEventDTO.getType();
@@ -118,14 +133,8 @@ public class DoDoHttpParamAspect {
         return joinPoint.proceed(new Object[]{baseEvent, dodoEventDTO});
     }
 
-    private String decrypt(String encrypt, String secretKey) throws Exception {
+    private String decrypt(String encrypt) throws Exception {
         byte[] bytes = HexUtil.decodeHex(encrypt);
-        byte[] keyBytes = HexUtil.decodeHex(secretKey);
-        SecretKeySpec sKeySpec = new SecretKeySpec(keyBytes, "AES");
-        AlgorithmParameters params = AlgorithmParameters.getInstance("AES");
-        params.init(new IvParameterSpec(new byte[16]));
-        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
-        cipher.init(Cipher.DECRYPT_MODE, sKeySpec, params);
         byte[] bytes1 = cipher.doFinal(bytes);
         return new String(bytes1);
     }

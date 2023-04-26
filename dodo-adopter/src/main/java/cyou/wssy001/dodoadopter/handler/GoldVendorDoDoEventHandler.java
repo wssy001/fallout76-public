@@ -33,12 +33,12 @@ public class GoldVendorDoDoEventHandler implements BaseHandler {
 
 
     @Override
-    public PlatformEnum platform() {
+    public PlatformEnum getPlatform() {
         return PlatformEnum.DODO;
     }
 
     @Override
-    public EventEnum eventType() {
+    public EventEnum getEventType() {
         return EventEnum.GROUP;
     }
 
@@ -48,7 +48,7 @@ public class GoldVendorDoDoEventHandler implements BaseHandler {
     }
 
     @Override
-    public String description() {
+    public String getDescription() {
         return "获取米诺瓦日程表";
     }
 
@@ -58,7 +58,7 @@ public class GoldVendorDoDoEventHandler implements BaseHandler {
             DoDoEventDTO.EventBody dodoEventDTOData = dodoEventDTO.getData();
             JSONObject eventBody = dodoEventDTOData.getEventBody();
             String channelId = eventBody.getString("channelId");
-            Map<String, String> goldVendorPicUrls = photoService.getPhotoUrls("goldVendor", PlatformEnum.DODO);
+            Map<String, String> goldVendorPicUrls = photoService.getPhotoUrls("goldVendor", this.getPlatform());
             String replyMsg;
             if (CollUtil.isEmpty(goldVendorPicUrls)) {
                 log.error("******GoldVendorDoDoEventHandler.consume：米诺瓦日程表图片获取失败");

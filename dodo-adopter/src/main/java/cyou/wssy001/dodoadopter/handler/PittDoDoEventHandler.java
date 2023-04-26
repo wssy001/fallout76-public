@@ -33,12 +33,12 @@ public class PittDoDoEventHandler implements BaseHandler {
 
 
     @Override
-    public PlatformEnum platform() {
+    public PlatformEnum getPlatform() {
         return PlatformEnum.DODO;
     }
 
     @Override
-    public EventEnum eventType() {
+    public EventEnum getEventType() {
         return EventEnum.GROUP;
     }
 
@@ -48,7 +48,7 @@ public class PittDoDoEventHandler implements BaseHandler {
     }
 
     @Override
-    public String description() {
+    public String getDescription() {
         return "获取远征匹兹堡奖励清单";
     }
 
@@ -58,7 +58,7 @@ public class PittDoDoEventHandler implements BaseHandler {
             DoDoEventDTO.EventBody dodoEventDTOData = dodoEventDTO.getData();
             JSONObject eventBody = dodoEventDTOData.getEventBody();
             String channelId = eventBody.getString("channelId");
-            Map<String, String> pittPicUrls = photoService.getPhotoUrls("pitt", PlatformEnum.DODO);
+            Map<String, String> pittPicUrls = photoService.getPhotoUrls("pitt", this.getPlatform());
             String replyMsg;
             if (CollUtil.isEmpty(pittPicUrls)) {
                 log.error("******PittDoDoEventHandler.consume：匹兹堡奖励清单图片获取失败");

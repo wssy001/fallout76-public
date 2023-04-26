@@ -23,8 +23,8 @@ public class HandlerServiceImpl implements HandlerService {
     private final ConcurrentHashMap<String, BaseHandler> publicHandlerMap = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<String, BaseHandler> privateHandlerMap = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<String, BaseHandler> adminHandlerMap = new ConcurrentHashMap<>();
-
     private final ConcurrentHashMap<String, BaseHelpHandler> helpHandlerMap = new ConcurrentHashMap<>();
+
 
     public HandlerServiceImpl(List<BaseHandler> handlerList, List<ReplyService> replyServiceList, List<BaseHelpHandler> baseHelpHandlers) {
         handlerList.forEach(this::stockHandler);
@@ -45,7 +45,7 @@ public class HandlerServiceImpl implements HandlerService {
         String key = baseEvent.getEventKey();
 
         BaseReplyMsgDTO baseReplyMsgDTO;
-        if (key.contains("/help") || key.equals("/帮助")) {
+        if (key.equals("/help") || key.equals("/帮助")) {
             BaseHelpHandler helpHandler = getHelpHandler(baseEvent);
             if (helpHandler == null) {
                 log.error("******HandlerServiceImpl.handle：未找到来自指令：{} 在平台：{} 上的handler", key, platformDescription);
@@ -71,9 +71,10 @@ public class HandlerServiceImpl implements HandlerService {
     }
 
     private void stockHandler(BaseHandler baseHandler) {
-        int code = baseHandler.platform()
+        int platformCode = baseHandler.getPlatform()
                 .getCode();
-        EventEnum eventType = baseHandler.eventType();
+        EventEnum eventType = baseHandler.getEventType();
+        int eventTypeCode = eventType.getCode();
         String mapName;
         switch (eventType) {
             case FRIEND -> mapName = "private";
@@ -83,25 +84,28 @@ public class HandlerServiceImpl implements HandlerService {
 
         baseHandler.getKeys()
                 .stream()
-                .map(key -> code + "-" + key + "-" + eventType.getCode())
+                .map(key -> platformCode + "-" + key + "-" + eventTypeCode)
                 .forEach(key -> putToMap(key, baseHandler, mapName));
     }
 
     private void stockHandler(BaseHelpHandler baseHelpHandler) {
-        int code = baseHelpHandler.platform()
+        int platformCode = baseHelpHandler.getPlatform()
                 .getCode();
-        EventEnum eventType = baseHelpHandler.eventType();
+        EventEnum eventType = baseHelpHandler.getEventType();
+        int eventTypeCode = eventType.getCode();
         baseHelpHandler.getKeys()
                 .stream()
-                .map(key -> code + "-" + key + "-" + eventType.getCode())
+                .map(key -> platformCode + "-" + key + "-" + eventTypeCode)
                 .forEach(key -> putToMap(key, baseHelpHandler, "help"));
     }
 
     private BaseHandler getHandler(BaseEvent baseEvent) {
         String eventKey = baseEvent.getEventKey();
-        int code = baseEvent.getPlatform().getCode();
+        int platformCode = baseEvent.getPlatform()
+                .getCode();
         EventEnum eventType = baseEvent.getEventType();
-        String key = code + "-" + eventKey + "-" + eventType.getCode();
+        int eventTypeCode = eventType.getCode();
+        String key = platformCode + "-" + eventKey + "-" + eventTypeCode;
 
         switch (eventType) {
             case FRIEND -> {
@@ -119,9 +123,11 @@ public class HandlerServiceImpl implements HandlerService {
 
     private BaseHelpHandler getHelpHandler(BaseEvent baseEvent) {
         String eventKey = baseEvent.getEventKey();
-        int code = baseEvent.getPlatform().getCode();
+        int platformCode = baseEvent.getPlatform()
+                .getCode();
         EventEnum eventType = baseEvent.getEventType();
-        String key = code + "-" + eventKey + "-" + eventType.getCode();
+        int eventTypeCode = eventType.getCode();
+        String key = platformCode + "-" + eventKey + "-" + eventTypeCode;
         return helpHandlerMap.get(key);
     }
 

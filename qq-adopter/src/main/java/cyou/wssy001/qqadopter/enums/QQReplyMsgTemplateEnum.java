@@ -20,6 +20,13 @@ public enum QQReplyMsgTemplateEnum {
                 "message": %s
             }
             """),
+    GUILD_TEXT_MSG("""
+            {
+                "guild_id":"%s",
+                "channel_id": "%s",
+                "message": %s
+            }
+            """),
 
     PRIVATE_TEXT_MSG("""
             {
@@ -38,7 +45,7 @@ public enum QQReplyMsgTemplateEnum {
                 }
             ]
             """),
-    NUKACODE_MSG_TEMPLATE("""
+    NUKA_CODE_MSG_TEMPLATE("""
             [
                 {
                     "type": "image",
@@ -68,6 +75,54 @@ public enum QQReplyMsgTemplateEnum {
                     "type": "text",
                     "data": {
                         "text": "过期时间（北京时间）：%s"
+                    }
+                }
+            ]
+            """),
+    GOLD_VENDOR_MSG_TEMPLATE("""
+            [
+                {
+                    "type": "text",
+                    "data": {
+                        "text": "米诺瓦日程表"
+                    }
+                },
+                {
+                    "type": "image",
+                    "data": {
+                        "file": "%s"
+                    }
+                }
+            ]
+            """),
+    PITT_MSG_TEMPLATE("""
+            [
+                {
+                    "type": "text",
+                    "data": {
+                        "text": "远征匹兹堡奖励清单"
+                    }
+                },
+                {
+                    "type": "image",
+                    "data": {
+                        "file": "%s"
+                    }
+                }
+            ]
+            """),
+    SEASON_CALENDAR_MSG_TEMPLATE("""
+            [
+                {
+                    "type": "text",
+                    "data": {
+                        "text": "社区日程表"
+                    }
+                },
+                {
+                    "type": "image",
+                    "data": {
+                        "file": "%s"
                     }
                 }
             ]

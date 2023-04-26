@@ -11,17 +11,17 @@ import java.util.Set;
 public interface BaseHelpHandler {
 
     // 事件触发的平台
-    PlatformEnum platform();
+    PlatformEnum getPlatform();
 
     // 事件触发的关键字集合
     default Set<String> getKeys() {
         return Set.of("/help", "/帮助");
     }
 
-    EventEnum eventType();
+    EventEnum getEventType();
 
     // 描述
-    default String description() {
+    default String getDescription() {
         return "获取当前环境下所有可用指令";
     }
 

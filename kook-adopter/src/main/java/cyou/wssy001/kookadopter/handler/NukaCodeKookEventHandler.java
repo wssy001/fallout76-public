@@ -33,12 +33,12 @@ public class NukaCodeKookEventHandler implements BaseHandler {
 
 
     @Override
-    public PlatformEnum platform() {
+    public PlatformEnum getPlatform() {
         return PlatformEnum.KOOK;
     }
 
     @Override
-    public EventEnum eventType() {
+    public EventEnum getEventType() {
         return EventEnum.GROUP;
     }
 
@@ -48,7 +48,7 @@ public class NukaCodeKookEventHandler implements BaseHandler {
     }
 
     @Override
-    public String description() {
+    public String getDescription() {
         return "获取目前最新的核弹密码";
     }
 

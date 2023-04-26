@@ -17,7 +17,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @Description: DoDo管理员帮助指令处理器
@@ -35,8 +34,8 @@ public class GetAdminHelpDoDoEventHandler implements BaseHelpHandler {
 
         for (BaseHandler baseHandler : baseHandlers) {
             if (baseHandler.getKeys().contains("/help")) continue;
-            if (!baseHandler.platform().equals(PlatformEnum.DODO)) continue;
-            if (!baseHandler.eventType().equals(EventEnum.ADMIN)) continue;
+            if (!baseHandler.getPlatform().equals(PlatformEnum.DODO)) continue;
+            if (!baseHandler.getEventType().equals(EventEnum.ADMIN)) continue;
 
             Iterator<String> iterator = baseHandler.getKeys()
                     .iterator();
@@ -46,30 +45,20 @@ public class GetAdminHelpDoDoEventHandler implements BaseHelpHandler {
                 if (iterator.hasNext()) stringBuilder.append("\\t");
             }
             stringBuilder.append("\\t\\t")
-                    .append(baseHandler.description())
+                    .append(baseHandler.getDescription())
                     .append("\\n");
         }
         msg = stringBuilder.toString();
     }
 
     @Override
-    public PlatformEnum platform() {
+    public PlatformEnum getPlatform() {
         return PlatformEnum.DODO;
     }
 
     @Override
-    public Set<String> getKeys() {
-        return Set.of("/help", "/帮助");
-    }
-
-    @Override
-    public EventEnum eventType() {
+    public EventEnum getEventType() {
         return EventEnum.ADMIN;
-    }
-
-    @Override
-    public String description() {
-        return "获取当前环境下所有可用指令";
     }
 
     @Override

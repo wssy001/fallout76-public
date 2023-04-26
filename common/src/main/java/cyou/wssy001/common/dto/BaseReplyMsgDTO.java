@@ -15,7 +15,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public abstract class BaseReplyMsgDTO {
 
-    // 出发的指令
+    // 触发的指令
     public String eventKey;
 
     //封装好的回复消息

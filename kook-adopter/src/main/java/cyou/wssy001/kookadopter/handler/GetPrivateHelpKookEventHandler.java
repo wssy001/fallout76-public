@@ -34,8 +34,8 @@ public class GetPrivateHelpKookEventHandler implements BaseHelpHandler {
 
         for (BaseHandler baseHandler : baseHandlers) {
             if (baseHandler.getKeys().contains("/help")) continue;
-            if (!baseHandler.platform().equals(PlatformEnum.KOOK)) continue;
-            if (!baseHandler.eventType().equals(EventEnum.FRIEND)) continue;
+            if (!baseHandler.getPlatform().equals(PlatformEnum.KOOK)) continue;
+            if (!baseHandler.getEventType().equals(EventEnum.FRIEND)) continue;
 
             stringBuilder.append("`");
             Iterator<String> iterator = baseHandler.getKeys()
@@ -47,19 +47,19 @@ public class GetPrivateHelpKookEventHandler implements BaseHelpHandler {
             }
             stringBuilder.append("`")
                     .append("\\t\\t")
-                    .append(baseHandler.description())
+                    .append(baseHandler.getDescription())
                     .append("\\n");
         }
         msg = stringBuilder.toString();
     }
 
     @Override
-    public PlatformEnum platform() {
+    public PlatformEnum getPlatform() {
         return PlatformEnum.KOOK;
     }
 
     @Override
-    public EventEnum eventType() {
+    public EventEnum getEventType() {
         return EventEnum.FRIEND;
     }
 

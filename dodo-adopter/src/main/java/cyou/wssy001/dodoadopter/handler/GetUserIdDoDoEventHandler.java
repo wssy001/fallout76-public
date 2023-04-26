@@ -1,6 +1,5 @@
 package cyou.wssy001.dodoadopter.handler;
 
-import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSONObject;
 import cyou.wssy001.common.dto.BasePlatformEventDTO;
 import cyou.wssy001.common.dto.BaseReplyMsgDTO;
@@ -26,7 +25,7 @@ import java.util.Set;
 public class GetUserIdDoDoEventHandler implements BaseHandler {
 
     @Override
-    public PlatformEnum platform() {
+    public PlatformEnum getPlatform() {
         return PlatformEnum.DODO;
     }
 
@@ -36,12 +35,12 @@ public class GetUserIdDoDoEventHandler implements BaseHandler {
     }
 
     @Override
-    public EventEnum eventType() {
+    public EventEnum getEventType() {
         return EventEnum.FRIEND;
     }
 
     @Override
-    public String description() {
+    public String getDescription() {
         return "获取您的DoDo ID，可用于添加DoDo管理员列表";
     }
 
