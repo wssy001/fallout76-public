@@ -39,6 +39,9 @@ jobs:
           cd fallout76-assistant
           cp ../src/main/resources/application.yml config/
           cp ../target/base-service-provider ./
+          echo '#!/bin/bash' > run.sh
+          echo './base-service-provider' >> run.sh
+          chmod +x run.sh
           tar -zcvf fallout76-assistant.tar.gz ./*
 
       - name: 获取当前 Tag

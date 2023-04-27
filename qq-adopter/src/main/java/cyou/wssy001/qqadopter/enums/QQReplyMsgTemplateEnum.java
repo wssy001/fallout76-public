@@ -79,6 +79,22 @@ public enum QQReplyMsgTemplateEnum {
                 }
             ]
             """),
+    NUKA_CODE_PHOTO_MSG_TEMPLATE("""
+            [
+                {
+                    "type": "text",
+                    "data": {
+                        "text": "核弹密码"
+                    }
+                },
+                {
+                    "type": "image",
+                    "data": {
+                        "file": "base64://%s"
+                    }
+                }
+            ]
+            """),
     GOLD_VENDOR_MSG_TEMPLATE("""
             [
                 {

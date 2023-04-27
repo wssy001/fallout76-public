@@ -60,9 +60,9 @@
                 <artifactId>native-maven-plugin</artifactId>
                 <configuration>
                     <buildArgs combine.children="append">
-                        <buildArg>-H:+StaticExecutableWithDynamicLibC</buildArg>
                         <buildArg>--enable-preview</buildArg>
                         <buildArg>--enable-https</buildArg>
+                        <buildArg>-H:JNIConfigurationFiles=src/main/resources/jni-config.json</buildArg>
                         <buildArg>--features=cyou.wssy001.baseserviceprovider.config.BouncyCastleFeature</buildArg>
                         <buildArg>-H:ClassInitialization=org.bouncycastle.crypto.CryptoServicesRegistrar:rerun
                         </buildArg>

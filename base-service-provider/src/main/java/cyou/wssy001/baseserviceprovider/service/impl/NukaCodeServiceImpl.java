@@ -8,6 +8,7 @@ import cyou.wssy001.common.entity.NukaCode;
 import cyou.wssy001.common.enums.HttpEnum;
 import cyou.wssy001.common.service.FileCacheService;
 import cyou.wssy001.common.service.NukaCodeService;
+import cyou.wssy001.common.service.PhotoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
@@ -36,6 +37,7 @@ import java.util.concurrent.atomic.AtomicReference;
 @RequiredArgsConstructor
 public class NukaCodeServiceImpl implements NukaCodeService, ApplicationListener<ContextRefreshedEvent> {
     private final HttpClient httpClient;
+    private final PhotoService photoService;
     private final FileCacheService fileCacheService;
 
     private final AtomicReference<NukaCode> nukaCode = new AtomicReference<>();
@@ -104,6 +106,7 @@ public class NukaCodeServiceImpl implements NukaCodeService, ApplicationListener
         NukaCode nukaCode = nukaCodes.toJavaObject(NukaCode.class);
         nukaCode.setExpireTime(expireTime);
         if (cache) fileCacheService.cacheNukaCode(nukaCode);
+        photoService.createNukaCodePhoto("nukaCode.png", nukaCode);
         return updateNukaCode(nukaCode);
     }
 

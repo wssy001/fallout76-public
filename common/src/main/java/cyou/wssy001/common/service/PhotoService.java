@@ -1,5 +1,6 @@
 package cyou.wssy001.common.service;
 
+import cyou.wssy001.common.entity.NukaCode;
 import cyou.wssy001.common.entity.PhotoInfo;
 import cyou.wssy001.common.enums.PlatformEnum;
 
@@ -21,4 +22,6 @@ public interface PhotoService {
     List<PhotoInfo> getPhotos();
 
     boolean refreshPhotos(boolean cache);
+
+    boolean createNukaCodePhoto(String name, NukaCode nukaCode);
 }
