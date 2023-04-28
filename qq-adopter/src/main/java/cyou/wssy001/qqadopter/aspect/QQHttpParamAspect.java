@@ -13,6 +13,7 @@ import cyou.wssy001.common.entity.BaseEvent;
 import cyou.wssy001.common.entity.BasePrivateEvent;
 import cyou.wssy001.common.enums.PlatformEnum;
 import cyou.wssy001.common.service.CheckUser;
+import cyou.wssy001.common.service.RateLimitService;
 import cyou.wssy001.qqadopter.config.QQConfig;
 import cyou.wssy001.qqadopter.dto.QQChannelEventDTO;
 import cyou.wssy001.qqadopter.dto.QQEventDTO;
@@ -37,6 +38,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class QQHttpParamAspect {
     private final QQConfig qqConfig;
     private final CheckUser<QQEventDTO> checkUser;
+    private final RateLimitService rateLimitService;
     private final HttpServletRequest httpServletRequest;
 
     private Mac mac;
@@ -85,7 +87,6 @@ public class QQHttpParamAspect {
         switch (messageType) {
             case "guild" -> {
                 if (!qqConfig.isEnableQQChannel()) return null;
-
                 baseEvent = new BaseEvent()
                         .setEventKey(key)
                         .setPlatform(PlatformEnum.QQ_GUILD);
@@ -120,6 +121,15 @@ public class QQHttpParamAspect {
         }
 
         if (ObjUtil.hasNull(baseEvent, basePlatformEventDTO)) return null;
+
+        String userId = jsonObject.getString("user_id");
+        PlatformEnum platform = messageType.equals("guild") ? PlatformEnum.QQ_GUILD : PlatformEnum.QQ;
+        if (!rateLimitService.hasRemain(userId, key, platform)) {
+            log.error("******QQHttpParamAspect.checkQQHttpParam：发现 {} 用户：{} 重复请求指令：{}", platform.getDescription(), userId, key);
+            return null;
+        }
+
+        rateLimitService.updateUserLimit(userId, key, platform);
         return joinPoint.proceed(new Object[]{baseEvent, basePlatformEventDTO});
     }
 

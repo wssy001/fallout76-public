@@ -45,7 +45,7 @@ public class PhotoServiceImpl implements PhotoService, ApplicationListener<Conte
     private final HttpClient httpClient;
     private final FileCacheService fileCacheService;
 
-    private final CopyOnWriteArrayList<PhotoInfo> photoInfoList = new CopyOnWriteArrayList<>();
+    private static final CopyOnWriteArrayList<PhotoInfo> photoInfoList = new CopyOnWriteArrayList<>();
 
 
     @Override
@@ -55,7 +55,7 @@ public class PhotoServiceImpl implements PhotoService, ApplicationListener<Conte
         List<PhotoInfo> photos = fileCacheService.getPhotos();
         if (CollUtil.isEmpty(photos)) {
             refreshPhotos(false);
-            fileCacheService.cachePhotos(this.photoInfoList);
+            fileCacheService.cachePhotos(photoInfoList);
         } else {
             updatePhotos(photos);
         }
@@ -160,6 +160,6 @@ public class PhotoServiceImpl implements PhotoService, ApplicationListener<Conte
     }
 
     private void updatePhotos(List<PhotoInfo> photoInfoList) {
-        this.photoInfoList.addAll(photoInfoList);
+        PhotoServiceImpl.photoInfoList.addAll(photoInfoList);
     }
 }

@@ -76,7 +76,7 @@ public class GetAdminHelpKookEventHandler implements BaseHelpHandler {
             }
 
             return new KookReplyMsgDTO()
-                    .setApiEndPoint("/api/v3/message/create")
+                    .setApiEndPoint("/api/v3/direct-message/create")
                     .setEventKey(baseEvent.getEventKey())
                     .setMsg(replyMsg);
         }

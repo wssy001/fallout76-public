@@ -12,6 +12,7 @@ import cyou.wssy001.common.entity.BasePrivateEvent;
 import cyou.wssy001.common.enums.EventEnum;
 import cyou.wssy001.common.enums.PlatformEnum;
 import cyou.wssy001.common.service.CheckUser;
+import cyou.wssy001.common.service.RateLimitService;
 import cyou.wssy001.dodoadopter.config.DoDoConfig;
 import cyou.wssy001.dodoadopter.dto.DoDoEventDTO;
 import jakarta.annotation.PostConstruct;
@@ -38,6 +39,7 @@ import java.security.AlgorithmParameters;
 public class DoDoHttpParamAspect {
     private final DoDoConfig dodoConfig;
     private final CheckUser<DoDoEventDTO> checkUser;
+    private final RateLimitService rateLimitService;
     private final HttpServletRequest httpServletRequest;
     private final HttpServletResponse httpServletResponse;
 
@@ -130,6 +132,13 @@ public class DoDoHttpParamAspect {
             }
         }
 
+        String dodoSourceId = eventBody.getString("dodoSourceId");
+        if (!rateLimitService.hasRemain(dodoSourceId, key, PlatformEnum.DODO)) {
+            log.error("******DoDoHttpParamAspect.checkDoDoHttpParam：发现 {} 用户：{} 重复请求指令：{}", PlatformEnum.DODO.getDescription(), dodoSourceId, key);
+            return null;
+        }
+
+        rateLimitService.updateUserLimit(dodoSourceId, key, PlatformEnum.DODO);
         return joinPoint.proceed(new Object[]{baseEvent, dodoEventDTO});
     }
 

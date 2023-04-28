@@ -61,7 +61,6 @@
                 <artifactId>commons-text</artifactId>
                 <version>${apache-commons.version}</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 

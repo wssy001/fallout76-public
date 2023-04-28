@@ -19,11 +19,11 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @Service
 public class HandlerServiceImpl implements HandlerService {
-    private final ConcurrentHashMap<PlatformEnum, ReplyService> replyServiceMap = new ConcurrentHashMap<>();
-    private final ConcurrentHashMap<String, BaseHandler> publicHandlerMap = new ConcurrentHashMap<>();
-    private final ConcurrentHashMap<String, BaseHandler> privateHandlerMap = new ConcurrentHashMap<>();
-    private final ConcurrentHashMap<String, BaseHandler> adminHandlerMap = new ConcurrentHashMap<>();
-    private final ConcurrentHashMap<String, BaseHelpHandler> helpHandlerMap = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<PlatformEnum, ReplyService> replyServiceMap = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, BaseHandler> publicHandlerMap = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, BaseHandler> privateHandlerMap = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, BaseHandler> adminHandlerMap = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, BaseHelpHandler> helpHandlerMap = new ConcurrentHashMap<>();
 
 
     public HandlerServiceImpl(List<BaseHandler> handlerList, List<ReplyService> replyServiceList, List<BaseHelpHandler> baseHelpHandlers) {

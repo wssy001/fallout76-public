@@ -40,7 +40,7 @@ public class NukaCodeServiceImpl implements NukaCodeService, ApplicationListener
     private final PhotoService photoService;
     private final FileCacheService fileCacheService;
 
-    private final AtomicReference<NukaCode> nukaCode = new AtomicReference<>();
+    private static final AtomicReference<NukaCode> nukaCode = new AtomicReference<>();
 
 
     @Override
@@ -50,11 +50,11 @@ public class NukaCodeServiceImpl implements NukaCodeService, ApplicationListener
         NukaCode nukaCode = fileCacheService.getNukaCode();
         if (nukaCode == null) {
             refreshNukaCode(false);
-            fileCacheService.cacheNukaCode(this.nukaCode.get());
+            fileCacheService.cacheNukaCode(NukaCodeServiceImpl.nukaCode.get());
         } else if (nukaCode.getExpireTime().isBefore(LocalDateTime.now(ZoneId.of("GMT+8")))) {
             log.info("******NukaCodeServiceImpl.onApplicationEvent：文件缓存过期，正在读取最新数据");
             refreshNukaCode(false);
-            fileCacheService.cacheNukaCode(this.nukaCode.get());
+            fileCacheService.cacheNukaCode(NukaCodeServiceImpl.nukaCode.get());
         } else {
             updateNukaCode(nukaCode);
         }
@@ -111,8 +111,8 @@ public class NukaCodeServiceImpl implements NukaCodeService, ApplicationListener
     }
 
     public boolean updateNukaCode(NukaCode nukaCode) {
-        NukaCode oldValue = this.nukaCode.get();
-        return this.nukaCode.compareAndSet(oldValue, nukaCode);
+        NukaCode oldValue = NukaCodeServiceImpl.nukaCode.get();
+        return NukaCodeServiceImpl.nukaCode.compareAndSet(oldValue, nukaCode);
     }
 
     public NukaCode getNukaCode() {

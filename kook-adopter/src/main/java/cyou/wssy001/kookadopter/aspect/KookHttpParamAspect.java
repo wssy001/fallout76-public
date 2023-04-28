@@ -12,6 +12,7 @@ import cyou.wssy001.common.entity.BaseEvent;
 import cyou.wssy001.common.entity.BasePrivateEvent;
 import cyou.wssy001.common.enums.PlatformEnum;
 import cyou.wssy001.common.service.CheckUser;
+import cyou.wssy001.common.service.RateLimitService;
 import cyou.wssy001.kookadopter.config.KookConfig;
 import cyou.wssy001.kookadopter.dto.KookEventDTO;
 import jakarta.servlet.ServletInputStream;
@@ -39,6 +40,7 @@ import java.util.Base64;
 public class KookHttpParamAspect {
     private final KookConfig kookConfig;
     private final CheckUser<KookEventDTO> checkUser;
+    private final RateLimitService rateLimitService;
     private final HttpServletRequest httpServletRequest;
     private final HttpServletResponse httpServletResponse;
 
@@ -77,6 +79,7 @@ public class KookHttpParamAspect {
 
         String channelType = kookEventDTO.getChannelType();
         if (StrUtil.isBlank(channelType)) return null;
+        String authorId = kookEventDTO.getAuthorId();
         String content = kookEventDTO.getContent();
         String key = ReUtil.getGroup0("^/[一-龥a-zA-z]+", content);
 
@@ -94,6 +97,10 @@ public class KookHttpParamAspect {
             }
             case "PERSON" -> {
                 if (StrUtil.isBlank(key)) return null;
+                if (!rateLimitService.hasRemain("direct-message/create", PlatformEnum.KOOK)) {
+                    log.error("******KookHttpParamAspect.checkKookHttpParam：无法回复 {} 用户：{} 的指令：{}，API限速中", PlatformEnum.KOOK.getDescription(), authorId, key);
+                    return null;
+                }
 
                 if (checkUser.check(kookEventDTO)) {
                     baseEvent = new BaseAdminEvent()
@@ -107,6 +114,11 @@ public class KookHttpParamAspect {
             }
             case "GROUP" -> {
                 if (StrUtil.isBlank(key)) return null;
+                if (!rateLimitService.hasRemain("message/create", PlatformEnum.KOOK)) {
+                    log.error("******KookHttpParamAspect.checkKookHttpParam：无法回复 {} 用户：{} 的指令：{}，API限速中", PlatformEnum.KOOK.getDescription(), authorId, key);
+                    return null;
+                }
+
                 baseEvent = new BaseEvent()
                         .setEventKey(key)
                         .setPlatform(PlatformEnum.KOOK);
@@ -117,8 +129,13 @@ public class KookHttpParamAspect {
             }
         }
 
+        if (!rateLimitService.hasRemain(authorId, key, PlatformEnum.KOOK)) {
+            log.error("******QQHttpParamAspect.checkQQHttpParam：发现 {} 用户：{} 重复请求指令：{}", PlatformEnum.KOOK.getDescription(), authorId, key);
+            return null;
+        }
+
+        rateLimitService.updateUserLimit(authorId, key, PlatformEnum.KOOK);
         return joinPoint.proceed(new Object[]{baseEvent, kookEventDTO});
-//        return joinPoint.proceed();
     }
 
     private JSONObject unCompress(byte[] bytes) {

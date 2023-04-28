@@ -3,6 +3,7 @@ package cyou.wssy001.kookadopter.service;
 import cyou.wssy001.common.dto.BaseReplyMsgDTO;
 import cyou.wssy001.common.enums.HttpEnum;
 import cyou.wssy001.common.enums.PlatformEnum;
+import cyou.wssy001.common.service.RateLimitService;
 import cyou.wssy001.common.service.ReplyService;
 import cyou.wssy001.kookadopter.config.KookConfig;
 import cyou.wssy001.kookadopter.dto.KookReplyMsgDTO;
@@ -18,6 +19,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Description: Kook消息回复服务实现类
@@ -30,8 +32,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class KookReplyService implements ReplyService {
     private final KookConfig kookConfig;
-
     private final HttpClient httpClient;
+    private final RateLimitService rateLimitService;
 
 
     @Override
@@ -62,6 +64,7 @@ public class KookReplyService implements ReplyService {
                     return;
                 }
 
+                updateAPIRateLimit(response.headers().map());
                 log.info("******KookReplyService.reply：回复消息发送成功，结果：{}", body);
             } catch (Exception e) {
                 log.error("******KookReplyService.reply：回复：{} 失败，原因：{}", kookReplyMsgDTO.getEventKey(), e.getMessage());
@@ -73,5 +76,16 @@ public class KookReplyService implements ReplyService {
     @RegisterReflectionForBinding(KookReplyMsgDTO.class)
     public void reply(BaseReplyMsgDTO msg, Object target) {
         reply(msg);
+    }
+
+    private void updateAPIRateLimit(Map<String, List<String>> headerMap) {
+        String remaining = headerMap.get("X-Rate-Limit-Remaining")
+                .get(0);
+        String resetTime = headerMap.get("X-Rate-Limit-Reset")
+                .get(0);
+        String remoteEndpoint = headerMap.get("X-Rate-Limit-Bucket")
+                .get(0);
+        log.info("******KookReplyService.updateAPIRateLimit：X-Rate-Limit-Reset：{} X-Rate-Limit-Bucket：{} X-Rate-Limit-Remaining：{}", resetTime, remoteEndpoint, remaining);
+        rateLimitService.updateRemoteEndpointLimit(remoteEndpoint, Integer.parseInt(resetTime), PlatformEnum.KOOK);
     }
 }
