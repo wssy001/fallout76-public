@@ -18,7 +18,7 @@ jobs:
       - name: 配置环境
         uses: graalvm/setup-graalvm@v1
         with:
-          version: 'latest'
+          version: '22.3.1'
           java-version: '19'
           components: 'native-image'
           github-token: ${{ secrets.RELEASE_TOKEN }}
@@ -28,7 +28,7 @@ jobs:
       - name: 构建 Native Image
         shell: bash
         run: |
-          cd /home/runner/work/fallout76-public/fallout76-public
+          cd D:/a/fallout76-public/fallout76-public
           mvn clean install -U -Dmaven.test.skip=true
           cd base-service-provider
           mvn native:compile -Pnative -Dmaven.test.skip=true
@@ -36,7 +36,7 @@ jobs:
       - name: 打包
         shell: bash
         run: |
-          cd /home/runner/work/fallout76-public/fallout76-public/base-service-provider
+          cd D:/a/fallout76-public/fallout76-public/base-service-provider
           mkdir -p fallout76-assistant/config
           cd fallout76-assistant
           cp ../src/main/resources/application.yml config/
