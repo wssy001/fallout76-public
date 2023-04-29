@@ -7,10 +7,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.ImportRuntimeHints;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.security.Provider;
 import java.security.Security;
 
+@EnableScheduling
 @SpringBootApplication
 @EnableAspectJAutoProxy
 @ComponentScan("cyou.wssy001.**")
