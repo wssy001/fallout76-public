@@ -143,12 +143,12 @@ public class PhotoServiceImpl implements PhotoService, ApplicationListener<Conte
             pen.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
             pen.setRenderingHint(KEY_TEXT_ANTIALIASING, VALUE_TEXT_ANTIALIAS_ON);
             pen.setFont(new Font("华康少女字体", Font.ITALIC, 40));
-            pen.drawString(String.format("A点：\t%s", nukaCode.getAlpha()), 70, 240);
-            pen.drawString(String.format("B点：\t%s", nukaCode.getBravo()), 70, 310);
-            pen.drawString(String.format("C点：\t%s", nukaCode.getCharlie()), 70, 380);
+            pen.drawString(String.format("A点：\t%s", nukaCode.getAlpha()), 55, 240);
+            pen.drawString(String.format("B点：\t%s", nukaCode.getBravo()), 55, 310);
+            pen.drawString(String.format("C点：\t%s", nukaCode.getCharlie()), 55, 380);
             pen.setFont(new Font("华康少女字体", Font.PLAIN, 20));
             pen.setColor(Color.BLACK);
-            pen.drawString(String.format("过期时间：\t%s", DateUtil.format(nukaCode.getExpireTime(), "MM月dd日 HH时 （北京时间）")), 55, 440);
+            pen.drawString(String.format("过期时间：\t%s", DateUtil.format(nukaCode.getExpireTime(), "MM月dd日 HH时 （北京时间）")), 40, 440);
             ImageIO.write(image, "png", file);
             image.flush();
             log.info("******PhotoServiceImpl.createNukaCodePhoto：图片：{} 生成成功，路径：{}", name, file.getPath());
