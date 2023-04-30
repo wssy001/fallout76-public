@@ -16,13 +16,4 @@ public class PhotoInfo {
     private PlatformEnum platform;
     private String key;
     private Map<String, String> urlMap;
-
-    public void setPlatform(int code) {
-        for (PlatformEnum platform : PlatformEnum.values()) {
-            if (platform.getCode() == code) {
-                this.platform = platform;
-                return;
-            }
-        }
-    }
 }

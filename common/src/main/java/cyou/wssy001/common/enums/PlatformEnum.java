@@ -1,5 +1,7 @@
 package cyou.wssy001.common.enums;
 
+import com.alibaba.fastjson2.annotation.JSONCreator;
+import com.alibaba.fastjson2.annotation.JSONField;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -19,4 +21,20 @@ public enum PlatformEnum {
 
     private final int code;
     private final String description;
+
+    @JSONField
+    public int getCode() {
+        return code;
+    }
+
+    @JSONCreator
+    public static PlatformEnum from(int code) {
+        for (PlatformEnum v : values()) {
+            if (v.code == code) {
+                return v;
+            }
+        }
+
+        throw new IllegalArgumentException("code " + code);
+    }
 }

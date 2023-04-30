@@ -46,10 +46,10 @@ robot-config:
     verify-token:
     #Kook机器人Encrypt Key 例：JKHsuiayda ,为空代表不启用 默认：空
     encrypt-key:
-    #Kook Bot Market Online接口地址 默认：http://bot.gekj.net
-    bot-market-online-api-url: http://bot.gekj.net
+    #Kook Bot Market Online接口地址 默认：http://bot.gekj.net/api/v1/online.bot
+    bot-market-online-api-url: http://bot.gekj.net/api/v1/online.bot
     #Kook Bot Market UUID
-    bot-market-uuid: f1e29386-93d7-4fbc-99a5-0b62e64c02ec
+    bot-market-uuid:
 
   #DoDo配置，使用webhook模式，若enable为false则不生效，参数详见https://doker.imdodo.com/application
   dodo:
