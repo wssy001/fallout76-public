@@ -40,13 +40,10 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
+        <finalName>fallout76-assistant-robot</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -63,6 +60,7 @@
                 <groupId>org.graalvm.buildtools</groupId>
                 <artifactId>native-maven-plugin</artifactId>
                 <configuration>
+                    <imageName>fallout76-assistant-robot</imageName>
                     <buildArgs combine.children="append">
                         <buildArg>--enable-preview</buildArg>
                         <buildArg>--enable-https</buildArg>

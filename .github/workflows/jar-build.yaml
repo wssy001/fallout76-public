@@ -32,7 +32,7 @@ jobs:
           mkdir -p fallout76-assistant/config
           cd fallout76-assistant
           cp ../src/main/resources/application.yml config/
-          cp ../target/*.jar ./fallout76-assistant.jar
+          cp ../target/*.jar ./fallout76-assistant-robot.jar
           tar -zcvf fallout76-assistant.tar.gz ./*
 
       - name: 获取当前 Tag

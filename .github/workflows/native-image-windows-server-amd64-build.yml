@@ -40,8 +40,8 @@ jobs:
           mkdir -p fallout76-assistant/config
           cd fallout76-assistant
           cp ../src/main/resources/application.yml config/
-          cp ../target/base-service-provider.exe ./
-          echo 'base-service-provider.exe' >> run.bat
+          cp ../target/fallout76-assistant-robot.exe ./
+          echo 'fallout76-assistant-robot.exe' >> run.bat
           tar -zcvf fallout76-assistant.tar.gz ./*
 
       - name: 获取当前 Tag

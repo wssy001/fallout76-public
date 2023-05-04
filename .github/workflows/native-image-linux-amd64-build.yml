@@ -38,9 +38,9 @@ jobs:
           mkdir -p fallout76-assistant/config
           cd fallout76-assistant
           cp ../src/main/resources/application.yml config/
-          cp ../target/base-service-provider ./
+          cp ../target/fallout76-assistant-robot ./
           echo '#!/bin/bash' > run.sh
-          echo './base-service-provider' >> run.sh
+          echo './fallout76-assistant-robot' >> run.sh
           chmod +x run.sh
           tar -zcvf fallout76-assistant.tar.gz ./*
 
