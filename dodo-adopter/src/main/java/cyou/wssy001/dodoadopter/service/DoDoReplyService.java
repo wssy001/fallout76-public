@@ -4,7 +4,6 @@ import cn.hutool.core.util.StrUtil;
 import cyou.wssy001.common.dto.BaseReplyMsgDTO;
 import cyou.wssy001.common.enums.HttpEnum;
 import cyou.wssy001.common.enums.PlatformEnum;
-import cyou.wssy001.common.service.RateLimitService;
 import cyou.wssy001.common.service.ReplyService;
 import cyou.wssy001.dodoadopter.config.DoDoConfig;
 import cyou.wssy001.dodoadopter.dto.DoDoReplyMsgDTO;
@@ -59,7 +58,7 @@ public class DoDoReplyService implements ReplyService {
                     .POST(HttpRequest.BodyPublishers.ofString(DoDoReplyMsgDTO.getMsg()))
                     .build();
 
-            log.info("******DoDoReplyService.reply：准备发送回复消息，消息内容：\n{}", DoDoReplyMsgDTO.getMsg());
+            log.debug("******DoDoReplyService.reply：准备发送回复消息，消息内容：\n{}", DoDoReplyMsgDTO.getMsg());
             try {
                 HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
                 String body = response.body();

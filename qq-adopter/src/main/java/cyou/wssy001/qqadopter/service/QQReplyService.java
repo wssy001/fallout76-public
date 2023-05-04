@@ -52,7 +52,7 @@ public class QQReplyService implements ReplyService {
                     .POST(HttpRequest.BodyPublishers.ofString(QQReplyMsgDTO.getMsg()))
                     .build();
 
-            log.info("******QQReplyService.reply：准备发送回复消息，消息内容：\n{}", QQReplyMsgDTO.getMsg());
+            log.debug("******QQReplyService.reply：准备发送回复消息，消息内容：\n{}", QQReplyMsgDTO.getMsg());
             try {
                 HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
                 String body = response.body();

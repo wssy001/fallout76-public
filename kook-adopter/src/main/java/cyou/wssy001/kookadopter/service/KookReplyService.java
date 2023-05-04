@@ -54,7 +54,7 @@ public class KookReplyService implements ReplyService {
                     .POST(HttpRequest.BodyPublishers.ofString(kookReplyMsgDTO.getMsg()))
                     .build();
 
-            log.info("******KookReplyService.reply：准备发送回复消息，消息内容：\n{}", kookReplyMsgDTO.getMsg());
+            log.debug("******KookReplyService.reply：准备发送回复消息，消息内容：\n{}", kookReplyMsgDTO.getMsg());
             try {
                 HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
                 String body = response.body();
@@ -85,7 +85,7 @@ public class KookReplyService implements ReplyService {
                 .get(0);
         String remoteEndpoint = headerMap.get("X-Rate-Limit-Bucket")
                 .get(0);
-        log.info("******KookReplyService.updateAPIRateLimit：X-Rate-Limit-Reset：{} X-Rate-Limit-Bucket：{} X-Rate-Limit-Remaining：{}", resetTime, remoteEndpoint, remaining);
+        log.debug("******KookReplyService.updateAPIRateLimit：X-Rate-Limit-Reset：{} X-Rate-Limit-Bucket：{} X-Rate-Limit-Remaining：{}", resetTime, remoteEndpoint, remaining);
         rateLimitService.updateRemoteEndpointLimit(remoteEndpoint, Integer.parseInt(resetTime), PlatformEnum.KOOK);
     }
 }

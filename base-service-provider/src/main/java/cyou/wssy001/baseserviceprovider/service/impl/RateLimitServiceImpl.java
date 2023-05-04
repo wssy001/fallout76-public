@@ -29,25 +29,30 @@ public class RateLimitServiceImpl implements RateLimitService {
     @Override
     public boolean hasRemain(String remoteEndpoint, PlatformEnum platform) {
         String key = remoteEndpoint + platform.getCode();
-        LocalDateTime now = LocalDateTime.now(ZoneId.of("GMT+8"));
         LocalDateTime time = ENDPOINT_RESET_TIME.get(key);
-        return time == null || time.isBefore(now);
+        if (time == null) return true;
+
+        LocalDateTime now = LocalDateTime.now(ZoneId.of("GMT+8"));
+        return time.isBefore(now);
     }
 
     @Override
     public boolean hasRemain(String user, String eventKey, PlatformEnum platform) {
-        return CAFFEINE.getIfPresent(user + eventKey + platform.getCode()) == null;
+        String key = user + eventKey + platform.getCode();
+        return CAFFEINE.getIfPresent(key) == null;
     }
 
     @Override
     public void updateRemoteEndpointLimit(String remoteEndpoint, int resetTime, PlatformEnum platform) {
         LocalDateTime time = LocalDateTime.now(ZoneId.of("GMT+8"))
                 .plusSeconds(resetTime);
-        ENDPOINT_RESET_TIME.compute(remoteEndpoint + platform.getCode(), (k, v) -> time);
+        String key = remoteEndpoint + platform.getCode();
+        ENDPOINT_RESET_TIME.compute(key, (k, v) -> time);
     }
 
     @Override
     public void updateUserLimit(String user, String eventKey, PlatformEnum platform) {
-        CAFFEINE.put(user + eventKey + platform.getCode(), 1);
+        String key = user + eventKey + platform.getCode();
+        CAFFEINE.put(key, 1);
     }
 }
