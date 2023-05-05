@@ -44,7 +44,7 @@ public class MothManDoDoEventHandler implements BaseHandler {
 
     @Override
     public Set<String> getKeys() {
-        return Set.of("/天蛾人", "/天蛾人事件","/天蛾人春分");
+        return Set.of("/天蛾人", "/天蛾人事件", "/天蛾人春分");
     }
 
     @Override

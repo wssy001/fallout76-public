@@ -84,7 +84,7 @@ public class HandlerServiceImpl implements HandlerService {
 
         baseHandler.getKeys()
                 .stream()
-                .map(key -> platformCode + "-" + key + "-" + eventTypeCode)
+                .map(key -> String.format("%d-%s-%d", platformCode, key, eventTypeCode))
                 .forEach(key -> putToMap(key, baseHandler, mapName));
     }
 
@@ -95,7 +95,7 @@ public class HandlerServiceImpl implements HandlerService {
         int eventTypeCode = eventType.getCode();
         baseHelpHandler.getKeys()
                 .stream()
-                .map(key -> platformCode + "-" + key + "-" + eventTypeCode)
+                .map(key -> String.format("%d-%s-%d", platformCode, key, eventTypeCode))
                 .forEach(key -> putToMap(key, baseHelpHandler, "help"));
     }
 
@@ -105,7 +105,7 @@ public class HandlerServiceImpl implements HandlerService {
                 .getCode();
         EventEnum eventType = baseEvent.getEventType();
         int eventTypeCode = eventType.getCode();
-        String key = platformCode + "-" + eventKey + "-" + eventTypeCode;
+        String key = String.format("%d-%s-%d", platformCode, eventKey, eventTypeCode);
 
         switch (eventType) {
             case FRIEND -> {
@@ -127,7 +127,7 @@ public class HandlerServiceImpl implements HandlerService {
                 .getCode();
         EventEnum eventType = baseEvent.getEventType();
         int eventTypeCode = eventType.getCode();
-        String key = platformCode + "-" + eventKey + "-" + eventTypeCode;
+        String key = String.format("%d-%s-%d", platformCode, eventKey, eventTypeCode);
         return helpHandlerMap.get(key);
     }
 

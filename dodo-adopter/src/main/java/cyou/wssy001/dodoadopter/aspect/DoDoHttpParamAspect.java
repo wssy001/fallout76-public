@@ -12,6 +12,7 @@ import cyou.wssy001.common.entity.BasePrivateEvent;
 import cyou.wssy001.common.enums.EventEnum;
 import cyou.wssy001.common.enums.PlatformEnum;
 import cyou.wssy001.common.service.CheckUser;
+import cyou.wssy001.common.service.DuplicateMessageService;
 import cyou.wssy001.common.service.RateLimitService;
 import cyou.wssy001.dodoadopter.config.DoDoConfig;
 import cyou.wssy001.dodoadopter.dto.DoDoEventDTO;
@@ -42,8 +43,9 @@ public class DoDoHttpParamAspect {
     private final RateLimitService rateLimitService;
     private final HttpServletRequest httpServletRequest;
     private final HttpServletResponse httpServletResponse;
+    private final DuplicateMessageService duplicateMessageService;
 
-    private Cipher cipher;
+    private static Cipher cipher;
 
     @PostConstruct
     public void init() throws Exception {
@@ -105,6 +107,17 @@ public class DoDoHttpParamAspect {
                 .getString("content");
         String key = ReUtil.getGroup0("^/[一-龥a-zA-z]+", content);
         if (StrUtil.isBlank(key)) return null;
+
+        String messageId = eventBody.getString("messageId");
+        if (StrUtil.isBlank(messageId)) {
+            log.error("******DoDoHttpParamAspect.checkDoDoHttpParam：messageId为空");
+            return null;
+        }
+
+        if (duplicateMessageService.hasConsumed(messageId, PlatformEnum.DODO)) {
+            log.debug("******DoDoHttpParamAspect.checkDoDoHttpParam：消息：{} 已被消费", jsonObject.toJSONString());
+            return null;
+        }
 
         BaseEvent baseEvent;
         switch (dodoEventDTOData.getEventType()) {

@@ -12,6 +12,7 @@ import cyou.wssy001.common.entity.BaseEvent;
 import cyou.wssy001.common.entity.BasePrivateEvent;
 import cyou.wssy001.common.enums.PlatformEnum;
 import cyou.wssy001.common.service.CheckUser;
+import cyou.wssy001.common.service.DuplicateMessageService;
 import cyou.wssy001.common.service.RateLimitService;
 import cyou.wssy001.kookadopter.config.KookConfig;
 import cyou.wssy001.kookadopter.dto.KookEventDTO;
@@ -43,6 +44,7 @@ public class KookHttpParamAspect {
     private final RateLimitService rateLimitService;
     private final HttpServletRequest httpServletRequest;
     private final HttpServletResponse httpServletResponse;
+    private final DuplicateMessageService duplicateMessageService;
 
 
     @Pointcut("execution(void cyou.wssy001.kookadopter.controller.KookEventController.handleKookEvent(..))")
@@ -79,6 +81,14 @@ public class KookHttpParamAspect {
 
         String channelType = kookEventDTO.getChannelType();
         if (StrUtil.isBlank(channelType)) return null;
+
+        String msgId = kookEventDTO.getMsgId();
+        log.info("******KookHttpParamAspect.checkKookHttpParam：{}", msgId);
+        if (StrUtil.isNotBlank(msgId) && duplicateMessageService.hasConsumed(msgId, PlatformEnum.KOOK)) {
+            log.debug("******KookHttpParamAspect.checkKookHttpParam：消息：{} 已被消费", jsonObject.toJSONString());
+            return null;
+        }
+
         String authorId = kookEventDTO.getAuthorId();
         String content = kookEventDTO.getContent();
         String key = ReUtil.getGroup0("^/[一-龥a-zA-z]+", content);

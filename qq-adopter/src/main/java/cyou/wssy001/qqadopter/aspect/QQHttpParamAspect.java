@@ -13,6 +13,7 @@ import cyou.wssy001.common.entity.BaseEvent;
 import cyou.wssy001.common.entity.BasePrivateEvent;
 import cyou.wssy001.common.enums.PlatformEnum;
 import cyou.wssy001.common.service.CheckUser;
+import cyou.wssy001.common.service.DuplicateMessageService;
 import cyou.wssy001.common.service.RateLimitService;
 import cyou.wssy001.qqadopter.config.QQConfig;
 import cyou.wssy001.qqadopter.dto.QQChannelEventDTO;
@@ -40,8 +41,9 @@ public class QQHttpParamAspect {
     private final CheckUser<QQEventDTO> checkUser;
     private final RateLimitService rateLimitService;
     private final HttpServletRequest httpServletRequest;
+    private final DuplicateMessageService duplicateMessageService;
 
-    private Mac mac;
+    private static Mac mac;
 
     @PostConstruct
     public void init() throws Exception {
@@ -83,10 +85,19 @@ public class QQHttpParamAspect {
         BasePlatformEventDTO basePlatformEventDTO;
         BaseEvent baseEvent;
         String messageType = jsonObject.getString("message_type");
-        if (StrUtil.isBlank(messageType)) return null;
+        String messageId = jsonObject.getString("message_id");
+        if (StrUtil.hasBlank(messageType, messageId)) return null;
+
+        PlatformEnum platform = messageType.equals("guild") ? PlatformEnum.QQ_GUILD : PlatformEnum.QQ;
+        if (duplicateMessageService.hasConsumed(messageId, platform)) {
+            log.debug("******QQHttpParamAspect.checkQQHttpParam：消息：{} 已被消费", jsonObject.toJSONString());
+            return null;
+        }
+
         switch (messageType) {
             case "guild" -> {
                 if (!qqConfig.isEnableQQChannel()) return null;
+
                 baseEvent = new BaseEvent()
                         .setEventKey(key)
                         .setPlatform(PlatformEnum.QQ_GUILD);
@@ -123,7 +134,6 @@ public class QQHttpParamAspect {
         if (ObjUtil.hasNull(baseEvent, basePlatformEventDTO)) return null;
 
         String userId = jsonObject.getString("user_id");
-        PlatformEnum platform = messageType.equals("guild") ? PlatformEnum.QQ_GUILD : PlatformEnum.QQ;
         if (!rateLimitService.hasRemain(userId, key, platform)) {
             log.error("******QQHttpParamAspect.checkQQHttpParam：发现 {} 用户：{} 重复请求指令：{}", platform.getDescription(), userId, key);
             return null;

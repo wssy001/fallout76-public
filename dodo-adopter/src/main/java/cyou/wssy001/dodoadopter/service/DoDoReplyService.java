@@ -41,8 +41,8 @@ public class DoDoReplyService implements ReplyService {
 
     @Override
     public void reply(BaseReplyMsgDTO msg) {
-        if (msg instanceof DoDoReplyMsgDTO DoDoReplyMsgDTO) {
-            log.info("******DoDoReplyService.reply：正在回复：{} 指令", DoDoReplyMsgDTO.getEventKey());
+        if (msg instanceof DoDoReplyMsgDTO doDoReplyMsgDTO) {
+            log.info("******DoDoReplyService.reply：正在回复：{} 指令", doDoReplyMsgDTO.getEventKey());
             String clientId = dodoConfig.getClientId();
             String botToken = dodoConfig.getBotToken();
             if (StrUtil.hasBlank(clientId, botToken)) {
@@ -51,14 +51,14 @@ public class DoDoReplyService implements ReplyService {
             }
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(dodoConfig.getOpenApiBaseUrl() + DoDoReplyMsgDTO.getApiEndPoint()))
+                    .uri(URI.create(dodoConfig.getOpenApiBaseUrl() + doDoReplyMsgDTO.getApiEndPoint()))
                     .header(HttpHeaders.USER_AGENT, HttpEnum.USER_AGENT.getValue())
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                     .header(HttpHeaders.AUTHORIZATION, String.format("Bot %s.%s", clientId, botToken))
-                    .POST(HttpRequest.BodyPublishers.ofString(DoDoReplyMsgDTO.getMsg()))
+                    .POST(HttpRequest.BodyPublishers.ofString(doDoReplyMsgDTO.getMsg()))
                     .build();
 
-            log.debug("******DoDoReplyService.reply：准备发送回复消息，消息内容：\n{}", DoDoReplyMsgDTO.getMsg());
+            log.debug("******DoDoReplyService.reply：准备发送回复消息，消息内容：\n{}", doDoReplyMsgDTO.getMsg());
             try {
                 HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
                 String body = response.body();
@@ -70,7 +70,7 @@ public class DoDoReplyService implements ReplyService {
 
                 log.info("******DoDoReplyService.reply：回复消息发送成功，结果：{}", body);
             } catch (Exception e) {
-                log.error("******DoDoReplyService.reply：回复：{} 失败，原因：{}", DoDoReplyMsgDTO.getEventKey(), e.getMessage());
+                log.error("******DoDoReplyService.reply：回复：{} 失败，原因：{}", doDoReplyMsgDTO.getEventKey(), e.getMessage());
             }
         }
     }

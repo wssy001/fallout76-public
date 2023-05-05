@@ -46,7 +46,7 @@ public class GetUserIdDoDoEventHandler implements BaseHandler {
 
     @Override
     public BaseReplyMsgDTO consume(BaseEvent baseEvent, BasePlatformEventDTO basePlatformEventDTO) {
-        if (baseEvent instanceof BasePrivateEvent basePrivateEvent && basePlatformEventDTO instanceof DoDoEventDTO dodoEventDTO) {
+        if (baseEvent instanceof BasePrivateEvent && basePlatformEventDTO instanceof DoDoEventDTO dodoEventDTO) {
             String eventKey = baseEvent.getEventKey();
             DoDoEventDTO.EventBody dodoEventDTOData = dodoEventDTO.getData();
             JSONObject eventBody = dodoEventDTOData.getEventBody();
@@ -63,6 +63,7 @@ public class GetUserIdDoDoEventHandler implements BaseHandler {
 
             String format = String.format(DoDoReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), stringBuilder);
             String replyMsg = String.format(DoDoReplyMsgTemplateEnum.PRIVATE_TEXT_MSG.getMsg(), islandSourceId, dodoSourceId, format);
+
             return new DoDoReplyMsgDTO()
                     .setApiEndPoint("/api/v2/personal/message/send")
                     .setEventKey(eventKey)

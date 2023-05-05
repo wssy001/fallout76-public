@@ -19,8 +19,8 @@ public class CheckQQAdminService implements CheckUser<QQEventDTO> {
 
 
     @Override
-    public boolean check(QQEventDTO QQEventDTO) {
-        Long userId = QQEventDTO.getUserId();
+    public boolean check(QQEventDTO qqEventDTO) {
+        Long userId = qqEventDTO.getUserId();
         return QQConfig.getAdmins()
                 .contains(userId);
     }

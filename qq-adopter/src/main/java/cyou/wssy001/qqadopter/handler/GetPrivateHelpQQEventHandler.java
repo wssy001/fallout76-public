@@ -62,9 +62,9 @@ public class GetPrivateHelpQQEventHandler implements BaseHelpHandler {
 
     @Override
     public BaseReplyMsgDTO consume(BaseEvent baseEvent, BasePlatformEventDTO basePlatformEventDTO) {
-        if (baseEvent instanceof BasePrivateEvent && basePlatformEventDTO instanceof QQEventDTO QQEventDTO) {
+        if (baseEvent instanceof BasePrivateEvent && basePlatformEventDTO instanceof QQEventDTO qqEventDTO) {
             String replyMsg;
-            Long userId = QQEventDTO.getUserId();
+            Long userId = qqEventDTO.getUserId();
             if (StrUtil.isBlank(msg)) {
                 String format = String.format(QQReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "暂无帮助内容，请联系管理员添加");
                 replyMsg = String.format(QQReplyMsgTemplateEnum.PRIVATE_TEXT_MSG.getMsg(), userId, format);

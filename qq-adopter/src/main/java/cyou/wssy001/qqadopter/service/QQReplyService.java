@@ -30,29 +30,28 @@ import java.util.List;
 @RequiredArgsConstructor
 public class QQReplyService implements ReplyService {
     private final QQConfig qqConfig;
-
     private final HttpClient httpClient;
 
 
     @Override
     public List<PlatformEnum> getPlatforms() {
-        return List.of(PlatformEnum.QQ, PlatformEnum.QQ_GUILD);
+        return List.of(PlatformEnum.QQ);
     }
 
     @Override
     public void reply(BaseReplyMsgDTO msg) {
-        if (msg instanceof QQReplyMsgDTO QQReplyMsgDTO) {
-            log.info("******QQReplyService.reply：正在回复：{} 指令", QQReplyMsgDTO.getEventKey());
+        if (msg instanceof QQReplyMsgDTO qqReplyMsgDTO) {
+            log.info("******QQReplyService.reply：正在回复：{} 指令", qqReplyMsgDTO.getEventKey());
             String accessToken = qqConfig.getAccessToken() == null ? "" : qqConfig.getAccessToken();
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(qqConfig.getGoCqhttpUrl() + QQReplyMsgDTO.getApiEndPoint()))
+                    .uri(URI.create(qqConfig.getGoCqhttpUrl() + qqReplyMsgDTO.getApiEndPoint()))
                     .header(HttpHeaders.USER_AGENT, HttpEnum.USER_AGENT.getValue())
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                     .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
-                    .POST(HttpRequest.BodyPublishers.ofString(QQReplyMsgDTO.getMsg()))
+                    .POST(HttpRequest.BodyPublishers.ofString(qqReplyMsgDTO.getMsg()))
                     .build();
 
-            log.debug("******QQReplyService.reply：准备发送回复消息，消息内容：\n{}", QQReplyMsgDTO.getMsg());
+            log.debug("******QQReplyService.reply：准备发送回复消息，消息内容：\n{}", qqReplyMsgDTO.getMsg());
             try {
                 HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
                 String body = response.body();
@@ -64,7 +63,7 @@ public class QQReplyService implements ReplyService {
 
                 log.info("******QQReplyService.reply：回复消息发送成功，结果：{}", body);
             } catch (Exception e) {
-                log.error("******QQReplyService.reply：回复：{} 失败，原因：{}", QQReplyMsgDTO.getEventKey(), e.getMessage());
+                log.error("******QQReplyService.reply：回复：{} 失败，原因：{}", qqReplyMsgDTO.getEventKey(), e.getMessage());
             }
         }
     }
