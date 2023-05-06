@@ -86,6 +86,7 @@ public class KookReplyService implements ReplyService {
         String remoteEndpoint = headerMap.get("X-Rate-Limit-Bucket")
                 .get(0);
         log.debug("******KookReplyService.updateAPIRateLimit：X-Rate-Limit-Reset：{} X-Rate-Limit-Bucket：{} X-Rate-Limit-Remaining：{}", resetTime, remoteEndpoint, remaining);
-        rateLimitService.updateRemoteEndpointLimit(remoteEndpoint, Integer.parseInt(resetTime), PlatformEnum.KOOK);
+        if (!resetTime.equals("0"))
+            rateLimitService.updateRemoteEndpointLimit(remoteEndpoint, Integer.parseInt(resetTime), PlatformEnum.KOOK);
     }
 }

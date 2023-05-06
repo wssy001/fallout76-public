@@ -8,7 +8,6 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import cyou.wssy001.common.entity.BaseAdminEvent;
 import cyou.wssy001.common.entity.BaseEvent;
-import cyou.wssy001.common.entity.BasePrivateEvent;
 import cyou.wssy001.common.enums.EventEnum;
 import cyou.wssy001.common.enums.PlatformEnum;
 import cyou.wssy001.common.service.CheckUser;
@@ -47,6 +46,7 @@ public class DoDoHttpParamAspect {
 
     private static Cipher cipher;
 
+
     @PostConstruct
     public void init() throws Exception {
         String secretKey = dodoConfig.getSecretKey();
@@ -59,7 +59,6 @@ public class DoDoHttpParamAspect {
         cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
         cipher.init(Cipher.DECRYPT_MODE, sKeySpec, params);
     }
-
 
     @Pointcut("execution(void cyou.wssy001.dodoadopter.controller.DoDoHttpEventController.handleDoDoEvent(..))")
     public void pointcut() {
@@ -119,39 +118,44 @@ public class DoDoHttpParamAspect {
             return null;
         }
 
+        String dodoSourceId = eventBody.getString("dodoSourceId");
         BaseEvent baseEvent;
         switch (dodoEventDTOData.getEventType()) {
 //            消息事件
-            case "2001" -> baseEvent = new BaseEvent()
-                    .setEventKey(key)
-                    .setPlatform(PlatformEnum.DODO)
-                    .setEventType(EventEnum.GROUP);
+            case "2001" -> {
+                if (!rateLimitService.hasRemain("channel/message/send", PlatformEnum.DODO, EventEnum.GROUP)) {
+                    log.error("******DoDoHttpParamAspect.checkDoDoHttpParam：无法回复 {} 用户：{} 的指令：{}，API限速中", PlatformEnum.DODO.getDescription(), dodoSourceId, key);
+                    return null;
+                }
+
+                baseEvent = new BaseEvent()
+                        .setEventKey(key)
+                        .setPlatform(PlatformEnum.DODO)
+                        .setEventType(EventEnum.GROUP);
+            }
 //            私信事件
             case "1001" -> {
-                if (checkUser.check(dodoEventDTO)) {
-                    baseEvent = new BaseAdminEvent()
-                            .setEventKey(key)
-                            .setPlatform(PlatformEnum.DODO)
-                            .setEventType(EventEnum.ADMIN);
-                } else {
-                    baseEvent = new BasePrivateEvent()
-                            .setEventKey(key)
-                            .setPlatform(PlatformEnum.DODO)
-                            .setEventType(EventEnum.FRIEND);
+                if (!rateLimitService.hasRemain("personal/message/send", PlatformEnum.DODO, EventEnum.FRIEND)) {
+                    log.error("******DoDoHttpParamAspect.checkDoDoHttpParam：无法回复 {} 用户：{} 的指令：{}，API限速中", PlatformEnum.DODO.getDescription(), dodoSourceId, key);
+                    return null;
                 }
+
+                EventEnum eventEnum = checkUser.check(dodoEventDTO) ? EventEnum.ADMIN : EventEnum.FRIEND;
+                baseEvent = new BaseAdminEvent()
+                        .setEventKey(key)
+                        .setPlatform(PlatformEnum.DODO)
+                        .setEventType(eventEnum);
             }
             default -> {
                 return null;
             }
         }
 
-        String dodoSourceId = eventBody.getString("dodoSourceId");
         if (!rateLimitService.hasRemain(dodoSourceId, key, PlatformEnum.DODO)) {
             log.error("******DoDoHttpParamAspect.checkDoDoHttpParam：发现 {} 用户：{} 重复请求指令：{}", PlatformEnum.DODO.getDescription(), dodoSourceId, key);
             return null;
         }
 
-        rateLimitService.updateUserLimit(dodoSourceId, key, PlatformEnum.DODO);
         return joinPoint.proceed(new Object[]{baseEvent, dodoEventDTO});
     }
 

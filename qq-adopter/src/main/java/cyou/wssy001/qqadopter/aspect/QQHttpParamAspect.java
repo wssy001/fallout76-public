@@ -139,7 +139,6 @@ public class QQHttpParamAspect {
             return null;
         }
 
-        rateLimitService.updateUserLimit(userId, key, platform);
         return joinPoint.proceed(new Object[]{baseEvent, basePlatformEventDTO});
     }
 

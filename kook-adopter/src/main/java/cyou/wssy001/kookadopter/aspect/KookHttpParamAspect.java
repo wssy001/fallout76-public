@@ -10,6 +10,7 @@ import com.alibaba.fastjson2.JSONObject;
 import cyou.wssy001.common.entity.BaseAdminEvent;
 import cyou.wssy001.common.entity.BaseEvent;
 import cyou.wssy001.common.entity.BasePrivateEvent;
+import cyou.wssy001.common.enums.EventEnum;
 import cyou.wssy001.common.enums.PlatformEnum;
 import cyou.wssy001.common.service.CheckUser;
 import cyou.wssy001.common.service.DuplicateMessageService;
@@ -83,7 +84,6 @@ public class KookHttpParamAspect {
         if (StrUtil.isBlank(channelType)) return null;
 
         String msgId = kookEventDTO.getMsgId();
-        log.info("******KookHttpParamAspect.checkKookHttpParam：{}", msgId);
         if (StrUtil.isNotBlank(msgId) && duplicateMessageService.hasConsumed(msgId, PlatformEnum.KOOK)) {
             log.debug("******KookHttpParamAspect.checkKookHttpParam：消息：{} 已被消费", jsonObject.toJSONString());
             return null;
@@ -107,7 +107,7 @@ public class KookHttpParamAspect {
             }
             case "PERSON" -> {
                 if (StrUtil.isBlank(key)) return null;
-                if (!rateLimitService.hasRemain("direct-message/create", PlatformEnum.KOOK)) {
+                if (!rateLimitService.hasRemain("direct-message/create", PlatformEnum.KOOK, EventEnum.FRIEND)) {
                     log.error("******KookHttpParamAspect.checkKookHttpParam：无法回复 {} 用户：{} 的指令：{}，API限速中", PlatformEnum.KOOK.getDescription(), authorId, key);
                     return null;
                 }
@@ -124,7 +124,7 @@ public class KookHttpParamAspect {
             }
             case "GROUP" -> {
                 if (StrUtil.isBlank(key)) return null;
-                if (!rateLimitService.hasRemain("message/create", PlatformEnum.KOOK)) {
+                if (!rateLimitService.hasRemain("message/create", PlatformEnum.KOOK, EventEnum.GROUP)) {
                     log.error("******KookHttpParamAspect.checkKookHttpParam：无法回复 {} 用户：{} 的指令：{}，API限速中", PlatformEnum.KOOK.getDescription(), authorId, key);
                     return null;
                 }
@@ -144,7 +144,6 @@ public class KookHttpParamAspect {
             return null;
         }
 
-        rateLimitService.updateUserLimit(authorId, key, PlatformEnum.KOOK);
         return joinPoint.proceed(new Object[]{baseEvent, kookEventDTO});
     }
 
