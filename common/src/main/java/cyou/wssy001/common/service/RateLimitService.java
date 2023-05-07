@@ -1,5 +1,6 @@
 package cyou.wssy001.common.service;
 
+import cyou.wssy001.common.enums.EventEnum;
 import cyou.wssy001.common.enums.PlatformEnum;
 
 /**
@@ -10,11 +11,10 @@ import cyou.wssy001.common.enums.PlatformEnum;
  */
 public interface RateLimitService {
 
-    boolean hasRemain(String remoteEndpoint, PlatformEnum platform);
-
     boolean hasRemain(String user, String eventKey, PlatformEnum platform);
+
+    boolean hasRemain(String remoteEndpoint, PlatformEnum platform, EventEnum eventType);
 
     void updateRemoteEndpointLimit(String remoteEndpoint, int resetTime, PlatformEnum platform);
 
-    void updateUserLimit(String user, String eventKey, PlatformEnum platform);
 }

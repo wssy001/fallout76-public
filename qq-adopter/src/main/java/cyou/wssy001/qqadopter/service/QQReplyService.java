@@ -35,7 +35,7 @@ public class QQReplyService implements ReplyService {
 
     @Override
     public List<PlatformEnum> getPlatforms() {
-        return List.of(PlatformEnum.QQ);
+        return List.of(PlatformEnum.QQ, PlatformEnum.QQ_GUILD);
     }
 
     @Override
