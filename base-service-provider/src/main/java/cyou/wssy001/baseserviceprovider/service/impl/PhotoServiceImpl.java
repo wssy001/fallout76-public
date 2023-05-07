@@ -120,22 +120,12 @@ public class PhotoServiceImpl implements PhotoService, ApplicationListener<Conte
     public boolean createNukaCodePhoto(String name, NukaCode nukaCode) {
         log.info("******PhotoServiceImpl.createNukaCodePhoto：正在生成图片：{}", name);
         File file = new File(PathUtil.getJarPath() + "/config/" + name);
-        if (file.exists()) {
-            long lastModified = file.lastModified();
-            long epochMilli = nukaCode.getExpireTime()
-                    .toInstant(ZoneOffset.ofHours(8))
-                    .toEpochMilli();
-            if (lastModified < epochMilli) {
-                log.info("******PhotoServiceImpl.createNukaCodePhoto：已有图片：{} 且未过期，图片生成取消", name);
-                return true;
-            }
-        }
-
         ClassPathResource classPathResource = new ClassPathResource("nukaCodeBG.png");
         if (!classPathResource.exists()) {
             log.error("******PhotoServiceImpl.createNukaCodePhoto：没有找到 nukaCodeBG.png，请检查 base-service-provider/src/main/resources/ 下有无 nukaCodeBG.png 文件");
             return false;
         }
+
         try (InputStream inputStream = classPathResource.getInputStream()) {
             BufferedImage image = ImageIO.read(inputStream);
             Graphics2D pen = image.createGraphics();

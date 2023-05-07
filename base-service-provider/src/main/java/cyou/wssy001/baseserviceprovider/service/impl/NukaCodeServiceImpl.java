@@ -57,6 +57,7 @@ public class NukaCodeServiceImpl implements NukaCodeService, ApplicationListener
             fileCacheService.cacheNukaCode(NukaCodeServiceImpl.nukaCode.get());
         } else {
             updateNukaCode(nukaCode);
+            photoService.createNukaCodePhoto("nukaCode.png", nukaCode);
         }
 
         log.info("******NukaCodeServiceImpl.onApplicationEvent：初始化核弹密码完毕");
