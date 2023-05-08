@@ -26,8 +26,8 @@
 
     <properties>
         <java.version>19</java.version>
-        <fastjson.version>2.0.28</fastjson.version>
-        <hutool.version>5.8.15</hutool.version>
+        <fastjson.version>2.0.31</fastjson.version>
+        <hutool.version>5.8.18</hutool.version>
         <apache-commons.version>1.10.0</apache-commons.version>
         <bouncycastle.version>1.73</bouncycastle.version>
     </properties>

@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.InputStream;
@@ -30,13 +31,14 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.time.ZoneOffset;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static java.awt.RenderingHints.*;
+import static java.awt.font.TextAttribute.*;
 
 @Slf4j
 @Component
@@ -127,18 +129,34 @@ public class PhotoServiceImpl implements PhotoService, ApplicationListener<Conte
         }
 
         try (InputStream inputStream = classPathResource.getInputStream()) {
+            if (!file.exists()) file.createNewFile();
+
             BufferedImage image = ImageIO.read(inputStream);
             Graphics2D pen = image.createGraphics();
+            HashMap<TextAttribute, Object> hm = new HashMap<>();
+            hm.put(TextAttribute.SIZE, 130.34);
+            hm.put(WEIGHT, WEIGHT_REGULAR);
+            hm.put(TextAttribute.TRACKING, TRACKING_TIGHT);
+            hm.put(TextAttribute.FAMILY, "Share-TechMono Regular");
+            Font font = new Font(hm);
+            pen.setFont(font);
             pen.setColor(Color.WHITE);
             pen.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
             pen.setRenderingHint(KEY_TEXT_ANTIALIASING, VALUE_TEXT_ANTIALIAS_ON);
-            pen.setFont(new Font("华康少女字体", Font.ITALIC, 40));
-            pen.drawString(String.format("A点：\t%s", nukaCode.getAlpha()), 55, 240);
-            pen.drawString(String.format("B点：\t%s", nukaCode.getBravo()), 55, 310);
-            pen.drawString(String.format("C点：\t%s", nukaCode.getCharlie()), 55, 380);
-            pen.setFont(new Font("华康少女字体", Font.PLAIN, 20));
-            pen.setColor(Color.BLACK);
-            pen.drawString(String.format("过期时间：\t%s", DateUtil.format(nukaCode.getExpireTime(), "MM月dd日 HH时 （北京时间）")), 40, 440);
+            pen.drawString(nukaCode.getAlpha(), 1021, 485);
+            pen.drawString(nukaCode.getBravo(), 1072, 637);
+            pen.drawString(nukaCode.getCharlie(), 1186, 779);
+
+            HashMap<TextAttribute, Object> hm2 = new HashMap<>();
+            hm2.put(TextAttribute.UNDERLINE, 2);
+            hm2.put(TextAttribute.SIZE, 50.27);
+            hm2.put(TextAttribute.WEIGHT, WEIGHT_BOLD);
+            hm2.put(TextAttribute.FAMILY, "Microsoft YaHei");
+            Font font2 = new Font(hm2);
+            pen.setFont(font2);
+            pen.setColor(new Color(216, 206, 108));
+            String timeString = DateUtil.format(nukaCode.getStartTime(), "yyyy年MM月dd日") + " - " + DateUtil.format(nukaCode.getExpireTime(), "MM月dd日");
+            pen.drawString(timeString, 1106, 918);
             ImageIO.write(image, "png", file);
             image.flush();
             log.info("******PhotoServiceImpl.createNukaCodePhoto：图片：{} 生成成功，路径：{}", name, file.getPath());
