@@ -105,7 +105,8 @@ public class NukaCodeServiceImpl implements NukaCodeService, ApplicationListener
         LocalDateTime expireTime = now.plusDays(7 - week)
                 .plusHours(8);
         NukaCode nukaCode = nukaCodes.toJavaObject(NukaCode.class);
-        nukaCode.setExpireTime(expireTime);
+        nukaCode.setExpireTime(expireTime)
+                .setStartTime(expireTime.minusDays(7));
         if (cache) fileCacheService.cacheNukaCode(nukaCode);
         photoService.createNukaCodePhoto("nukaCode.png", nukaCode);
         return updateNukaCode(nukaCode);
