@@ -57,16 +57,16 @@ public class PittQQGuildEventHandler implements BaseHandler {
             String guildId = qqChannelEventDTO.getGuildId();
             String channelId = qqChannelEventDTO.getChannelId();
             Map<String, String> pittPicUrls = photoService.getPhotoUrls("pitt", this.getPlatform());
+            String format;
             String replyMsg;
             if (CollUtil.isEmpty(pittPicUrls)) {
                 log.error("******PittQQGuildEventHandler.consume：匹兹堡奖励清单图片获取失败");
-                String format = String.format(QQReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "匹兹堡奖励清单图片获取失败，请联系管理员");
-                replyMsg = String.format(QQReplyMsgTemplateEnum.GUILD_TEXT_MSG.getMsg(), guildId, channelId, format);
+                format = String.format(QQReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "匹兹堡奖励清单图片获取失败，请联系管理员");
             } else {
-                String format = String.format(QQReplyMsgTemplateEnum.PITT_MSG_TEMPLATE.getMsg(), pittPicUrls.get("1"));
-                replyMsg = String.format(QQReplyMsgTemplateEnum.GUILD_TEXT_MSG.getMsg(), guildId, channelId, format);
+                format = String.format(QQReplyMsgTemplateEnum.PITT_MSG_TEMPLATE.getMsg(), pittPicUrls.get("1"));
             }
 
+            replyMsg = String.format(QQReplyMsgTemplateEnum.GUILD_TEXT_MSG.getMsg(), guildId, channelId, format);
             return new QQReplyMsgDTO()
                     .setApiEndPoint("/send_guild_channel_msg")
                     .setEventKey(baseEvent.getEventKey())

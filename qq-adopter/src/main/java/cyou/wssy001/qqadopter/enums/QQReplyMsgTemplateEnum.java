@@ -90,7 +90,23 @@ public enum QQReplyMsgTemplateEnum {
                 {
                     "type": "image",
                     "data": {
-                        "file": "base64://%s"
+                        "file": "%s"
+                    }
+                }
+            ]
+            """),
+    HELP_PHOTO_MSG_TEMPLATE("""
+            [
+                {
+                    "type": "text",
+                    "data": {
+                        "text": "帮助"
+                    }
+                },
+                {
+                    "type": "image",
+                    "data": {
+                        "file": "%s"
                     }
                 }
             ]

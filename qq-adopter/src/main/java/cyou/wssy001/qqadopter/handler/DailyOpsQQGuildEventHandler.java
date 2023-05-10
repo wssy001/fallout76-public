@@ -57,16 +57,16 @@ public class DailyOpsQQGuildEventHandler implements BaseHandler {
             String guildId = qqChannelEventDTO.getGuildId();
             String channelId = qqChannelEventDTO.getChannelId();
             Map<String, String> dailyOpsPicUrls = photoService.getPhotoUrls("dailyOps", this.getPlatform());
+            String format;
             String replyMsg;
             if (CollUtil.isEmpty(dailyOpsPicUrls)) {
                 log.error("******DailyOpsQQGuildEventHandler.consume：日常行动独特奖励速览图片获取失败");
-                String format = String.format(QQReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "日常行动独特奖励速览图片获取失败，请联系管理员");
-                replyMsg = String.format(QQReplyMsgTemplateEnum.GUILD_TEXT_MSG.getMsg(), guildId, channelId, format);
+                format = String.format(QQReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "日常行动独特奖励速览图片获取失败，请联系管理员");
             } else {
-                String format = String.format(QQReplyMsgTemplateEnum.DAILY_OPS_MSG_TEMPLATE.getMsg(), dailyOpsPicUrls.get("1"));
-                replyMsg = String.format(QQReplyMsgTemplateEnum.GUILD_TEXT_MSG.getMsg(), guildId, channelId, format);
+                format = String.format(QQReplyMsgTemplateEnum.DAILY_OPS_MSG_TEMPLATE.getMsg(), dailyOpsPicUrls.get("1"));
             }
 
+            replyMsg = String.format(QQReplyMsgTemplateEnum.GUILD_TEXT_MSG.getMsg(), guildId, channelId, format);
             return new QQReplyMsgDTO()
                     .setApiEndPoint("/send_guild_channel_msg")
                     .setEventKey(baseEvent.getEventKey())

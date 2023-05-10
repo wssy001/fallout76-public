@@ -43,7 +43,7 @@ public class MothManQQEventHandler implements BaseHandler {
 
     @Override
     public Set<String> getKeys() {
-        return Set.of("/天蛾人", "/天蛾人事件","/天蛾人春分");
+        return Set.of("/天蛾人", "/天蛾人事件", "/天蛾人春分");
     }
 
     @Override
@@ -56,16 +56,16 @@ public class MothManQQEventHandler implements BaseHandler {
         if (basePlatformEventDTO instanceof QQEventDTO qqEventDTO) {
             Long groupId = qqEventDTO.getGroupId();
             Map<String, String> mothManPicUrls = photoService.getPhotoUrls("moth-man", this.getPlatform());
+            String format;
             String replyMsg;
             if (CollUtil.isEmpty(mothManPicUrls)) {
                 log.error("******MothManQQEventHandler.consume：天蛾人春分季节性攻略指南图片获取失败");
-                String format = String.format(QQReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "天蛾人春分季节性攻略指南图片获取失败，请联系管理员");
-                replyMsg = String.format(QQReplyMsgTemplateEnum.GROUP_TEXT_MSG.getMsg(), groupId, format);
+                format = String.format(QQReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "天蛾人春分季节性攻略指南图片获取失败，请联系管理员");
             } else {
-                String format = String.format(QQReplyMsgTemplateEnum.MOTH_MAN_MSG_TEMPLATE.getMsg(), mothManPicUrls.get("1"));
-                replyMsg = String.format(QQReplyMsgTemplateEnum.GROUP_TEXT_MSG.getMsg(), groupId, format);
+                format = String.format(QQReplyMsgTemplateEnum.MOTH_MAN_MSG_TEMPLATE.getMsg(), mothManPicUrls.get("1"));
             }
 
+            replyMsg = String.format(QQReplyMsgTemplateEnum.GROUP_TEXT_MSG.getMsg(), groupId, format);
             return new QQReplyMsgDTO()
                     .setApiEndPoint("/send_group_msg")
                     .setEventKey(baseEvent.getEventKey())

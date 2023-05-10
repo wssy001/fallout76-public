@@ -56,16 +56,16 @@ public class SeasonCalendarQQEventHandler implements BaseHandler {
         if (basePlatformEventDTO instanceof QQEventDTO qqEventDTO) {
             Long groupId = qqEventDTO.getGroupId();
             Map<String, String> seasonCalendarPicUrls = photoService.getPhotoUrls("seasonCalendar", this.getPlatform());
+            String format;
             String replyMsg;
             if (CollUtil.isEmpty(seasonCalendarPicUrls)) {
                 log.error("******SeasonCalendarQQEventHandler.consume：社区日程表图片获取失败");
-                String format = String.format(QQReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "社区日程表图片获取失败，请联系管理员");
-                replyMsg = String.format(QQReplyMsgTemplateEnum.GROUP_TEXT_MSG.getMsg(), groupId, format);
+                format = String.format(QQReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "社区日程表图片获取失败，请联系管理员");
             } else {
-                String format = String.format(QQReplyMsgTemplateEnum.SEASON_CALENDAR_MSG_TEMPLATE.getMsg(), seasonCalendarPicUrls.get("1"));
-                replyMsg = String.format(QQReplyMsgTemplateEnum.GROUP_TEXT_MSG.getMsg(), groupId, format);
+                format = String.format(QQReplyMsgTemplateEnum.SEASON_CALENDAR_MSG_TEMPLATE.getMsg(), seasonCalendarPicUrls.get("1"));
             }
 
+            replyMsg = String.format(QQReplyMsgTemplateEnum.GROUP_TEXT_MSG.getMsg(), groupId, format);
             return new QQReplyMsgDTO()
                     .setApiEndPoint("/send_group_msg")
                     .setEventKey(baseEvent.getEventKey())

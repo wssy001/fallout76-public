@@ -46,7 +46,7 @@ public class GetUserIdQQEventHandler implements BaseHandler {
 
     @Override
     public BaseReplyMsgDTO consume(BaseEvent baseEvent, BasePlatformEventDTO basePlatformEventDTO) {
-        if (baseEvent instanceof BasePrivateEvent basePrivateEvent && basePlatformEventDTO instanceof QQEventDTO qqEventDTO) {
+        if (baseEvent instanceof BasePrivateEvent && basePlatformEventDTO instanceof QQEventDTO qqEventDTO) {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("        ");
             JSONObject sender = qqEventDTO.getSender();
