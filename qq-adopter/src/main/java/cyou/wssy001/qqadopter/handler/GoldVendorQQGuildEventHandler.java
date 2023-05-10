@@ -57,16 +57,16 @@ public class GoldVendorQQGuildEventHandler implements BaseHandler {
             String guildId = qqChannelEventDTO.getGuildId();
             String channelId = qqChannelEventDTO.getChannelId();
             Map<String, String> goldVendorPicUrls = photoService.getPhotoUrls("goldVendor", this.getPlatform());
+            String format;
             String replyMsg;
             if (CollUtil.isEmpty(goldVendorPicUrls)) {
                 log.error("******GoldVendorQQGuildEventHandler.consume：米诺瓦日程表图片获取失败");
-                String format = String.format(QQReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "米诺瓦日程表图片获取失败，请联系管理员");
-                replyMsg = String.format(QQReplyMsgTemplateEnum.GUILD_TEXT_MSG.getMsg(), guildId, channelId, format);
+                format = String.format(QQReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "米诺瓦日程表图片获取失败，请联系管理员");
             } else {
-                String format = String.format(QQReplyMsgTemplateEnum.GOLD_VENDOR_MSG_TEMPLATE.getMsg(), goldVendorPicUrls.get("1"));
-                replyMsg = String.format(QQReplyMsgTemplateEnum.GUILD_TEXT_MSG.getMsg(), guildId, channelId, format);
+                format = String.format(QQReplyMsgTemplateEnum.GOLD_VENDOR_MSG_TEMPLATE.getMsg(), goldVendorPicUrls.get("1"));
             }
 
+            replyMsg = String.format(QQReplyMsgTemplateEnum.GUILD_TEXT_MSG.getMsg(), guildId, channelId, format);
             return new QQReplyMsgDTO()
                     .setApiEndPoint("/send_guild_channel_msg")
                     .setEventKey(baseEvent.getEventKey())

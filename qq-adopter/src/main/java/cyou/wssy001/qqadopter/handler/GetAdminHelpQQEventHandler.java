@@ -63,17 +63,16 @@ public class GetAdminHelpQQEventHandler implements BaseHelpHandler {
     @Override
     public BaseReplyMsgDTO consume(BaseEvent baseEvent, BasePlatformEventDTO basePlatformEventDTO) {
         if (baseEvent instanceof BaseAdminEvent && basePlatformEventDTO instanceof QQEventDTO qqEventDTO) {
-
+            String format;
             String replyMsg;
             Long userId = qqEventDTO.getUserId();
             if (StrUtil.isBlank(msg)) {
-                String format = String.format(QQReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "暂无帮助内容，请联系管理员添加");
-                replyMsg = String.format(QQReplyMsgTemplateEnum.PRIVATE_TEXT_MSG.getMsg(), userId, format);
+                format = String.format(QQReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "暂无帮助内容，请联系管理员添加");
             } else {
-                String format = String.format(QQReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), msg);
-                replyMsg = String.format(QQReplyMsgTemplateEnum.PRIVATE_TEXT_MSG.getMsg(), userId, format);
+                format = String.format(QQReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), msg);
             }
 
+            replyMsg = String.format(QQReplyMsgTemplateEnum.PRIVATE_TEXT_MSG.getMsg(), userId, format);
             return new QQReplyMsgDTO()
                     .setApiEndPoint("/send_private_msg")
                     .setEventKey(baseEvent.getEventKey())

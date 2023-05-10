@@ -1,8 +1,6 @@
 package cyou.wssy001.qqadopter.handler;
 
-import cn.hutool.core.codec.Base64Encoder;
 import cn.hutool.core.date.LocalDateTimeUtil;
-import cn.hutool.core.io.FileUtil;
 import cyou.wssy001.common.dto.BasePlatformEventDTO;
 import cyou.wssy001.common.dto.BaseReplyMsgDTO;
 import cyou.wssy001.common.entity.BaseEvent;
@@ -62,27 +60,24 @@ public class NukaCodeQQEventHandler implements BaseHandler {
         if (basePlatformEventDTO instanceof QQEventDTO qqEventDTO) {
             Long groupId = qqEventDTO.getGroupId();
             NukaCode nukaCode = nukaCodeService.getNukaCode();
+            String format;
             String replyMsg;
             if (nukaCode == null) {
                 log.error("******NukaCodeQQEventHandler.consume：nukaCode获取失败");
-                String format = String.format(QQReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "nukaCode获取失败，请联系管理员");
-                replyMsg = String.format(QQReplyMsgTemplateEnum.GROUP_TEXT_MSG.getMsg(), groupId, format);
+                format = String.format(QQReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "nukaCode获取失败，请联系管理员");
             } else {
-                String format;
                 File file = new File(PathUtil.getJarPath() + "/config/nukaCode.png");
                 if (file.exists()) {
-                    byte[] bytes = FileUtil.readBytes(file);
-                    String base64 = Base64Encoder.encode(bytes);
-                    format = String.format(QQReplyMsgTemplateEnum.NUKA_CODE_PHOTO_MSG_TEMPLATE.getMsg(), base64);
+                    format = String.format(QQReplyMsgTemplateEnum.NUKA_CODE_PHOTO_MSG_TEMPLATE.getMsg(), file.toURI());
                 } else {
                     Thread.ofVirtual()
                             .start(() -> photoService.createNukaCodePhoto("nukaCode.png", nukaCode));
                     String expireTime = LocalDateTimeUtil.format(nukaCode.getExpireTime(), "yyyy年MM月dd日 HH点mm分");
                     format = String.format(QQReplyMsgTemplateEnum.NUKA_CODE_MSG_TEMPLATE.getMsg(), nukaCode.getAlpha(), nukaCode.getBravo(), nukaCode.getCharlie(), expireTime);
                 }
-                replyMsg = String.format(QQReplyMsgTemplateEnum.GROUP_TEXT_MSG.getMsg(), groupId, format);
             }
 
+            replyMsg = String.format(QQReplyMsgTemplateEnum.GROUP_TEXT_MSG.getMsg(), groupId, format);
             return new QQReplyMsgDTO()
                     .setApiEndPoint("/send_group_msg")
                     .setEventKey(baseEvent.getEventKey())

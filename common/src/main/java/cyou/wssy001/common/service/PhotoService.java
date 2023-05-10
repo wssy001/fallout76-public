@@ -4,8 +4,10 @@ import cyou.wssy001.common.entity.NukaCode;
 import cyou.wssy001.common.entity.PhotoInfo;
 import cyou.wssy001.common.enums.PlatformEnum;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @Description: 图片服务类
@@ -23,5 +25,7 @@ public interface PhotoService {
 
     boolean refreshPhotos(boolean cache);
 
-    boolean createNukaCodePhoto(String name, NukaCode nukaCode);
+    void createNukaCodePhoto(String name, NukaCode nukaCode);
+
+    void createHelpPhoto(String name, HashMap<Set<String>, String> map);
 }

@@ -2,6 +2,7 @@ package cyou.wssy001.baseserviceprovider.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSONArray;
 import cyou.wssy001.common.entity.NukaCode;
@@ -31,10 +32,8 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static java.awt.RenderingHints.*;
@@ -119,17 +118,20 @@ public class PhotoServiceImpl implements PhotoService, ApplicationListener<Conte
     }
 
     @Override
-    public boolean createNukaCodePhoto(String name, NukaCode nukaCode) {
+    public void createNukaCodePhoto(String name, NukaCode nukaCode) {
         log.info("******PhotoServiceImpl.createNukaCodePhoto：正在生成图片：{}", name);
         File file = new File(PathUtil.getJarPath() + "/config/" + name);
-        ClassPathResource classPathResource = new ClassPathResource("nukaCodeBG.png");
-        if (!classPathResource.exists()) {
+        ClassPathResource nukaCodeBGResource = new ClassPathResource("nukaCodeBG.png");
+        if (!nukaCodeBGResource.exists()) {
             log.error("******PhotoServiceImpl.createNukaCodePhoto：没有找到 nukaCodeBG.png，请检查 base-service-provider/src/main/resources/ 下有无 nukaCodeBG.png 文件");
-            return false;
+            return;
         }
 
-        try (InputStream inputStream = classPathResource.getInputStream()) {
-            if (!file.exists()) file.createNewFile();
+        try (InputStream inputStream = nukaCodeBGResource.getInputStream()) {
+            if (!file.exists() && !file.createNewFile()) {
+                log.error("******PhotoServiceImpl.createNukaCodePhoto：生成临时文件：{} 失败", file.getPath());
+                return;
+            }
 
             BufferedImage image = ImageIO.read(inputStream);
             Graphics2D pen = image.createGraphics();
@@ -160,14 +162,225 @@ public class PhotoServiceImpl implements PhotoService, ApplicationListener<Conte
             ImageIO.write(image, "png", file);
             image.flush();
             log.info("******PhotoServiceImpl.createNukaCodePhoto：图片：{} 生成成功，路径：{}", name, file.getPath());
-            return true;
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+        }
+    }
+
+    @Override
+    public void createHelpPhoto(String name, HashMap<Set<String>, String> map) {
+        ClassPathResource headResource = new ClassPathResource("head.png");
+        ClassPathResource bodyResource = new ClassPathResource("body.png");
+        ClassPathResource tailResource = new ClassPathResource("tail.png");
+        if (!headResource.exists() || !bodyResource.exists() || !tailResource.exists()) {
+            log.error("******PhotoServiceImpl.createHelpPhoto：没有找到相应文件，base-service-provider/src/main/resources/ 下有无 head.png、body.png、tail.png 文件");
+            return;
+        }
+
+        try (InputStream head = headResource.getInputStream();
+             InputStream body = bodyResource.getInputStream();
+             InputStream tail = tailResource.getInputStream()) {
+
+            File file = new File(PathUtil.getJarPath() + "/config/" + name);
+            if (!file.exists() && !file.createNewFile()) {
+                log.error("******PhotoServiceImpl.createHelpPhoto：生成临时文件：{} 失败", file.getPath());
+                return;
+            }
+
+            BufferedImage headImage = ImageIO.read(head);
+            BufferedImage bodyImage = ImageIO.read(body);
+            BufferedImage tailImage = ImageIO.read(tail);
+
+            int bodyImageCount = getBodyImageCount(map, 100, bodyImage.getWidth() - 200, bodyImage.getHeight() - 200);
+            int height = headImage.getHeight() + bodyImage.getHeight() * bodyImageCount + tailImage.getHeight();
+            int width = headImage.getWidth();
+            BufferedImage baseImage = new BufferedImage(width, height, headImage.getType());
+            Graphics2D pen = baseImage.createGraphics();
+            pen.setRenderingHint(KEY_RENDERING, VALUE_RENDER_QUALITY);
+            pen.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
+            pen.setRenderingHint(KEY_COLOR_RENDERING, VALUE_COLOR_RENDER_QUALITY);
+            pen.setRenderingHint(KEY_TEXT_ANTIALIASING, VALUE_TEXT_ANTIALIAS_ON);
+
+            // 渲染头图片
+            int y = 0;
+            pen.drawImage(headImage, 0, y, headImage.getWidth(), headImage.getHeight(), null);
+            y += headImage.getHeight();
+            int bodyHeight = y;
+
+            // 渲染身体图片集合
+            for (int i = 0; i < bodyImageCount; i++) {
+                pen.drawImage(bodyImage, 0, y, bodyImage.getWidth(), bodyImage.getHeight(), null);
+                y += bodyImage.getHeight();
+            }
+
+            // 渲染文字指令
+            HashMap<TextAttribute, Object> hashMap = new HashMap<>();
+            hashMap.put(TextAttribute.WEIGHT, WEIGHT_BOLD);
+            hashMap.put(TextAttribute.FAMILY, "Microsoft YaHei");
+            pen.setColor(Color.WHITE);
+
+            int fontSize = 100;
+            for (Entry<Set<String>, String> next : map.entrySet()) {
+                hashMap.put(TextAttribute.SIZE, fontSize);
+                Font font = new Font(hashMap);
+                pen.setFont(font);
+
+                for (String line : generateKeyLines(next.getKey(), font.getSize(), bodyImage.getWidth() - 200)) {
+                    pen.drawString(line, 0, bodyHeight);
+                    bodyHeight += 1.3 * fontSize;
+                }
+
+                hashMap.put(TextAttribute.SIZE, fontSize * 0.7);
+                font = new Font(hashMap);
+                pen.setFont(font);
+                for (String line : generateDescriptionLines(next.getValue(), font.getSize(), bodyImage.getWidth() - 200)) {
+                    pen.drawString(line, 0, bodyHeight);
+                    bodyHeight += 1.3 * fontSize;
+                }
+                bodyHeight += 1.3 * fontSize;
+            }
+
+            // 渲染尾图片
+            pen.drawImage(tailImage, 0, y, tailImage.getWidth(), tailImage.getHeight(), null);
+            ImageIO.write(baseImage, "png", file);
+            pen.dispose();
+            baseImage.flush();
+            log.info("******PhotoServiceImpl.createHelpPhoto：图片：{} 生成成功，路径：{}", name, file.getPath());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     private void updatePhotos(List<PhotoInfo> photoInfoList) {
         PhotoServiceImpl.photoInfoList.addAll(photoInfoList);
+    }
+
+    private int getBodyImageCount(Map<Set<String>, String> commandMap, int fontSize, int imageWidth, int imageHeight) {
+        double totalHeight = 0;
+        Iterator<Entry<Set<String>, String>> iterator = commandMap.entrySet()
+                .iterator();
+        while (iterator.hasNext()) {
+            Entry<Set<String>, String> entry = iterator.next();
+            int keysLineCount = calcKeysLines(entry.getKey(), fontSize, imageWidth);
+            int descriptionLineCount = calcDescriptionLines(entry.getValue(), 0.7 * fontSize, imageWidth);
+            totalHeight += fontSize * (keysLineCount + descriptionLineCount);
+            totalHeight += 0.3 * fontSize * (keysLineCount + descriptionLineCount - 2);
+            if (iterator.hasNext()) totalHeight += 1.3 * fontSize;
+        }
+        return (int) Math.ceil(totalHeight / imageHeight);
+    }
+
+    /**
+     * 一个汉字     1倍      fontSize
+     * 一个英文/    0.5倍    fontSize
+     * 4个空格     1倍      fontSize
+     */
+    private int calcKeysLines(Set<String> keys, double fontSize, int imageWidth) {
+        List<String> temp = new ArrayList<>(List.copyOf(keys));
+        temp.sort(Comparator.comparingInt(String::length));
+        int lineCount = 1;
+        // 预留一个汉字宽度
+        double currentLineWidth = fontSize;
+
+        while (!temp.isEmpty()) {
+            double keyWidth = 0;
+            String key = temp.get(0);
+
+            // 英文字符宽度
+            keyWidth += 0.5 * fontSize;
+            // 汉字宽度
+            keyWidth += ReUtil.count("[一-颉]", key) * fontSize;
+
+            if (currentLineWidth + keyWidth >= imageWidth) {
+                lineCount += 1;
+                currentLineWidth = 100;
+            }
+
+            currentLineWidth += keyWidth;
+            temp.remove(key);
+        }
+
+        return lineCount;
+    }
+
+    private int calcDescriptionLines(String description, double fontSize, int imageWidth) {
+        int lineCount = 1;
+        // 预留二个汉字宽度
+        double currentLineWidth = 2 * fontSize;
+        if (currentLineWidth + description.length() * fontSize <= imageWidth)
+            return 1;
+
+        for (int i = 0; i < description.length(); i++) {
+            currentLineWidth += fontSize;
+            if (currentLineWidth > imageWidth) {
+                lineCount += 1;
+                currentLineWidth = 0;
+            }
+        }
+
+        return lineCount;
+    }
+
+    private List<String> generateKeyLines(Set<String> keys, double fontSize, int imageWidth) {
+        List<String> temp = new ArrayList<>(List.copyOf(keys));
+        temp.sort(Comparator.comparingInt(String::length));
+
+        List<String> lines = new ArrayList<>();
+        StringBuilder line = new StringBuilder();
+
+        // 预留一个汉字宽度
+        double currentLineWidth = fontSize;
+        line.append("    ");
+
+        while (!temp.isEmpty()) {
+            double keyWidth = 0;
+            String key = temp.get(0);
+
+            // 英文字符宽度
+            keyWidth += 0.5 * fontSize;
+            // 汉字宽度
+            keyWidth += ReUtil.count("[一-颉]", key) * fontSize;
+
+            if (currentLineWidth + keyWidth >= imageWidth) {
+                lines.add(line.toString());
+                line.setLength(0);
+                currentLineWidth = 100;
+                line.append("    ");
+            }
+
+            currentLineWidth += keyWidth;
+            if (!line.isEmpty()) line.append("    ");
+            line.append(key);
+            temp.remove(key);
+        }
+
+        lines.add(line.toString());
+        return lines;
+    }
+
+    private List<String> generateDescriptionLines(String description, double fontSize, int imageWidth) {
+        List<String> lines = new ArrayList<>();
+        StringBuilder line = new StringBuilder();
+
+        // 预留二个汉字宽度
+        double currentLineWidth = 2 * fontSize;
+        line.append("    ")
+                .append("    ");
+
+        if (currentLineWidth + description.length() * fontSize <= imageWidth)
+            return Collections.singletonList(line.append(description).toString());
+
+        for (int i = 0; i < description.length(); i++) {
+            line.append(description.charAt(i));
+            currentLineWidth += fontSize;
+            if (currentLineWidth > imageWidth) {
+                lines.add(line.toString());
+                line.setLength(0);
+                currentLineWidth = 0;
+            }
+        }
+
+        lines.add(line.toString());
+        return lines;
     }
 }
