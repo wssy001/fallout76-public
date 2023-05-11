@@ -59,16 +59,15 @@ public class GoldVendorDoDoEventHandler implements BaseHandler {
             JSONObject eventBody = dodoEventDTOData.getEventBody();
             String channelId = eventBody.getString("channelId");
             Map<String, String> goldVendorPicUrls = photoService.getPhotoUrls("goldVendor", this.getPlatform());
-            String replyMsg;
+            String format;
             if (CollUtil.isEmpty(goldVendorPicUrls)) {
                 log.error("******GoldVendorDoDoEventHandler.consume：米诺瓦日程表图片获取失败");
-                String format = String.format(DoDoReplyMsgTemplateEnum.ERROR_MSG_TEMPLATE.getMsg(), "米诺瓦日程表图片获取失败，请联系管理员");
-                replyMsg = String.format(DoDoReplyMsgTemplateEnum.CHANNEL_CARD_MSG.getMsg(), channelId, format);
+                format = String.format(DoDoReplyMsgTemplateEnum.ERROR_MSG_TEMPLATE.getMsg(), "米诺瓦日程表图片获取失败，请联系管理员");
             } else {
-                String format = String.format(DoDoReplyMsgTemplateEnum.GOLD_VENDOR_CARD.getMsg(), goldVendorPicUrls.get("1"));
-                replyMsg = String.format(DoDoReplyMsgTemplateEnum.CHANNEL_CARD_MSG.getMsg(), channelId, format);
+                format = String.format(DoDoReplyMsgTemplateEnum.GOLD_VENDOR_CARD.getMsg(), goldVendorPicUrls.get("1"));
             }
 
+            String replyMsg = String.format(DoDoReplyMsgTemplateEnum.CHANNEL_CARD_MSG.getMsg(), channelId, format);
             return new DoDoReplyMsgDTO()
                     .setApiEndPoint("/api/v2/channel/message/send")
                     .setEventKey(baseEvent.getEventKey())

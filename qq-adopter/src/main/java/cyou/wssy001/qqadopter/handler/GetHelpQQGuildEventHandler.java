@@ -73,7 +73,6 @@ public class GetHelpQQGuildEventHandler implements BaseHelpHandler {
     public BaseReplyMsgDTO consume(BaseEvent baseEvent, BasePlatformEventDTO basePlatformEventDTO) {
         if (basePlatformEventDTO instanceof QQChannelEventDTO qqChannelEventDTO) {
             String format;
-            String replyMsg;
             String guildId = qqChannelEventDTO.getGuildId();
             String channelId = qqChannelEventDTO.getChannelId();
             if (StrUtil.isBlank(msg)) {
@@ -87,7 +86,7 @@ public class GetHelpQQGuildEventHandler implements BaseHelpHandler {
                 }
             }
 
-            replyMsg = String.format(QQReplyMsgTemplateEnum.GUILD_TEXT_MSG.getMsg(), guildId, channelId, format);
+            String replyMsg = String.format(QQReplyMsgTemplateEnum.GUILD_TEXT_MSG.getMsg(), guildId, channelId, format);
             return new QQReplyMsgDTO()
                     .setApiEndPoint("/send_guild_channel_msg")
                     .setEventKey(baseEvent.getEventKey())

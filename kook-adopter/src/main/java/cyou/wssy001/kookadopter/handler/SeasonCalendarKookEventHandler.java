@@ -57,16 +57,15 @@ public class SeasonCalendarKookEventHandler implements BaseHandler {
         if (basePlatformEventDTO instanceof KookEventDTO kookEventDTO) {
             String targetId = kookEventDTO.getTargetId();
             Map<String, String> seasonCalendarPicUrls = photoService.getPhotoUrls("seasonCalendar", this.getPlatform());
-            String replyMsg;
+            String format;
             if (CollUtil.isEmpty(seasonCalendarPicUrls)) {
                 log.error("******SeasonCalendarKookEventHandler.consume：社区日程表图片获取失败");
-                String format = String.format(KookReplyMsgTemplateEnum.ERROR_MSG_CARD.getMsg(), "社区日程表图片获取失败，请联系管理员");
-                replyMsg = String.format(KookReplyMsgTemplateEnum.ERROR_MSG.getMsg(), targetId, StringEscapeUtils.escapeJava(format));
+                format = String.format(KookReplyMsgTemplateEnum.ERROR_MSG_CARD.getMsg(), "社区日程表图片获取失败，请联系管理员");
             } else {
-                String format = String.format(KookReplyMsgTemplateEnum.SEASON_CALENDAR_CARD.getMsg(), seasonCalendarPicUrls.get("1"));
-                replyMsg = String.format(KookReplyMsgTemplateEnum.CARD_MSG.getMsg(), targetId, StringEscapeUtils.escapeJava(format));
+                format = String.format(KookReplyMsgTemplateEnum.SEASON_CALENDAR_CARD.getMsg(), seasonCalendarPicUrls.get("1"));
             }
 
+            String replyMsg = String.format(KookReplyMsgTemplateEnum.CARD_MSG.getMsg(), targetId, StringEscapeUtils.escapeJava(format));
             return new KookReplyMsgDTO()
                     .setApiEndPoint("/api/v3/message/create")
                     .setEventKey(baseEvent.getEventKey())

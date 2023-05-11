@@ -57,19 +57,18 @@ public class NukaCodeKookEventHandler implements BaseHandler {
         if (basePlatformEventDTO instanceof KookEventDTO kookEventDTO) {
             String targetId = kookEventDTO.getTargetId();
             NukaCode nukaCode = nukaCodeService.getNukaCode();
-            String replyMsg;
+            String format;
             if (nukaCode == null) {
                 log.error("******NukaCodeKookEventHandler.consume：nukaCode获取失败");
-                String format = String.format(KookReplyMsgTemplateEnum.ERROR_MSG_CARD.getMsg(), "nukaCode获取失败，请联系管理员");
-                replyMsg = String.format(KookReplyMsgTemplateEnum.ERROR_MSG.getMsg(), targetId, StringEscapeUtils.escapeJava(format));
+                format = String.format(KookReplyMsgTemplateEnum.ERROR_MSG_CARD.getMsg(), "nukaCode获取失败，请联系管理员");
             } else {
                 long epochMilli = nukaCode.getExpireTime()
                         .toInstant(ZoneOffset.ofHours(8))
                         .toEpochMilli();
-                String format = String.format(KookReplyMsgTemplateEnum.NUKA_CODE_CARD.getMsg(), nukaCode.getAlpha(), nukaCode.getBravo(), nukaCode.getCharlie(), epochMilli);
-                replyMsg = String.format(KookReplyMsgTemplateEnum.CARD_MSG.getMsg(), targetId, StringEscapeUtils.escapeJava(format));
+                format = String.format(KookReplyMsgTemplateEnum.NUKA_CODE_CARD.getMsg(), nukaCode.getAlpha(), nukaCode.getBravo(), nukaCode.getCharlie(), epochMilli);
             }
 
+            String replyMsg = String.format(KookReplyMsgTemplateEnum.CARD_MSG.getMsg(), targetId, StringEscapeUtils.escapeJava(format));
             return new KookReplyMsgDTO()
                     .setApiEndPoint("/api/v3/message/create")
                     .setEventKey(baseEvent.getEventKey())

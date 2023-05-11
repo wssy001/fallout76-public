@@ -69,15 +69,14 @@ public class GetHelpDoDoEventHandler implements BaseHelpHandler {
             DoDoEventDTO.EventBody dodoEventDTOData = dodoEventDTO.getData();
             JSONObject eventBody = dodoEventDTOData.getEventBody();
             String channelId = eventBody.getString("channelId");
-            String replyMsg;
+            String format;
             if (StrUtil.isBlank(msg)) {
-                String format = String.format(DoDoReplyMsgTemplateEnum.ERROR_MSG_TEMPLATE.getMsg(), "暂无帮助内容，请联系管理员添加", eventKey);
-                replyMsg = String.format(DoDoReplyMsgTemplateEnum.CHANNEL_CARD_MSG.getMsg(), channelId, format);
+                format = String.format(DoDoReplyMsgTemplateEnum.ERROR_MSG_TEMPLATE.getMsg(), "暂无帮助内容，请联系管理员添加", eventKey);
             } else {
-                String format = String.format(DoDoReplyMsgTemplateEnum.HELP_MSG_TEMPLATE.getMsg(), msg, eventKey);
-                replyMsg = String.format(DoDoReplyMsgTemplateEnum.CHANNEL_CARD_MSG.getMsg(), channelId, format);
+                format = String.format(DoDoReplyMsgTemplateEnum.HELP_MSG_TEMPLATE.getMsg(), msg, eventKey);
             }
 
+            String replyMsg = String.format(DoDoReplyMsgTemplateEnum.CHANNEL_CARD_MSG.getMsg(), channelId, format);
             return new DoDoReplyMsgDTO()
                     .setApiEndPoint("/api/v2/channel/message/send")
                     .setEventKey(eventKey)

@@ -59,16 +59,15 @@ public class MothManDoDoEventHandler implements BaseHandler {
             JSONObject eventBody = dodoEventDTOData.getEventBody();
             String channelId = eventBody.getString("channelId");
             Map<String, String> mothManPicUrls = photoService.getPhotoUrls("moth-man", this.getPlatform());
-            String replyMsg;
+            String format;
             if (CollUtil.isEmpty(mothManPicUrls)) {
                 log.error("******MothManDoDoEventHandler.consume：天蛾人春分季节性攻略指南图片获取失败");
-                String format = String.format(DoDoReplyMsgTemplateEnum.ERROR_MSG_TEMPLATE.getMsg(), "天蛾人春分季节性攻略指南图片获取失败，请联系管理员");
-                replyMsg = String.format(DoDoReplyMsgTemplateEnum.CHANNEL_CARD_MSG.getMsg(), channelId, format);
+                format = String.format(DoDoReplyMsgTemplateEnum.ERROR_MSG_TEMPLATE.getMsg(), "天蛾人春分季节性攻略指南图片获取失败，请联系管理员");
             } else {
-                String format = String.format(DoDoReplyMsgTemplateEnum.MOTH_MAN_CARD.getMsg(), mothManPicUrls.get("1"));
-                replyMsg = String.format(DoDoReplyMsgTemplateEnum.CHANNEL_CARD_MSG.getMsg(), channelId, format);
+                format = String.format(DoDoReplyMsgTemplateEnum.MOTH_MAN_CARD.getMsg(), mothManPicUrls.get("1"));
             }
 
+            String replyMsg = String.format(DoDoReplyMsgTemplateEnum.CHANNEL_CARD_MSG.getMsg(), channelId, format);
             return new DoDoReplyMsgDTO()
                     .setApiEndPoint("/api/v2/channel/message/send")
                     .setEventKey(baseEvent.getEventKey())

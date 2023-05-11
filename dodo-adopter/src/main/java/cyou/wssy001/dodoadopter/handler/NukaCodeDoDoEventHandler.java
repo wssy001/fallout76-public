@@ -60,19 +60,18 @@ public class NukaCodeDoDoEventHandler implements BaseHandler {
             JSONObject eventBody = dodoEventDTOData.getEventBody();
             String channelId = eventBody.getString("channelId");
             NukaCode nukaCode = nukaCodeService.getNukaCode();
-            String replyMsg;
+            String format;
             if (nukaCode == null) {
                 log.error("******NukaCodeDoDoEventHandler.consume：nukaCode获取失败");
-                String format = String.format(DoDoReplyMsgTemplateEnum.ERROR_MSG_TEMPLATE.getMsg(), "nukaCode获取失败，请联系管理员", eventKey);
-                replyMsg = String.format(DoDoReplyMsgTemplateEnum.CHANNEL_CARD_MSG.getMsg(), channelId, format);
+                format = String.format(DoDoReplyMsgTemplateEnum.ERROR_MSG_TEMPLATE.getMsg(), "nukaCode获取失败，请联系管理员", eventKey);
             } else {
                 long epochMilli = nukaCode.getExpireTime()
                         .toInstant(ZoneOffset.ofHours(8))
                         .toEpochMilli();
-                String format = String.format(DoDoReplyMsgTemplateEnum.NUKA_CODE_CARD.getMsg(), nukaCode.getAlpha(), nukaCode.getBravo(), nukaCode.getCharlie(), epochMilli, eventKey);
-                replyMsg = String.format(DoDoReplyMsgTemplateEnum.CHANNEL_CARD_MSG.getMsg(), channelId, format);
+                format = String.format(DoDoReplyMsgTemplateEnum.NUKA_CODE_CARD.getMsg(), nukaCode.getAlpha(), nukaCode.getBravo(), nukaCode.getCharlie(), epochMilli, eventKey);
             }
 
+            String replyMsg = String.format(DoDoReplyMsgTemplateEnum.CHANNEL_CARD_MSG.getMsg(), channelId, format);
             return new DoDoReplyMsgDTO()
                     .setApiEndPoint("/api/v2/channel/message/send")
                     .setEventKey(eventKey)

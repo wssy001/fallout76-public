@@ -65,16 +65,15 @@ public class GetAdminHelpKookEventHandler implements BaseHelpHandler {
     @Override
     public BaseReplyMsgDTO consume(BaseEvent baseEvent, BasePlatformEventDTO basePlatformEventDTO) {
         if (baseEvent instanceof BaseAdminEvent && basePlatformEventDTO instanceof KookEventDTO kookEventDTO) {
-            String replyMsg;
+            String format;
             String targetId = kookEventDTO.getTargetId();
             if (StrUtil.isBlank(msg)) {
-                String format = String.format(KookReplyMsgTemplateEnum.ERROR_MSG_CARD.getMsg(), "暂无帮助内容，请联系管理员添加");
-                replyMsg = String.format(KookReplyMsgTemplateEnum.ERROR_MSG.getMsg(), targetId, StringEscapeUtils.escapeJava(format));
+                format = String.format(KookReplyMsgTemplateEnum.ERROR_MSG_CARD.getMsg(), "暂无帮助内容，请联系管理员添加");
             } else {
-                String format = String.format(KookReplyMsgTemplateEnum.HELP_MSG_CARD.getMsg(), msg);
-                replyMsg = String.format(KookReplyMsgTemplateEnum.CARD_MSG.getMsg(), targetId, StringEscapeUtils.escapeJava(format));
+                format = String.format(KookReplyMsgTemplateEnum.HELP_MSG_CARD.getMsg(), msg);
             }
 
+            String replyMsg = String.format(KookReplyMsgTemplateEnum.CARD_MSG.getMsg(), targetId, StringEscapeUtils.escapeJava(format));
             return new KookReplyMsgDTO()
                     .setApiEndPoint("/api/v3/direct-message/create")
                     .setEventKey(baseEvent.getEventKey())

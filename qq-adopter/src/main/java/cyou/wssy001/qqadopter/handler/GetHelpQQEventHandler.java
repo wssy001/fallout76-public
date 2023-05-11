@@ -75,7 +75,6 @@ public class GetHelpQQEventHandler implements BaseHelpHandler {
     public BaseReplyMsgDTO consume(BaseEvent baseEvent, BasePlatformEventDTO basePlatformEventDTO) {
         if (basePlatformEventDTO instanceof QQEventDTO qqEventDTO) {
             String format;
-            String replyMsg;
             Long groupId = qqEventDTO.getGroupId();
             if (StrUtil.isBlank(msg)) {
                 format = String.format(QQReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "暂无帮助内容，请联系管理员添加");
@@ -88,7 +87,7 @@ public class GetHelpQQEventHandler implements BaseHelpHandler {
                 }
             }
 
-            replyMsg = String.format(QQReplyMsgTemplateEnum.GROUP_TEXT_MSG.getMsg(), groupId, format);
+            String replyMsg = String.format(QQReplyMsgTemplateEnum.GROUP_TEXT_MSG.getMsg(), groupId, format);
             return new QQReplyMsgDTO()
                     .setApiEndPoint("/send_group_msg")
                     .setEventKey(baseEvent.getEventKey())

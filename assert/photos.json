@@ -166,5 +166,93 @@
     "urlMap": {
       "1": "https://img.imdodo.com/dodo/faa30ec395c43bd4dde910e8476cc991.png"
     }
+  },
+  {
+    "code": 1,
+    "key": "treasure",
+    "urlMap": {
+      "1": "https://s1.ax1x.com/2023/05/09/p90fvff.png"
+    }
+  },
+  {
+    "code": 2,
+    "key": "treasure",
+    "urlMap": {
+      "1": "https://s1.ax1x.com/2023/05/09/p90fvff.png"
+    }
+  },
+  {
+    "code": 3,
+    "key": "treasure",
+    "urlMap": {
+      "1": "https://img.kookapp.cn/attachments/2023-05/09/5Kn5tdvfkQ0qo5p2.png"
+    }
+  },
+  {
+    "code": 4,
+    "key": "treasure",
+    "urlMap": {
+      "1": "https://img.imdodo.com/openapitest/upload/cdn/C14DCDED73BBF50606B23C9E8998295A_1683597911406.png"
+    }
+  },
+  {
+    "code": 1,
+    "key": "cookbook",
+    "urlMap": {
+      "1": "https://s1.ax1x.com/2022/11/10/zpuzJ1.jpg",
+      "2": "https://s1.ax1x.com/2022/11/10/zpuxiR.jpg"
+    }
+  },
+  {
+    "code": 2,
+    "key": "cookbook",
+    "urlMap": {
+      "1": "https://s1.ax1x.com/2022/11/10/zpuzJ1.jpg",
+      "2": "https://s1.ax1x.com/2022/11/10/zpuxiR.jpg"
+    }
+  },
+  {
+    "code": 3,
+    "key": "cookbook",
+    "urlMap": {
+      "1": "https://img.kookapp.cn/attachments/2023-05/11/H4gCCqCnGM0p20cp.jpg",
+      "2": "https://img.kookapp.cn/attachments/2023-05/11/nT8Csa7D4C0p00m4.jpg"
+    }
+  },
+  {
+    "code": 4,
+    "key": "cookbook",
+    "urlMap": {
+      "1": "https://img.imdodo.com/openapitest/upload/cdn/A8D7962FDDE2E5414D202332CE8C5B04_1683785596604.jpg",
+      "2": "https://img.imdodo.com/openapitest/upload/cdn/F7E590A2E8CFFB12A2EE0E6DDC7B6B28_1683785679315.jpg"
+    }
+  },
+  {
+    "code": 1,
+    "key": "weeklyOffers",
+    "urlMap": {
+      "1": "https://s1.ax1x.com/2023/05/11/p9rHg9H.png"
+    }
+  },
+  {
+    "code": 2,
+    "key": "weeklyOffers",
+    "urlMap": {
+      "1": "https://s1.ax1x.com/2023/05/11/p9rHg9H.png"
+    }
+  },
+  {
+    "code": 3,
+    "key": "weeklyOffers",
+    "urlMap": {
+      "1": "https://img.kookapp.cn/attachments/2023-05/11/fQNjeQhOxJ1400qb.png"
+    }
+  },
+  {
+    "code": 4,
+    "key": "weeklyOffers",
+    "urlMap": {
+      "1": "https://img.imdodo.com/openapitest/upload/cdn/55F05D825B1AFD9F0BCD587FFE4612A6_1683785852346.png"
+    }
   }
 ]

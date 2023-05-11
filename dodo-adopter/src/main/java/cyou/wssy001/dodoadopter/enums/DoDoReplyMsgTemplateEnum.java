@@ -354,6 +354,117 @@ public enum DoDoReplyMsgTemplateEnum {
               }
             }
             """),
+    TREASURE_CARD("""
+            {
+              "card": {
+                "type": "card",
+                "components": [
+                  {
+                    "type": "image-group",
+                    "elements": [
+                      {
+                        "type": "image",
+                        "src": "%s"
+                      }
+                    ]
+                  },
+                  { "type": "divider" },
+                  {
+                    "type": "remark",
+                    "elements": [
+                      {
+                        "type": "image",
+                        "src": "https://img.imdodo.com/upload/cdn/9DB1149051A02E7E25A690C8D7C11BBF_1671671945280.png?x-oss-process=image/resize,m_lfit,h_80,w_80/format,jpeg"
+                      },
+                      {
+                        "type": "dodo-md",
+                        "content": "[辐射76小助手](https://imdodo.com/bot/u/3246195)"
+                      }
+                    ]
+                  }
+                ],
+                "theme": "default",
+                "title": "挖宝奖励图"
+              }
+            }
+            """),
+    COOKBOOK_CARD("""
+            {
+              "card": {
+                "type": "card",
+                "components": [
+                  {
+                    "type": "image-group",
+                    "elements": [
+                      {
+                        "type": "image",
+                        "src": "%s"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "image-group",
+                    "elements": [
+                      {
+                        "type": "image",
+                        "src": "%s"
+                      }
+                    ]
+                  },
+                  { "type": "divider" },
+                  {
+                    "type": "remark",
+                    "elements": [
+                      {
+                        "type": "image",
+                        "src": "https://img.imdodo.com/upload/cdn/9DB1149051A02E7E25A690C8D7C11BBF_1671671945280.png?x-oss-process=image/resize,m_lfit,h_80,w_80/format,jpeg"
+                      },
+                      {
+                        "type": "dodo-md",
+                        "content": "[辐射76小助手](https://imdodo.com/bot/u/3246195)"
+                      }
+                    ]
+                  }
+                ],
+                "theme": "default",
+                "title": "常见食物图"
+              }
+            }
+            """),
+    WEEKLY_OFFERS_CARD("""
+            {
+              "card": {
+                "type": "card",
+                "components": [
+                  {
+                    "type": "image-group",
+                    "elements": [
+                      {
+                        "type": "image",
+                        "src": "%s"
+                      }
+                    ]
+                  },
+                  { "type": "divider" },
+                  {
+                    "type": "remark",
+                    "elements": [
+                      {
+                        "type": "image",
+                        "src": "https://img.imdodo.com/upload/cdn/9DB1149051A02E7E25A690C8D7C11BBF_1671671945280.png?x-oss-process=image/resize,m_lfit,h_80,w_80/format,jpeg"
+                      },
+                      {
+                        "type": "dodo-md",
+                        "content": "[辐射76小助手](https://imdodo.com/bot/u/3246195)"
+                      }
+                    ]
+                  }
+                ],
+                "theme": "default",
+                "title": "原子商店特惠预览"
+              }
+            }
+            """),
     ;
 
     private final String msg;
