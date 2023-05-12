@@ -45,7 +45,7 @@ public enum KookReplyMsgTemplateEnum {
             [
               {
                 "type": "card",
-                "theme": "secondary",
+                "theme": "primary",
                 "size": "sm",
                 "modules": [
                   {
@@ -151,7 +151,7 @@ public enum KookReplyMsgTemplateEnum {
             [
               {
                 "type": "card",
-                "theme": "secondary",
+                "theme": "primary",
                 "size": "sm",
                 "modules": [
                   {
@@ -196,7 +196,7 @@ public enum KookReplyMsgTemplateEnum {
             [
               {
                 "type": "card",
-                "theme": "secondary",
+                "theme": "primary",
                 "size": "sm",
                 "modules": [
                   {
@@ -242,7 +242,7 @@ public enum KookReplyMsgTemplateEnum {
             [
               {
                 "type": "card",
-                "theme": "secondary",
+                "theme": "primary",
                 "size": "sm",
                 "modules": [
                   {
@@ -288,7 +288,7 @@ public enum KookReplyMsgTemplateEnum {
             [
               {
                 "type": "card",
-                "theme": "secondary",
+                "theme": "primary",
                 "size": "sm",
                 "modules": [
                   {
@@ -334,7 +334,7 @@ public enum KookReplyMsgTemplateEnum {
             [
               {
                 "type": "card",
-                "theme": "secondary",
+                "theme": "primary",
                 "size": "sm",
                 "modules": [
                   {
@@ -380,7 +380,7 @@ public enum KookReplyMsgTemplateEnum {
             [
               {
                 "type": "card",
-                "theme": "secondary",
+                "theme": "primary",
                 "size": "sm",
                 "modules": [
                   {
@@ -426,7 +426,7 @@ public enum KookReplyMsgTemplateEnum {
             [
               {
                 "type": "card",
-                "theme": "secondary",
+                "theme": "primary",
                 "size": "sm",
                 "modules": [
                   {
@@ -472,7 +472,7 @@ public enum KookReplyMsgTemplateEnum {
             [
               {
                 "type": "card",
-                "theme": "secondary",
+                "theme": "primary",
                 "size": "sm",
                 "modules": [
                   {
@@ -518,7 +518,7 @@ public enum KookReplyMsgTemplateEnum {
             [
               {
                 "type": "card",
-                "theme": "secondary",
+                "theme": "primary",
                 "size": "sm",
                 "modules": [
                   {
@@ -568,7 +568,7 @@ public enum KookReplyMsgTemplateEnum {
             [
               {
                 "type": "card",
-                "theme": "secondary",
+                "theme": "primary",
                 "size": "sm",
                 "modules": [
                   {
