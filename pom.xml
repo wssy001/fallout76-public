@@ -20,6 +20,7 @@
         <module>kook-adopter</module>
         <module>qq-adopter</module>
         <module>dodo-adopter</module>
+        <module>wiki-provider</module>
     </modules>
 
     <packaging>pom</packaging>
