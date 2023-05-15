@@ -12,7 +12,7 @@ import cyou.wssy001.common.entity.BaseEvent;
 import cyou.wssy001.common.entity.BasePrivateEvent;
 import cyou.wssy001.common.enums.EventEnum;
 import cyou.wssy001.common.enums.PlatformEnum;
-import cyou.wssy001.common.service.CheckUser;
+import cyou.wssy001.common.service.CheckUserService;
 import cyou.wssy001.common.service.DuplicateMessageService;
 import cyou.wssy001.common.service.RateLimitService;
 import cyou.wssy001.kookadopter.config.KookConfig;
@@ -41,7 +41,7 @@ import java.util.Base64;
 @RequiredArgsConstructor
 public class KookHttpParamAspect {
     private final KookConfig kookConfig;
-    private final CheckUser<KookEventDTO> checkUser;
+    private final CheckUserService<KookEventDTO> checkUserService;
     private final RateLimitService rateLimitService;
     private final HttpServletRequest httpServletRequest;
     private final HttpServletResponse httpServletResponse;
@@ -112,7 +112,7 @@ public class KookHttpParamAspect {
                     return null;
                 }
 
-                if (checkUser.check(kookEventDTO)) {
+                if (checkUserService.check(kookEventDTO)) {
                     baseEvent = new BaseAdminEvent()
                             .setEventKey(key)
                             .setPlatform(PlatformEnum.KOOK);

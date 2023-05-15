@@ -120,10 +120,10 @@ public class PhotoServiceImpl implements PhotoService, ApplicationListener<Conte
     @Override
     public void createNukaCodePhoto(String name, NukaCode nukaCode) {
         log.info("******PhotoServiceImpl.createNukaCodePhoto：正在生成图片：{}", name);
-        File file = new File(PathUtil.getJarPath() + "/config/" + name);
-        ClassPathResource nukaCodeBGResource = new ClassPathResource("nukaCodeBG.png");
+        File file = new File(PathUtil.getJarPath() + "/config/nukacode/" + name);
+        ClassPathResource nukaCodeBGResource = new ClassPathResource("nukacode/nukaCodeBG.png");
         if (!nukaCodeBGResource.exists()) {
-            log.error("******PhotoServiceImpl.createNukaCodePhoto：没有找到 nukaCodeBG.png，请检查 base-service-provider/src/main/resources/ 下有无 nukaCodeBG.png 文件");
+            log.error("******PhotoServiceImpl.createNukaCodePhoto：没有找到 nukaCodeBG.png，请检查 base-service-provider/src/main/resources/nukacode 下有无 nukaCodeBG.png 文件");
             return;
         }
 
@@ -169,11 +169,11 @@ public class PhotoServiceImpl implements PhotoService, ApplicationListener<Conte
 
     @Override
     public void createHelpPhoto(String name, HashMap<Set<String>, String> map) {
-        ClassPathResource headResource = new ClassPathResource("head.png");
-        ClassPathResource bodyResource = new ClassPathResource("body.png");
-        ClassPathResource tailResource = new ClassPathResource("tail.png");
+        ClassPathResource headResource = new ClassPathResource("help/head.png");
+        ClassPathResource bodyResource = new ClassPathResource("help/body.png");
+        ClassPathResource tailResource = new ClassPathResource("help/tail.png");
         if (!headResource.exists() || !bodyResource.exists() || !tailResource.exists()) {
-            log.error("******PhotoServiceImpl.createHelpPhoto：没有找到相应文件，base-service-provider/src/main/resources/ 下有无 head.png、body.png、tail.png 文件");
+            log.error("******PhotoServiceImpl.createHelpPhoto：没有找到相应文件，base-service-provider/src/main/resources/help 下有无 head.png、body.png、tail.png 文件");
             return;
         }
 
@@ -181,7 +181,7 @@ public class PhotoServiceImpl implements PhotoService, ApplicationListener<Conte
              InputStream body = bodyResource.getInputStream();
              InputStream tail = tailResource.getInputStream()) {
 
-            File file = new File(PathUtil.getJarPath() + "/config/" + name);
+            File file = new File(PathUtil.getJarPath() + "/config/help/" + name);
             if (!file.exists() && !file.createNewFile()) {
                 log.error("******PhotoServiceImpl.createHelpPhoto：生成临时文件：{} 失败", file.getPath());
                 return;

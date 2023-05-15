@@ -1,7 +1,7 @@
 package cyou.wssy001.dodoadopter.service;
 
 import com.alibaba.fastjson2.JSONObject;
-import cyou.wssy001.common.service.CheckUser;
+import cyou.wssy001.common.service.CheckUserService;
 import cyou.wssy001.dodoadopter.config.DoDoConfig;
 import cyou.wssy001.dodoadopter.dto.DoDoEventDTO;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
  */
 @RequiredArgsConstructor
 @Service
-public class CheckDoDoAdminService implements CheckUser<DoDoEventDTO> {
+public class CheckDoDoAdminService implements CheckUserService<DoDoEventDTO> {
     private final DoDoConfig DoDoConfig;
 
 

@@ -1,6 +1,6 @@
 package cyou.wssy001.qqadopter.service;
 
-import cyou.wssy001.common.service.CheckUser;
+import cyou.wssy001.common.service.CheckUserService;
 import cyou.wssy001.qqadopter.config.QQConfig;
 import cyou.wssy001.qqadopter.dto.QQEventDTO;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  */
 @RequiredArgsConstructor
 @Service
-public class CheckQQAdminService implements CheckUser<QQEventDTO> {
+public class CheckQQAdminService implements CheckUserService<QQEventDTO> {
     private final QQConfig QQConfig;
 
 

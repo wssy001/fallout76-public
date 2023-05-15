@@ -58,6 +58,7 @@ public class GetHelpQQEventHandler implements BaseHelpHandler {
 
         msg = stringBuilder.toString();
         Thread.ofVirtual()
+                .name("VT-QQ-Help-Photo")
                 .start(() -> photoService.createHelpPhoto("qq-help.png", commandMap));
     }
 
@@ -79,7 +80,7 @@ public class GetHelpQQEventHandler implements BaseHelpHandler {
             if (StrUtil.isBlank(msg)) {
                 format = String.format(QQReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "暂无帮助内容，请联系管理员添加");
             } else {
-                File file = new File(PathUtil.getJarPath() + "/config/qq-help.png");
+                File file = new File(PathUtil.getJarPath() + "/config/help/qq-help.png");
                 if (file.exists()) {
                     format = String.format(QQReplyMsgTemplateEnum.HELP_PHOTO_MSG_TEMPLATE.getMsg(), file.toURI());
                 } else {

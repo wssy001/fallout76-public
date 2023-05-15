@@ -1,6 +1,6 @@
 package cyou.wssy001.kookadopter.service;
 
-import cyou.wssy001.common.service.CheckUser;
+import cyou.wssy001.common.service.CheckUserService;
 import cyou.wssy001.kookadopter.config.KookConfig;
 import cyou.wssy001.kookadopter.dto.KookEventDTO;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  */
 @RequiredArgsConstructor
 @Service("checkKookAdmin")
-public class CheckKookAdminService implements CheckUser<KookEventDTO> {
+public class CheckKookAdminService implements CheckUserService<KookEventDTO> {
     private final KookConfig kookConfig;
 
 
