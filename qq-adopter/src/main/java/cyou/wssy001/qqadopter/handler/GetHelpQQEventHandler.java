@@ -57,9 +57,7 @@ public class GetHelpQQEventHandler implements BaseHelpHandler {
         }
 
         msg = stringBuilder.toString();
-        Thread.ofVirtual()
-                .name("VT-QQ-Help-Photo")
-                .start(() -> photoService.createHelpPhoto("qq-help.png", commandMap));
+        photoService.createHelpPhoto("qq-help.png", commandMap);
     }
 
     @Override

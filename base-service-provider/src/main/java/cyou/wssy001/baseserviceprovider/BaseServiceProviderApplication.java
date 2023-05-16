@@ -15,7 +15,7 @@ import java.security.Security;
 @EnableScheduling
 @SpringBootApplication
 @EnableAspectJAutoProxy
-@ComponentScan("cyou.wssy001.**")
+@ComponentScan(basePackages = "cyou.wssy001.**")
 @ImportRuntimeHints(value = {ProjectRuntimeHintRegister.class})
 public class BaseServiceProviderApplication {
 

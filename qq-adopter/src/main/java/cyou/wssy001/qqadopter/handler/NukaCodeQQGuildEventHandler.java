@@ -71,8 +71,7 @@ public class NukaCodeQQGuildEventHandler implements BaseHandler {
                 if (file.exists()) {
                     format = String.format(QQReplyMsgTemplateEnum.NUKA_CODE_PHOTO_MSG_TEMPLATE.getMsg(), file.toURI());
                 } else {
-                    Thread.ofVirtual()
-                            .start(() -> photoService.createNukaCodePhoto("nukaCode.png", nukaCode));
+                    photoService.createNukaCodePhoto("nukaCode.png", nukaCode);
                     String expireTime = LocalDateTimeUtil.format(nukaCode.getExpireTime(), "yyyy年MM月dd日 HH点mm分");
                     format = String.format(QQReplyMsgTemplateEnum.NUKA_CODE_MSG_TEMPLATE.getMsg(), nukaCode.getAlpha(), nukaCode.getBravo(), nukaCode.getCharlie(), expireTime);
                 }

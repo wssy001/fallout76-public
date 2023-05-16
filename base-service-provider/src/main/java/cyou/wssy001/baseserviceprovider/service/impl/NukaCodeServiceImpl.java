@@ -107,12 +107,8 @@ public class NukaCodeServiceImpl implements NukaCodeService, ApplicationListener
         NukaCode nukaCode = nukaCodes.toJavaObject(NukaCode.class);
         nukaCode.setExpireTime(expireTime)
                 .setStartTime(expireTime.minusDays(7));
-        if (cache) Thread.ofVirtual()
-                .name("VT-NukaCode-Cache")
-                .start(() -> fileCacheService.cacheNukaCode(nukaCode));
-        Thread.ofVirtual()
-                .name("VT-NukaCode-Photo")
-                .start(() -> photoService.createNukaCodePhoto("nukaCode.png", nukaCode));
+        if (cache) fileCacheService.cacheNukaCode(nukaCode);
+        photoService.createNukaCodePhoto("nukaCode.png", nukaCode);
         return updateNukaCode(nukaCode);
     }
 

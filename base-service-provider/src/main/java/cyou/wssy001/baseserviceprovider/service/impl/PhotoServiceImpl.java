@@ -20,6 +20,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.imageio.ImageIO;
@@ -117,6 +118,7 @@ public class PhotoServiceImpl implements PhotoService, ApplicationListener<Conte
         return true;
     }
 
+    @Async
     @Override
     public void createNukaCodePhoto(String name, NukaCode nukaCode) {
         log.info("******PhotoServiceImpl.createNukaCodePhoto：正在生成图片：{}", name);
@@ -167,6 +169,7 @@ public class PhotoServiceImpl implements PhotoService, ApplicationListener<Conte
         }
     }
 
+    @Async
     @Override
     public void createHelpPhoto(String name, HashMap<Set<String>, String> map) {
         ClassPathResource headResource = new ClassPathResource("help/head.png");
