@@ -166,5 +166,121 @@
     "urlMap": {
       "1": "https://img.imdodo.com/dodo/faa30ec395c43bd4dde910e8476cc991.png"
     }
+  },
+  {
+    "code": 1,
+    "key": "treasure",
+    "urlMap": {
+      "1": "https://s1.ax1x.com/2023/05/12/p9shcuT.png"
+    }
+  },
+  {
+    "code": 2,
+    "key": "treasure",
+    "urlMap": {
+      "1": "https://s1.ax1x.com/2023/05/12/p9shcuT.png"
+    }
+  },
+  {
+    "code": 3,
+    "key": "treasure",
+    "urlMap": {
+      "1": "https://img.kookapp.cn/attachments/2023-05/12/pl5V4qeL6S0qo5p2.png"
+    }
+  },
+  {
+    "code": 4,
+    "key": "treasure",
+    "urlMap": {
+      "1": "https://img.imdodo.com/openapitest/upload/cdn/C14DCDED73BBF50606B23C9E8998295A_1683852458733.png"
+    }
+  },
+  {
+    "code": 1,
+    "key": "cookbook",
+    "urlMap": {
+      "1": "https://s1.ax1x.com/2022/11/10/zpuzJ1.jpg",
+      "2": "https://s1.ax1x.com/2022/11/10/zpuxiR.jpg"
+    }
+  },
+  {
+    "code": 2,
+    "key": "cookbook",
+    "urlMap": {
+      "1": "https://s1.ax1x.com/2022/11/10/zpuzJ1.jpg",
+      "2": "https://s1.ax1x.com/2022/11/10/zpuxiR.jpg"
+    }
+  },
+  {
+    "code": 3,
+    "key": "cookbook",
+    "urlMap": {
+      "1": "https://img.kookapp.cn/attachments/2023-05/11/H4gCCqCnGM0p20cp.jpg",
+      "2": "https://img.kookapp.cn/attachments/2023-05/11/nT8Csa7D4C0p00m4.jpg"
+    }
+  },
+  {
+    "code": 4,
+    "key": "cookbook",
+    "urlMap": {
+      "1": "https://img.imdodo.com/openapitest/upload/cdn/A8D7962FDDE2E5414D202332CE8C5B04_1683785596604.jpg",
+      "2": "https://img.imdodo.com/openapitest/upload/cdn/F7E590A2E8CFFB12A2EE0E6DDC7B6B28_1683785679315.jpg"
+    }
+  },
+  {
+    "code": 1,
+    "key": "weeklyOffers",
+    "urlMap": {
+      "1": "https://s1.ax1x.com/2023/05/17/p9Ro2wR.png"
+    }
+  },
+  {
+    "code": 2,
+    "key": "weeklyOffers",
+    "urlMap": {
+      "1": "https://s1.ax1x.com/2023/05/17/p9Ro2wR.png"
+    }
+  },
+  {
+    "code": 3,
+    "key": "weeklyOffers",
+    "urlMap": {
+      "1": "https://img.kookapp.cn/attachments/2023-05/17/VSDi24SOzK1400qb.png"
+    }
+  },
+  {
+    "code": 4,
+    "key": "weeklyOffers",
+    "urlMap": {
+      "1": "https://img.imdodo.com/openapitest/upload/cdn/85A2E4022435C885A7501BB66FF5B2E3_1684285340213.png"
+    }
+  },
+  {
+    "code": 1,
+    "key": "mutationInvasion",
+    "urlMap": {
+      "1": "https://s1.ax1x.com/2023/05/17/p9RoLTI.jpg"
+    }
+  },
+  {
+    "code": 2,
+    "key": "mutationInvasion",
+    "urlMap": {
+      "1": "https://s1.ax1x.com/2023/05/17/p9RoLTI.jpg"
+    }
+  },
+  {
+    "code": 3,
+    "key": "mutationInvasion",
+    "urlMap": {
+      "1": "https://img.kookapp.cn/attachments/2023-05/17/d3wzbgn4pw1fk4qz.jpg"
+    }
+  },
+  {
+    "code": 4,
+    "key": "mutationInvasion",
+    "urlMap": {
+      "1": "https://img.imdodo.com/openapitest/upload/cdn/52DB3EB40C4FEE82349B14CA41F1F093_1684285468155.jpg"
+    }
   }
 ]

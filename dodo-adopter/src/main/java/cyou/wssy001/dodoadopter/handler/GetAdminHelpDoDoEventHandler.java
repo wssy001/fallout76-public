@@ -69,15 +69,14 @@ public class GetAdminHelpDoDoEventHandler implements BaseHelpHandler {
             JSONObject eventBody = dodoEventDTOData.getEventBody();
             String islandSourceId = eventBody.getString("islandSourceId");
             String dodoSourceId = eventBody.getString("dodoSourceId");
-            String replyMsg;
+            String format;
             if (StrUtil.isBlank(msg)) {
-                String format = String.format(DoDoReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "暂无帮助内容，请联系管理员添加");
-                replyMsg = String.format(DoDoReplyMsgTemplateEnum.PRIVATE_TEXT_MSG.getMsg(), islandSourceId, dodoSourceId, format);
+                format = String.format(DoDoReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "暂无帮助内容，请联系管理员添加");
             } else {
-                String format = String.format(DoDoReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), msg);
-                replyMsg = String.format(DoDoReplyMsgTemplateEnum.PRIVATE_TEXT_MSG.getMsg(), islandSourceId, dodoSourceId, format);
+                format = String.format(DoDoReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), msg);
             }
 
+            String replyMsg = String.format(DoDoReplyMsgTemplateEnum.PRIVATE_TEXT_MSG.getMsg(), islandSourceId, dodoSourceId, format);
             return new DoDoReplyMsgDTO()
                     .setApiEndPoint("/api/v2/personal/message/send")
                     .setEventKey(eventKey)

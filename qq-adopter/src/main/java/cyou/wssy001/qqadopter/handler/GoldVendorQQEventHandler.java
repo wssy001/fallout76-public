@@ -57,7 +57,6 @@ public class GoldVendorQQEventHandler implements BaseHandler {
             Long groupId = qqEventDTO.getGroupId();
             Map<String, String> goldVendorPicUrls = photoService.getPhotoUrls("goldVendor", this.getPlatform());
             String format;
-            String replyMsg;
             if (CollUtil.isEmpty(goldVendorPicUrls)) {
                 log.error("******GoldVendorQQEventHandler.consume：米诺瓦日程表图片获取失败");
                 format = String.format(QQReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "米诺瓦日程表图片获取失败，请联系管理员");
@@ -65,7 +64,7 @@ public class GoldVendorQQEventHandler implements BaseHandler {
                 format = String.format(QQReplyMsgTemplateEnum.GOLD_VENDOR_MSG_TEMPLATE.getMsg(), goldVendorPicUrls.get("1"));
             }
 
-            replyMsg = String.format(QQReplyMsgTemplateEnum.GROUP_TEXT_MSG.getMsg(), groupId, format);
+            String replyMsg = String.format(QQReplyMsgTemplateEnum.GROUP_TEXT_MSG.getMsg(), groupId, format);
             return new QQReplyMsgDTO()
                     .setApiEndPoint("/send_group_msg")
                     .setEventKey(baseEvent.getEventKey())

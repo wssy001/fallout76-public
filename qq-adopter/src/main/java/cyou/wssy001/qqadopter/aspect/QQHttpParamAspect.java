@@ -12,7 +12,7 @@ import cyou.wssy001.common.entity.BaseAdminEvent;
 import cyou.wssy001.common.entity.BaseEvent;
 import cyou.wssy001.common.entity.BasePrivateEvent;
 import cyou.wssy001.common.enums.PlatformEnum;
-import cyou.wssy001.common.service.CheckUser;
+import cyou.wssy001.common.service.CheckUserService;
 import cyou.wssy001.common.service.DuplicateMessageService;
 import cyou.wssy001.common.service.RateLimitService;
 import cyou.wssy001.qqadopter.config.QQConfig;
@@ -38,7 +38,7 @@ import javax.crypto.spec.SecretKeySpec;
 @RequiredArgsConstructor
 public class QQHttpParamAspect {
     private final QQConfig qqConfig;
-    private final CheckUser<QQEventDTO> checkUser;
+    private final CheckUserService<QQEventDTO> checkUserService;
     private final RateLimitService rateLimitService;
     private final HttpServletRequest httpServletRequest;
     private final DuplicateMessageService duplicateMessageService;
@@ -115,7 +115,7 @@ public class QQHttpParamAspect {
                 if (!qqConfig.isEnableQQ()) return null;
 
                 basePlatformEventDTO = jsonObject.toJavaObject(QQEventDTO.class);
-                if (checkUser.check((QQEventDTO) basePlatformEventDTO)) {
+                if (checkUserService.check((QQEventDTO) basePlatformEventDTO)) {
                     baseEvent = new BaseAdminEvent()
                             .setEventKey(key)
                             .setPlatform(PlatformEnum.QQ);

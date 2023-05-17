@@ -11,6 +11,7 @@ spring:
     allow-bean-definition-overriding: true
     allow-circular-references: true
 
+
 robot-config:
   #Go-CQHTTP 配置，采用Webhook模式
   qq:

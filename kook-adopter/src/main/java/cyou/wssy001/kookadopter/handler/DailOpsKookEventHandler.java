@@ -57,16 +57,15 @@ public class DailOpsKookEventHandler implements BaseHandler {
         if (basePlatformEventDTO instanceof KookEventDTO kookEventDTO) {
             String targetId = kookEventDTO.getTargetId();
             Map<String, String> dailyOpsPicUrls = photoService.getPhotoUrls("dailyOps", this.getPlatform());
-            String replyMsg;
+            String format;
             if (CollUtil.isEmpty(dailyOpsPicUrls)) {
                 log.error("******DailOpsKookEventHandler.consume：日常行动独特奖励速览图片获取失败");
-                String format = String.format(KookReplyMsgTemplateEnum.ERROR_MSG_CARD.getMsg(), "日常行动独特奖励速览图片获取失败，请联系管理员");
-                replyMsg = String.format(KookReplyMsgTemplateEnum.ERROR_MSG.getMsg(), targetId, StringEscapeUtils.escapeJava(format));
+                format = String.format(KookReplyMsgTemplateEnum.ERROR_MSG_CARD.getMsg(), "日常行动独特奖励速览图片获取失败，请联系管理员");
             } else {
-                String format = String.format(KookReplyMsgTemplateEnum.DAILY_OPS_CARD.getMsg(), dailyOpsPicUrls.get("1"));
-                replyMsg = String.format(KookReplyMsgTemplateEnum.CARD_MSG.getMsg(), targetId, StringEscapeUtils.escapeJava(format));
+                format = String.format(KookReplyMsgTemplateEnum.DAILY_OPS_CARD.getMsg(), dailyOpsPicUrls.get("1"));
             }
 
+            String replyMsg = String.format(KookReplyMsgTemplateEnum.CARD_MSG.getMsg(), targetId, StringEscapeUtils.escapeJava(format));
             return new KookReplyMsgDTO()
                     .setApiEndPoint("/api/v3/message/create")
                     .setEventKey(baseEvent.getEventKey())

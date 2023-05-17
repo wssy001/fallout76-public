@@ -59,16 +59,15 @@ public class BobbleHeadDoDoEventHandler implements BaseHandler {
             JSONObject eventBody = dodoEventDTOData.getEventBody();
             String channelId = eventBody.getString("channelId");
             Map<String, String> bobbleHeadPicUrls = photoService.getPhotoUrls("bobbleHead", this.getPlatform());
-            String replyMsg;
+            String format;
             if (CollUtil.isEmpty(bobbleHeadPicUrls)) {
                 log.error("******BobbleHeadDoDoEventHandler.consume：娃娃效果图片获取失败");
-                String format = String.format(DoDoReplyMsgTemplateEnum.ERROR_MSG_TEMPLATE.getMsg(), "娃娃效果图片获取失败，请联系管理员");
-                replyMsg = String.format(DoDoReplyMsgTemplateEnum.CHANNEL_CARD_MSG.getMsg(), channelId, format);
+                format = String.format(DoDoReplyMsgTemplateEnum.ERROR_MSG_TEMPLATE.getMsg(), "娃娃效果图片获取失败，请联系管理员");
             } else {
-                String format = String.format(DoDoReplyMsgTemplateEnum.BOBBLE_HEAD_CARD.getMsg(), bobbleHeadPicUrls.get("1"));
-                replyMsg = String.format(DoDoReplyMsgTemplateEnum.CHANNEL_CARD_MSG.getMsg(), channelId, format);
+                format = String.format(DoDoReplyMsgTemplateEnum.BOBBLE_HEAD_CARD.getMsg(), bobbleHeadPicUrls.get("1"));
             }
 
+            String replyMsg = String.format(DoDoReplyMsgTemplateEnum.CHANNEL_CARD_MSG.getMsg(), channelId, format);
             return new DoDoReplyMsgDTO()
                     .setApiEndPoint("/api/v2/channel/message/send")
                     .setEventKey(baseEvent.getEventKey())

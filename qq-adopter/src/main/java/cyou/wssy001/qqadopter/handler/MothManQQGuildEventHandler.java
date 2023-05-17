@@ -58,7 +58,6 @@ public class MothManQQGuildEventHandler implements BaseHandler {
             String channelId = qqChannelEventDTO.getChannelId();
             Map<String, String> mothManPicUrls = photoService.getPhotoUrls("moth-man", this.getPlatform());
             String format;
-            String replyMsg;
             if (CollUtil.isEmpty(mothManPicUrls)) {
                 log.error("******MothManQQGuildEventHandler.consume：天蛾人春分季节性攻略指南图片获取失败");
                 format = String.format(QQReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "天蛾人春分季节性攻略指南图片获取失败，请联系管理员");
@@ -66,7 +65,7 @@ public class MothManQQGuildEventHandler implements BaseHandler {
                 format = String.format(QQReplyMsgTemplateEnum.MOTH_MAN_MSG_TEMPLATE.getMsg(), mothManPicUrls.get("1"));
             }
 
-            replyMsg = String.format(QQReplyMsgTemplateEnum.GUILD_TEXT_MSG.getMsg(), guildId, channelId, format);
+            String replyMsg = String.format(QQReplyMsgTemplateEnum.GUILD_TEXT_MSG.getMsg(), guildId, channelId, format);
             return new QQReplyMsgDTO()
                     .setApiEndPoint("/send_guild_channel_msg")
                     .setEventKey(baseEvent.getEventKey())

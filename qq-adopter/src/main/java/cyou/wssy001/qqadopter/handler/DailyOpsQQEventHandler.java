@@ -57,7 +57,6 @@ public class DailyOpsQQEventHandler implements BaseHandler {
             Long groupId = qqEventDTO.getGroupId();
             Map<String, String> dailyOpsPicUrls = photoService.getPhotoUrls("dailyOps", this.getPlatform());
             String format;
-            String replyMsg;
             if (CollUtil.isEmpty(dailyOpsPicUrls)) {
                 log.error("******DailyOpsQQEventHandler.consume：日常行动独特奖励速览图片获取失败");
                 format = String.format(QQReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "日常行动独特奖励速览图片获取失败，请联系管理员");
@@ -65,7 +64,7 @@ public class DailyOpsQQEventHandler implements BaseHandler {
                 format = String.format(QQReplyMsgTemplateEnum.DAILY_OPS_MSG_TEMPLATE.getMsg(), dailyOpsPicUrls.get("1"));
             }
 
-            replyMsg = String.format(QQReplyMsgTemplateEnum.GROUP_TEXT_MSG.getMsg(), groupId, format);
+            String replyMsg = String.format(QQReplyMsgTemplateEnum.GROUP_TEXT_MSG.getMsg(), groupId, format);
             return new QQReplyMsgDTO()
                     .setApiEndPoint("/send_group_msg")
                     .setEventKey(baseEvent.getEventKey())

@@ -207,6 +207,60 @@ public enum QQReplyMsgTemplateEnum {
                 }
             ]
             """),
+    TREASURE_MSG_TEMPLATE("""
+            [
+                {
+                    "type": "text",
+                    "data": {
+                        "text": "挖宝奖励图"
+                    }
+                },
+                {
+                    "type": "image",
+                    "data": {
+                        "file": "%s"
+                    }
+                }
+            ]
+            """),
+    COOKBOOK_MSG_TEMPLATE("""
+            [
+                {
+                    "type": "text",
+                    "data": {
+                        "text": "常见食物图"
+                    }
+                },
+                {
+                    "type": "image",
+                    "data": {
+                        "file": "%s"
+                    }
+                },
+                {
+                    "type": "image",
+                    "data": {
+                        "file": "%s"
+                    }
+                }
+            ]
+            """),
+    WEEKLY_OFFERS_MSG_TEMPLATE("""
+            [
+                {
+                    "type": "text",
+                    "data": {
+                        "text": "原子商店特惠预览"
+                    }
+                },
+                {
+                    "type": "image",
+                    "data": {
+                        "file": "%s"
+                    }
+                }
+            ]
+            """),
     ;
     private final String msg;
 }

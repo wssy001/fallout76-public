@@ -63,7 +63,6 @@ public class NukaCodeQQGuildEventHandler implements BaseHandler {
             NukaCode nukaCode = nukaCodeService.getNukaCode();
 
             String format;
-            String replyMsg;
             if (nukaCode == null) {
                 log.error("******NukaCodeQQGuildEventHandler.consume：nukaCode获取失败");
                 format = String.format(QQReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "nukaCode获取失败，请联系管理员");
@@ -72,14 +71,13 @@ public class NukaCodeQQGuildEventHandler implements BaseHandler {
                 if (file.exists()) {
                     format = String.format(QQReplyMsgTemplateEnum.NUKA_CODE_PHOTO_MSG_TEMPLATE.getMsg(), file.toURI());
                 } else {
-                    Thread.ofVirtual()
-                            .start(() -> photoService.createNukaCodePhoto("nukaCode.png", nukaCode));
+                    photoService.createNukaCodePhoto("nukaCode.png", nukaCode);
                     String expireTime = LocalDateTimeUtil.format(nukaCode.getExpireTime(), "yyyy年MM月dd日 HH点mm分");
                     format = String.format(QQReplyMsgTemplateEnum.NUKA_CODE_MSG_TEMPLATE.getMsg(), nukaCode.getAlpha(), nukaCode.getBravo(), nukaCode.getCharlie(), expireTime);
                 }
             }
 
-            replyMsg = String.format(QQReplyMsgTemplateEnum.GUILD_TEXT_MSG.getMsg(), guildId, channelId, format);
+            String replyMsg = String.format(QQReplyMsgTemplateEnum.GUILD_TEXT_MSG.getMsg(), guildId, channelId, format);
             return new QQReplyMsgDTO()
                     .setApiEndPoint("/send_guild_channel_msg")
                     .setEventKey(baseEvent.getEventKey())

@@ -59,16 +59,15 @@ public class PittDoDoEventHandler implements BaseHandler {
             JSONObject eventBody = dodoEventDTOData.getEventBody();
             String channelId = eventBody.getString("channelId");
             Map<String, String> pittPicUrls = photoService.getPhotoUrls("pitt", this.getPlatform());
-            String replyMsg;
+            String format;
             if (CollUtil.isEmpty(pittPicUrls)) {
                 log.error("******PittDoDoEventHandler.consume：匹兹堡奖励清单图片获取失败");
-                String format = String.format(DoDoReplyMsgTemplateEnum.ERROR_MSG_TEMPLATE.getMsg(), "匹兹堡奖励清单图片获取失败，请联系管理员");
-                replyMsg = String.format(DoDoReplyMsgTemplateEnum.CHANNEL_CARD_MSG.getMsg(), channelId, format);
+                format = String.format(DoDoReplyMsgTemplateEnum.ERROR_MSG_TEMPLATE.getMsg(), "匹兹堡奖励清单图片获取失败，请联系管理员");
             } else {
-                String format = String.format(DoDoReplyMsgTemplateEnum.PITT_CARD.getMsg(), pittPicUrls.get("1"));
-                replyMsg = String.format(DoDoReplyMsgTemplateEnum.CHANNEL_CARD_MSG.getMsg(), channelId, format);
+                format = String.format(DoDoReplyMsgTemplateEnum.PITT_CARD.getMsg(), pittPicUrls.get("1"));
             }
 
+            String replyMsg = String.format(DoDoReplyMsgTemplateEnum.CHANNEL_CARD_MSG.getMsg(), channelId, format);
             return new DoDoReplyMsgDTO()
                     .setApiEndPoint("/api/v2/channel/message/send")
                     .setEventKey(baseEvent.getEventKey())

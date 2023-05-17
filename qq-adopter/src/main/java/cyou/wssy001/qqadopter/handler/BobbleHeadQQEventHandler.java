@@ -57,7 +57,6 @@ public class BobbleHeadQQEventHandler implements BaseHandler {
             Long groupId = qqEventDTO.getGroupId();
             Map<String, String> bobbleHeadPicUrls = photoService.getPhotoUrls("bobbleHead", this.getPlatform());
             String format;
-            String replyMsg;
             if (CollUtil.isEmpty(bobbleHeadPicUrls)) {
                 log.error("******BobbleHeadQQEventHandler.consume：娃娃效果图片获取失败");
                 format = String.format(QQReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "娃娃效果图片获取失败，请联系管理员");
@@ -65,7 +64,7 @@ public class BobbleHeadQQEventHandler implements BaseHandler {
                 format = String.format(QQReplyMsgTemplateEnum.BOBBLE_HEAD_MSG_TEMPLATE.getMsg(), bobbleHeadPicUrls.get("1"));
             }
 
-            replyMsg = String.format(QQReplyMsgTemplateEnum.GROUP_TEXT_MSG.getMsg(), groupId, format);
+            String replyMsg = String.format(QQReplyMsgTemplateEnum.GROUP_TEXT_MSG.getMsg(), groupId, format);
             return new QQReplyMsgDTO()
                     .setApiEndPoint("/send_group_msg")
                     .setEventKey(baseEvent.getEventKey())

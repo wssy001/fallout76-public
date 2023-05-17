@@ -55,8 +55,7 @@ public class GetHelpQQGuildEventHandler implements BaseHelpHandler {
         }
 
         msg = stringBuilder.toString();
-        Thread.ofVirtual()
-                .start(() -> photoService.createHelpPhoto("qq-guild-help.png", commandMap));
+        photoService.createHelpPhoto("qq-guild-help.png", commandMap);
     }
 
     @Override
@@ -73,13 +72,12 @@ public class GetHelpQQGuildEventHandler implements BaseHelpHandler {
     public BaseReplyMsgDTO consume(BaseEvent baseEvent, BasePlatformEventDTO basePlatformEventDTO) {
         if (basePlatformEventDTO instanceof QQChannelEventDTO qqChannelEventDTO) {
             String format;
-            String replyMsg;
             String guildId = qqChannelEventDTO.getGuildId();
             String channelId = qqChannelEventDTO.getChannelId();
             if (StrUtil.isBlank(msg)) {
                 format = String.format(QQReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "暂无帮助内容，请联系管理员添加");
             } else {
-                File file = new File(PathUtil.getJarPath() + "/config/qq-guild-help.png");
+                File file = new File(PathUtil.getJarPath() + "/config/help/qq-guild-help.png");
                 if (file.exists()) {
                     format = String.format(QQReplyMsgTemplateEnum.HELP_PHOTO_MSG_TEMPLATE.getMsg(), file.toURI());
                 } else {
@@ -87,7 +85,7 @@ public class GetHelpQQGuildEventHandler implements BaseHelpHandler {
                 }
             }
 
-            replyMsg = String.format(QQReplyMsgTemplateEnum.GUILD_TEXT_MSG.getMsg(), guildId, channelId, format);
+            String replyMsg = String.format(QQReplyMsgTemplateEnum.GUILD_TEXT_MSG.getMsg(), guildId, channelId, format);
             return new QQReplyMsgDTO()
                     .setApiEndPoint("/send_guild_channel_msg")
                     .setEventKey(baseEvent.getEventKey())

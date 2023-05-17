@@ -45,8 +45,8 @@ public enum KookReplyMsgTemplateEnum {
             [
               {
                 "type": "card",
-                "theme": "secondary",
-                "size": "lg",
+                "theme": "primary",
+                "size": "sm",
                 "modules": [
                   {
                     "type": "header",
@@ -91,8 +91,8 @@ public enum KookReplyMsgTemplateEnum {
             [
               {
                 "type": "card",
-                "theme": "secondary",
-                "size": "lg",
+                "theme": "info",
+                "size": "sm",
                 "modules": [
                   {
                     "type": "header",
@@ -117,7 +117,7 @@ public enum KookReplyMsgTemplateEnum {
                     "type": "section",
                     "text": {
                       "type": "kmarkdown",
-                      "content": "\\tA点：\\t\\t%s\\n\\tB点：\\t\\t%s\\n\\tC点：\\t\\t%s\\n"
+                      "content": "\\t    (font)A点：    (font)[success]\\t\\t%s\\n\\t    (font)B点：    (font)[success]\\t\\t%s\\n\\t    (font)C点：    (font)[success]\\t\\t%s\\n"
                     }
                   },
                   {
@@ -151,8 +151,8 @@ public enum KookReplyMsgTemplateEnum {
             [
               {
                 "type": "card",
-                "theme": "secondary",
-                "size": "lg",
+                "theme": "primary",
+                "size": "sm",
                 "modules": [
                   {
                     "type": "header",
@@ -196,7 +196,7 @@ public enum KookReplyMsgTemplateEnum {
             [
               {
                 "type": "card",
-                "theme": "secondary",
+                "theme": "primary",
                 "size": "sm",
                 "modules": [
                   {
@@ -242,7 +242,7 @@ public enum KookReplyMsgTemplateEnum {
             [
               {
                 "type": "card",
-                "theme": "secondary",
+                "theme": "primary",
                 "size": "sm",
                 "modules": [
                   {
@@ -288,8 +288,8 @@ public enum KookReplyMsgTemplateEnum {
             [
               {
                 "type": "card",
-                "theme": "secondary",
-                "size": "lg",
+                "theme": "primary",
+                "size": "sm",
                 "modules": [
                   {
                     "type": "header",
@@ -334,8 +334,8 @@ public enum KookReplyMsgTemplateEnum {
             [
               {
                 "type": "card",
-                "theme": "secondary",
-                "size": "lg",
+                "theme": "primary",
+                "size": "sm",
                 "modules": [
                   {
                     "type": "header",
@@ -380,8 +380,8 @@ public enum KookReplyMsgTemplateEnum {
             [
               {
                 "type": "card",
-                "theme": "secondary",
-                "size": "lg",
+                "theme": "primary",
+                "size": "sm",
                 "modules": [
                   {
                     "type": "header",
@@ -426,14 +426,156 @@ public enum KookReplyMsgTemplateEnum {
             [
               {
                 "type": "card",
-                "theme": "secondary",
-                "size": "lg",
+                "theme": "primary",
+                "size": "sm",
                 "modules": [
                   {
                     "type": "header",
                     "text": {
                       "type": "plain-text",
                       "content": "日常行动独特奖励速览"
+                    }
+                  },
+                  {
+                    "type": "divider"
+                  },
+                  {
+                    "type": "container",
+                    "elements": [
+                      {
+                        "type": "image",
+                        "src": "%s"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "divider"
+                  },
+                  {
+                    "type": "context",
+                    "elements": [
+                      {
+                        "type": "image",
+                        "src": "https://img.kookapp.cn/assets/2022-06/N6ymk3YYuC0sg0sg.png"
+                      },
+                      {
+                        "type": "kmarkdown",
+                        "content": "[辐射76小助手](https://www.kookapp.cn/app/oauth2/authorize?id=11214&permissions=268288&client_id=L1CBDfziwUZWykMC&redirect_uri=&scope=bot)"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+            """),
+    TREASURE_CARD("""
+            [
+              {
+                "type": "card",
+                "theme": "primary",
+                "size": "sm",
+                "modules": [
+                  {
+                    "type": "header",
+                    "text": {
+                      "type": "plain-text",
+                      "content": "挖宝奖励图"
+                    }
+                  },
+                  {
+                    "type": "divider"
+                  },
+                  {
+                    "type": "container",
+                    "elements": [
+                      {
+                        "type": "image",
+                        "src": "%s"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "divider"
+                  },
+                  {
+                    "type": "context",
+                    "elements": [
+                      {
+                        "type": "image",
+                        "src": "https://img.kookapp.cn/assets/2022-06/N6ymk3YYuC0sg0sg.png"
+                      },
+                      {
+                        "type": "kmarkdown",
+                        "content": "[辐射76小助手](https://www.kookapp.cn/app/oauth2/authorize?id=11214&permissions=268288&client_id=L1CBDfziwUZWykMC&redirect_uri=&scope=bot)"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+            """),
+    COOKBOOK_CARD("""
+            [
+              {
+                "type": "card",
+                "theme": "primary",
+                "size": "sm",
+                "modules": [
+                  {
+                    "type": "header",
+                    "text": {
+                      "type": "plain-text",
+                      "content": "常见食物图"
+                    }
+                  },
+                  {
+                    "type": "divider"
+                  },
+                  {
+                    "type": "container",
+                    "elements": [
+                      {
+                        "type": "image",
+                        "src": "%s"
+                      },
+                      {
+                        "type": "image",
+                        "src": "%s"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "divider"
+                  },
+                  {
+                    "type": "context",
+                    "elements": [
+                      {
+                        "type": "image",
+                        "src": "https://img.kookapp.cn/assets/2022-06/N6ymk3YYuC0sg0sg.png"
+                      },
+                      {
+                        "type": "kmarkdown",
+                        "content": "[辐射76小助手](https://www.kookapp.cn/app/oauth2/authorize?id=11214&permissions=268288&client_id=L1CBDfziwUZWykMC&redirect_uri=&scope=bot)"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+            """),
+    WEEKLY_OFFERS_CARD("""
+            [
+              {
+                "type": "card",
+                "theme": "primary",
+                "size": "sm",
+                "modules": [
+                  {
+                    "type": "header",
+                    "text": {
+                      "type": "plain-text",
+                      "content": "原子商店特惠预览"
                     }
                   },
                   {

@@ -44,7 +44,7 @@ public class MothManKookEventHandler implements BaseHandler {
 
     @Override
     public Set<String> getKeys() {
-        return Set.of("/天蛾人", "/天蛾人事件","/天蛾人春分");
+        return Set.of("/天蛾人", "/天蛾人事件", "/天蛾人春分");
     }
 
     @Override
@@ -57,16 +57,15 @@ public class MothManKookEventHandler implements BaseHandler {
         if (basePlatformEventDTO instanceof KookEventDTO kookEventDTO) {
             String targetId = kookEventDTO.getTargetId();
             Map<String, String> mothManPicUrls = photoService.getPhotoUrls("moth-man", this.getPlatform());
-            String replyMsg;
+            String format;
             if (CollUtil.isEmpty(mothManPicUrls)) {
                 log.error("******MothManKookEventHandler.consume：获取天蛾人春分季节性攻略指南失败");
-                String format = String.format(KookReplyMsgTemplateEnum.ERROR_MSG_CARD.getMsg(), "获取天蛾人春分季节性攻略指南失败，请联系管理员");
-                replyMsg = String.format(KookReplyMsgTemplateEnum.ERROR_MSG.getMsg(), targetId, StringEscapeUtils.escapeJava(format));
+                format = String.format(KookReplyMsgTemplateEnum.ERROR_MSG_CARD.getMsg(), "获取天蛾人春分季节性攻略指南失败，请联系管理员");
             } else {
-                String format = String.format(KookReplyMsgTemplateEnum.MOTH_MAN_CARD.getMsg(), mothManPicUrls.get("1"));
-                replyMsg = String.format(KookReplyMsgTemplateEnum.CARD_MSG.getMsg(), targetId, StringEscapeUtils.escapeJava(format));
+                format = String.format(KookReplyMsgTemplateEnum.MOTH_MAN_CARD.getMsg(), mothManPicUrls.get("1"));
             }
 
+            String replyMsg = String.format(KookReplyMsgTemplateEnum.CARD_MSG.getMsg(), targetId, StringEscapeUtils.escapeJava(format));
             return new KookReplyMsgDTO()
                     .setApiEndPoint("/api/v3/message/create")
                     .setEventKey(baseEvent.getEventKey())

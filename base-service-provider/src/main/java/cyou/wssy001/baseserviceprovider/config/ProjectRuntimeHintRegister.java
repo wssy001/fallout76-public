@@ -35,8 +35,8 @@ public class ProjectRuntimeHintRegister implements RuntimeHintsRegistrar {
                         PUBLIC_FIELDS, INVOKE_DECLARED_CONSTRUCTORS, INVOKE_PUBLIC_METHODS)
         ;
         hints.resources()
-                .registerPattern("config/*")
-                .registerPattern("*.png")
-                .registerPattern("*.jpg");
+                .registerPattern("config/**")
+                .registerPattern("help/*")
+                .registerPattern("nukacode/*");
     }
 }

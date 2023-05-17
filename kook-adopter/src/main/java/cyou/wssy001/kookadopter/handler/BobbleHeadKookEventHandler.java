@@ -57,16 +57,15 @@ public class BobbleHeadKookEventHandler implements BaseHandler {
         if (basePlatformEventDTO instanceof KookEventDTO kookEventDTO) {
             String targetId = kookEventDTO.getTargetId();
             Map<String, String> bobbleHeadPicUrls = photoService.getPhotoUrls("bobbleHead", this.getPlatform());
-            String replyMsg;
+            String format;
             if (CollUtil.isEmpty(bobbleHeadPicUrls)) {
                 log.error("******BobbleHeadKookEventHandler.consume：娃娃效果图片获取失败");
-                String format = String.format(KookReplyMsgTemplateEnum.ERROR_MSG_CARD.getMsg(), "娃娃效果图片获取失败，请联系管理员");
-                replyMsg = String.format(KookReplyMsgTemplateEnum.ERROR_MSG.getMsg(), targetId, StringEscapeUtils.escapeJava(format));
+                format = String.format(KookReplyMsgTemplateEnum.ERROR_MSG_CARD.getMsg(), "娃娃效果图片获取失败，请联系管理员");
             } else {
-                String format = String.format(KookReplyMsgTemplateEnum.BOBBLE_HEAD_CARD.getMsg(), bobbleHeadPicUrls.get("1"));
-                replyMsg = String.format(KookReplyMsgTemplateEnum.CARD_MSG.getMsg(), targetId, StringEscapeUtils.escapeJava(format));
+                format = String.format(KookReplyMsgTemplateEnum.BOBBLE_HEAD_CARD.getMsg(), bobbleHeadPicUrls.get("1"));
             }
 
+            String replyMsg = String.format(KookReplyMsgTemplateEnum.CARD_MSG.getMsg(), targetId, StringEscapeUtils.escapeJava(format));
             return new KookReplyMsgDTO()
                     .setApiEndPoint("/api/v3/message/create")
                     .setEventKey(baseEvent.getEventKey())

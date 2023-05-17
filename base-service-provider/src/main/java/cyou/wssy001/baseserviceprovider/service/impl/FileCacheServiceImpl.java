@@ -9,6 +9,7 @@ import cyou.wssy001.common.entity.NukaCode;
 import cyou.wssy001.common.entity.PhotoInfo;
 import cyou.wssy001.common.service.FileCacheService;
 import cyou.wssy001.common.util.PathUtil;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.stereotype.Service;
@@ -26,10 +27,22 @@ import java.util.List;
 @Service
 public class FileCacheServiceImpl implements FileCacheService {
 
+    @PostConstruct
+    public void init() {
+        File file = new File(PathUtil.getJarPath() + "/config/nukacode/");
+        if (!file.exists()) FileUtil.createTempFile(file).delete();
+
+        file = new File(PathUtil.getJarPath() + "/config/photo/");
+        if (!file.exists()) FileUtil.createTempFile(file).delete();
+
+        file = new File(PathUtil.getJarPath() + "/config/help/");
+        if (!file.exists()) FileUtil.createTempFile(file).delete();
+    }
+
     @Override
     @RegisterReflectionForBinding(NukaCode.class)
     public NukaCode getNukaCode() {
-        File file = new File(PathUtil.getJarPath() + "/config/nukaCode.json");
+        File file = new File(PathUtil.getJarPath() + "/config/nukacode/nukaCode.json");
         log.info("******FileCacheServiceImpl.getNukaCode：正在读取核弹密码文件缓存，文件路径：{}", file.getPath());
         if (!file.exists()) {
             log.error("******FileCacheServiceImpl.getNukaCode：核弹密码文件缓存不存在");
@@ -49,7 +62,7 @@ public class FileCacheServiceImpl implements FileCacheService {
             return false;
         }
 
-        String path = PathUtil.getJarPath() + "/config/nukaCode.json";
+        String path = PathUtil.getJarPath() + "/config/nukacode/nukaCode.json";
         FileWriter writer = new FileWriter(path);
         writer.write(JSON.toJSONString(nukaCode));
         log.info("******FileCacheServiceImpl.cacheNukaCode：写入文件成功，路径：{}", path);
@@ -59,7 +72,7 @@ public class FileCacheServiceImpl implements FileCacheService {
     @Override
     @RegisterReflectionForBinding(PhotoInfo.class)
     public List<PhotoInfo> getPhotos() {
-        File file = new File(PathUtil.getJarPath() + "/config/photos.json");
+        File file = new File(PathUtil.getJarPath() + "/config/photo/photos.json");
         log.info("******FileCacheServiceImpl.getNukaCode：正在读取图片文件缓存，文件路径：{}", file.getPath());
         if (!file.exists()) {
             log.error("******FileCacheServiceImpl.getNukaCode：图片文件缓存不存在");
@@ -79,7 +92,7 @@ public class FileCacheServiceImpl implements FileCacheService {
             return false;
         }
 
-        String path = PathUtil.getJarPath() + "/config/photos.json";
+        String path = PathUtil.getJarPath() + "/config/photo/photos.json";
         FileWriter writer = new FileWriter(path);
         writer.write(JSONArray.toJSONString(photos));
         log.info("******FileCacheServiceImpl.cachePhotos：写入文件成功，路径：{}", path);
