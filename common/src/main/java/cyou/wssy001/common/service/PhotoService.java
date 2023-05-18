@@ -28,4 +28,6 @@ public interface PhotoService {
     void createNukaCodePhoto(String name, NukaCode nukaCode);
 
     void createHelpPhoto(String name, HashMap<Set<String>, String> map);
+
+    boolean updatePhotoUrl(PhotoInfo photoInfo);
 }
