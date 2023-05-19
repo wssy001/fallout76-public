@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cyou.wssy001.wikiprovider.dao.FoodDAO">
+
+    <resultMap id="BaseResultMap" type="cyou.wssy001.wikiprovider.entity.Food">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="englishName" column="english_name" jdbcType="VARCHAR"/>
+        <result property="rads" column="rads" jdbcType="TINYINT"/>
+        <result property="diseaseChance" column="disease_chance" jdbcType="TINYINT"/>
+        <result property="food" column="food" jdbcType="TINYINT"/>
+        <result property="water" column="water" jdbcType="TINYINT"/>
+        <result property="weight" column="weight" jdbcType="FLOAT"/>
+        <result property="healthRestored" column="health_restored" jdbcType="TINYINT"/>
+        <result property="value" column="value" jdbcType="TINYINT"/>
+        <result property="addiction" column="addiction" jdbcType="TINYINT"/>
+        <collection property="effects" ofType="cyou.wssy001.wikiprovider.entity.Effect">
+            <result property="id" column="e_id"/>
+            <result property="name" column="e_name"/>
+            <result property="value" column="e_value"/>
+            <result property="durationSeconds" column="e_duration_seconds"/>
+        </collection>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,english_name,
+        rads,disease_chance,food,
+        water,weight,health_restored,
+        value,addiction,plantable
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM food
+        WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="list" resultType="cyou.wssy001.wikiprovider.entity.Food" resultMap="BaseResultMap">
+        <bind name="name" value="name + '%'"/>
+        SELECT
+        f.id,
+        f.name,
+        f.english_name,
+        f.rads,
+        f.disease_chance,
+        f.food,
+        f.water,
+        f.weight,
+        f.health_restored,
+        f.value,
+        f.addiction,
+        f.plantable,
+        e.id AS e_id,
+        e.name AS e_name,
+        e.value AS e_value,
+        e.duration_seconds AS e_duration_seconds
+        FROM
+        food AS f
+        INNER JOIN food_effect AS fe ON f.id = fe.food_id
+        INNER JOIN effect AS e ON fe.effect_id = e.id
+        WHERE
+        <choose>
+            <when test="english">
+                f.english_name LIKE #{name}
+            </when>
+            <otherwise>
+                f.name LIKE #{name}
+            </otherwise>
+        </choose>
+        Limit 3
+    </select>
+
+</mapper>

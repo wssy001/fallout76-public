@@ -37,6 +37,7 @@ public class ProjectRuntimeHintRegister implements RuntimeHintsRegistrar {
         hints.resources()
                 .registerPattern("config/**")
                 .registerPattern("help/*")
-                .registerPattern("nukacode/*");
+                .registerPattern("nukacode/*")
+                .registerPattern("dao/*.xml");
     }
 }

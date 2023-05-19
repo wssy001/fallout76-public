@@ -9,6 +9,7 @@ import cyou.wssy001.common.enums.HttpEnum;
 import cyou.wssy001.common.enums.PlatformEnum;
 import cyou.wssy001.common.service.PhotoService;
 import cyou.wssy001.qqadopter.config.QQConfig;
+import cyou.wssy001.qqadopter.dto.QQFileUploadEventDTO;
 import cyou.wssy001.qqadopter.enums.QQReplyMsgTemplateEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,8 +40,11 @@ public class WeeklyOffersUpdateService {
 
 
     @Async
-    public void updateWeeklyOffers(JSONObject jsonObject) {
-        JSONObject file = jsonObject.getJSONObject("file");
+    public void updateWeeklyOffers(QQFileUploadEventDTO qqFileUploadEventDTO) {
+        if (qqFileUploadEventDTO.getUserId() != 1137631718L || qqFileUploadEventDTO.getGroupId() != 733491495L)
+            return;
+
+        JSONObject file = qqFileUploadEventDTO.getFile();
         String accessToken = qqConfig.getAccessToken() == null ? "" : qqConfig.getAccessToken();
         String imageUrl = file.getString("url");
         String format = String.format(QQReplyMsgTemplateEnum.WEEKLY_OFFERS_MSG_TEMPLATE.getMsg(), imageUrl);
@@ -112,15 +116,15 @@ public class WeeklyOffersUpdateService {
             e.printStackTrace();
         }
 
-        jsonObject = JSON.parseObject(body);
-        jsonObject = jsonObject.getJSONObject("data")
+        JSONObject response = JSON.parseObject(body);
+        response = response.getJSONObject("data")
                 .getJSONArray("texts")
                 .stream()
                 .map((obj) -> (JSONObject) obj)
                 .filter(obj -> obj.getString("text").contains("原子商店日替") && obj.getInteger("confidence") > 70)
                 .findFirst()
                 .orElse(null);
-        if (jsonObject == null) return;
+        if (response == null) return;
 
         HashMap<String, String> map = new HashMap<>();
         map.put("1", imageUrl);
