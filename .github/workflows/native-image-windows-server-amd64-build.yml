@@ -41,7 +41,7 @@ jobs:
           cd fallout76-assistant
           cp ../src/main/resources/application.yml config/
           cp ../target/fallout76-assistant-robot.exe ./
-          echo 'fallout76-assistant-robot.exe' >> run.bat
+          echo 'fallout76-assistant-robot.exe -Djavax.xml.accessExternalDTD=all' >> run.bat
           tar -zcvf fallout76-assistant.tar.gz ./*
 
       - name: 获取当前 Tag
