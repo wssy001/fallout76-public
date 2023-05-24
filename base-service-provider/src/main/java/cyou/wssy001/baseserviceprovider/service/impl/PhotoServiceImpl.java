@@ -254,6 +254,14 @@ public class PhotoServiceImpl implements PhotoService, ApplicationListener<Conte
         }
     }
 
+    @Override
+    public boolean updatePhotoUrl(PhotoInfo photoInfo) {
+        boolean removeIf = photoInfoList.removeIf(record -> record.getKey().equals(photoInfo.getKey()) && record.getPlatform().equals(photoInfo.getPlatform()));
+        if (!removeIf) return false;
+        photoInfoList.add(photoInfo);
+        return true;
+    }
+
     private void updatePhotos(List<PhotoInfo> photoInfoList) {
         PhotoServiceImpl.photoInfoList.addAll(photoInfoList);
     }

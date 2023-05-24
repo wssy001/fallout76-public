@@ -31,6 +31,7 @@ Fallout 76小助手
 >#### （推荐）运行中不需要额外的JVM，不强制用户安装使用JDK
 > #### 进入 [Release](https://github.com/wssy001/fallout76-public/releases) 页面，选择最新版本以及相应平台，下载相应的压缩包并解压
 > #### 执行压缩包内的 <code>run.sh</code> 即可启动程序
+> #### PS: Native下需要添加 `-Djavax.xml.accessExternalDTD=all` 才能正常使用`wiki`模块
 ### Docker
 > ####  （推荐）运行中不需要额外的JVM，不强制用户安装使用JDK
 > ####   前往[本项目Docker仓库](https://hub.docker.com/r/wssy001/fallout76-public)，选择合适的镜像，使用<code>docker run -itd --name fallout76-assistant -p 35701:35701 -v /path/to/config:/docker/image/path/to/config fallout76:latest</code>

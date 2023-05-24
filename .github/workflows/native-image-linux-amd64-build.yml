@@ -40,7 +40,7 @@ jobs:
           cp ../src/main/resources/application.yml config/
           cp ../target/fallout76-assistant-robot ./
           echo '#!/bin/bash' > run.sh
-          echo './fallout76-assistant-robot' >> run.sh
+          echo './fallout76-assistant-robot -Djavax.xml.accessExternalDTD=all' >> run.sh
           chmod +x run.sh
           tar -zcvf fallout76-assistant.tar.gz ./*
 
