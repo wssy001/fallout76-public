@@ -282,5 +282,33 @@
     "urlMap": {
       "1": "https://img.imdodo.com/openapitest/upload/cdn/52DB3EB40C4FEE82349B14CA41F1F093_1684285468155.jpg"
     }
+  },
+  {
+    "code": 1,
+    "key": "treasureHunter",
+    "urlMap": {
+      "1": "https://s1.ax1x.com/2023/05/24/p97Cvzq.png"
+    }
+  },
+  {
+    "code": 2,
+    "key": "treasureHunter",
+    "urlMap": {
+      "1": "https://s1.ax1x.com/2023/05/24/p97Cvzq.png"
+    }
+  },
+  {
+    "code": 3,
+    "key": "treasureHunter",
+    "urlMap": {
+      "1": "https://img.kookapp.cn/attachments/2023-05/24/CfnThGaI8a1di476.jpg"
+    }
+  },
+  {
+    "code": 4,
+    "key": "treasureHunter",
+    "urlMap": {
+      "1": "https://img.imdodo.com/openapitest/upload/cdn/6E6B6573633A8E910E01F2FFD2F18824_1684897269528.jpg"
+    }
   }
 ]
