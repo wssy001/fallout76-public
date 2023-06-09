@@ -28,10 +28,10 @@
     <properties>
         <java.version>19</java.version>
         <fastjson.version>2.0.32</fastjson.version>
-        <hutool.version>5.8.18</hutool.version>
+        <hutool.version>5.8.19</hutool.version>
         <apache-commons.version>1.10.0</apache-commons.version>
         <bouncycastle.version>1.73</bouncycastle.version>
-        <mybatis.version>3.0.1</mybatis.version>
+        <mybatis.version>3.0.2</mybatis.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <graalvm.version>22.3.1</graalvm.version>
     </properties>

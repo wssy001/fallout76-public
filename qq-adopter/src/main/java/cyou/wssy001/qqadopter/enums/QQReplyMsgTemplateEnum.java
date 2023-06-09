@@ -261,6 +261,22 @@ public enum QQReplyMsgTemplateEnum {
                 }
             ]
             """),
+    TREASURE_HUNTER_MSG_TEMPLATE("""
+            [
+                {
+                    "type": "text",
+                    "data": {
+                        "text": "鼹鼠旷工寻宝猎人奖励清单"
+                    }
+                },
+                {
+                    "type": "image",
+                    "data": {
+                        "file": "%s"
+                    }
+                }
+            ]
+            """),
     ;
     private final String msg;
 }
