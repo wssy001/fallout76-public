@@ -6,7 +6,7 @@
     <parent>
         <groupId>cyou.wssy001</groupId>
         <artifactId>fallout76-assistant</artifactId>
-        <version>1.2.1</version>
+        <version>1.2.2</version>
     </parent>
 
     <artifactId>dodo-adopter</artifactId>
@@ -37,8 +37,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>19</source>
-                    <target>19</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                     <compilerArgs>
                         <arg>--enable-preview</arg>
                     </compilerArgs>

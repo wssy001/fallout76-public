@@ -4,11 +4,10 @@
     <parent>
         <groupId>cyou.wssy001</groupId>
         <artifactId>fallout76-assistant</artifactId>
-        <version>1.2.1</version>
+        <version>1.2.2</version>
     </parent>
 
     <artifactId>base-service-provider</artifactId>
-    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
@@ -48,6 +47,7 @@
         <dependency>
             <groupId>org.graalvm.sdk</groupId>
             <artifactId>graal-sdk</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
@@ -58,8 +58,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>19</source>
-                    <target>19</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                     <compilerArgs>
                         <arg>--enable-preview</arg>
                     </compilerArgs>
@@ -75,13 +75,8 @@
                         <buildArg>--enable-https</buildArg>
                         <buildArg>-H:JNIConfigurationFiles=src/main/resources/jni-config.json</buildArg>
                         <buildArg>--features=cyou.wssy001.baseserviceprovider.config.BouncyCastleFeature</buildArg>
-                        <buildArg>-H:ClassInitialization=org.bouncycastle.crypto.CryptoServicesRegistrar:rerun
-                        </buildArg>
-                        <buildArg>-H:ClassInitialization=org.bouncycastle.jcajce.provider.drbg.DRBG:rerun</buildArg>
-                        <buildArg>-H:ClassInitialization=org.bouncycastle.jcajce.provider.drbg.DRBG$Default:rerun
-                        </buildArg>
-                        <buildArg>-H:ClassInitialization=org.bouncycastle.jcajce.provider.drbg.DRBG$NonceAndIV:rerun
-                        </buildArg>
+                        <buildArg>--initialize-at-run-time=org.bouncycastle.jcajce.provider.drbg.DRBG$Default</buildArg>
+                        <buildArg>--initialize-at-run-time=org.bouncycastle.jcajce.provider.drbg.DRBG$NonceAndIV</buildArg>
                     </buildArgs>
                 </configuration>
             </plugin>
