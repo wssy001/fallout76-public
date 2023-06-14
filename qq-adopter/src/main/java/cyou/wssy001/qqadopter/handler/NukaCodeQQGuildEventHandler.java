@@ -67,9 +67,9 @@ public class NukaCodeQQGuildEventHandler implements BaseHandler {
                 log.error("******NukaCodeQQGuildEventHandler.consume：nukaCode获取失败");
                 format = String.format(QQReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "nukaCode获取失败，请联系管理员");
             } else {
-                File file = new File(PathUtil.getJarPath() + "/config/nukaCode.png");
-                if (file.exists()) {
-                    format = String.format(QQReplyMsgTemplateEnum.NUKA_CODE_PHOTO_MSG_TEMPLATE.getMsg(), file.toURI());
+                File nukaCodeImg = new File(PathUtil.getJarPath() + "/config/nukacode/nukaCode.png");
+                if (nukaCodeImg.exists()) {
+                    format = String.format(QQReplyMsgTemplateEnum.NUKA_CODE_PHOTO_MSG_TEMPLATE.getMsg(), nukaCodeImg.toURI());
                 } else {
                     photoService.createNukaCodePhoto("nukaCode.png", nukaCode);
                     String expireTime = LocalDateTimeUtil.format(nukaCode.getExpireTime(), "yyyy年MM月dd日 HH点mm分");
