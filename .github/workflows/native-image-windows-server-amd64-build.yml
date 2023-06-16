@@ -18,9 +18,8 @@ jobs:
       - name: 配置环境
         uses: graalvm/setup-graalvm@v1
         with:
-          version: '23.0.0'
-          java-version: '20'
-          components: 'native-image'
+          java-version: '20.0.1'
+          distribution: 'graalvm-community'
           github-token: ${{ secrets.RELEASE_TOKEN }}
           native-image-job-reports: 'true'
           cache: maven
