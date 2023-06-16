@@ -277,6 +277,22 @@ public enum QQReplyMsgTemplateEnum {
                 }
             ]
             """),
+    EXPERIENCE_MSG_TEMPLATE("""
+            [
+                {
+                    "type": "text",
+                    "data": {
+                        "text": "堆智力"
+                    }
+                },
+                {
+                    "type": "image",
+                    "data": {
+                        "file": "%s"
+                    }
+                }
+            ]
+            """),
     ;
     private final String msg;
 }
