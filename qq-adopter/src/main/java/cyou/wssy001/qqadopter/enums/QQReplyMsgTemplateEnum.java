@@ -293,6 +293,22 @@ public enum QQReplyMsgTemplateEnum {
                 }
             ]
             """),
+    BLUE_MOON_MSG_TEMPLATE("""
+            [
+                {
+                    "type": "text",
+                    "data": {
+                        "text": "蓝月当空主题奖励清单"
+                    }
+                },
+                {
+                    "type": "image",
+                    "data": {
+                        "file": "%s"
+                    }
+                }
+            ]
+            """),
     ;
     private final String msg;
 }
