@@ -366,5 +366,33 @@
     "urlMap": {
       "1": "https://img.imdodo.com/openapitest/upload/cdn/6D5FF9CD80523DD3E55BC03238A2CB0C_1686897457838.jpg"
     }
+  },
+  {
+    "code": 1,
+    "key": "coastRewards",
+    "urlMap": {
+      "1": "https://s1.ax1x.com/2023/06/16/pCMr3Ke.png"
+    }
+  },
+  {
+    "code": 2,
+    "key": "coastRewards",
+    "urlMap": {
+      "1": "https://s1.ax1x.com/2023/06/16/pCMr3Ke.png"
+    }
+  },
+  {
+    "code": 3,
+    "key": "coastRewards",
+    "urlMap": {
+      "1": "https://img.kookapp.cn/attachments/2023-06/03/oJKn7HTEfI0vr1l5.png"
+    }
+  },
+  {
+    "code": 4,
+    "key": "coastRewards",
+    "urlMap": {
+      "1": "https://img.imdodo.com/openapitest/upload/cdn/67D3CE8981D1D1747AC891463262CA7E_1686898148035.png"
+    }
   }
 ]

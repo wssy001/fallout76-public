@@ -309,6 +309,22 @@ public enum QQReplyMsgTemplateEnum {
                 }
             ]
             """),
+    COAST_REWARDS_MSG_TEMPLATE("""
+            [
+                {
+                    "type": "text",
+                    "data": {
+                        "text": "科斯塔的业务系列任务流程和奖励图"
+                    }
+                },
+                {
+                    "type": "image",
+                    "data": {
+                        "file": "%s"
+                    }
+                }
+            ]
+            """),
     ;
     private final String msg;
 }
