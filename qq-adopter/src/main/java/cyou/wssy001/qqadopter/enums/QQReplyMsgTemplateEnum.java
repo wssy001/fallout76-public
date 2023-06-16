@@ -277,6 +277,54 @@ public enum QQReplyMsgTemplateEnum {
                 }
             ]
             """),
+    EXPERIENCE_MSG_TEMPLATE("""
+            [
+                {
+                    "type": "text",
+                    "data": {
+                        "text": "堆智力"
+                    }
+                },
+                {
+                    "type": "image",
+                    "data": {
+                        "file": "%s"
+                    }
+                }
+            ]
+            """),
+    BLUE_MOON_MSG_TEMPLATE("""
+            [
+                {
+                    "type": "text",
+                    "data": {
+                        "text": "蓝月当空主题奖励清单"
+                    }
+                },
+                {
+                    "type": "image",
+                    "data": {
+                        "file": "%s"
+                    }
+                }
+            ]
+            """),
+    COAST_REWARDS_MSG_TEMPLATE("""
+            [
+                {
+                    "type": "text",
+                    "data": {
+                        "text": "科斯塔的业务系列任务流程和奖励图"
+                    }
+                },
+                {
+                    "type": "image",
+                    "data": {
+                        "file": "%s"
+                    }
+                }
+            ]
+            """),
     ;
     private final String msg;
 }
