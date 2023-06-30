@@ -72,14 +72,15 @@ public class DoDoResourceUploadService implements ResourceUploadService {
         try {
             HttpResponse<InputStream> response = httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream());
             InputStream body = response.body();
+            String bodyString = IoUtil.read(body, StandardCharsets.UTF_8);
             int code = response.statusCode();
             if (code != 200) {
-                log.error("******DoDoResourceUploadService.upload：上传图片失败，状态码：{}，原因：{}", code, IoUtil.read(body, StandardCharsets.UTF_8));
+                log.error("******DoDoResourceUploadService.upload：上传图片接口调用失败，状态码：{}，原因：{}", code, bodyString);
                 return null;
             }
 
-            log.info("******DoDoResourceUploadService.upload：上传图片成功，结果：{}", body);
-            JSONObject jsonObject = JSON.parseObject(body);
+            log.info("******DoDoResourceUploadService.upload：上传图片接口调用成功，结果：{}", bodyString);
+            JSONObject jsonObject = JSON.parseObject(bodyString);
             if (jsonObject.getIntValue("status") == 0) return jsonObject
                     .getJSONObject("data")
                     .getString("url");
