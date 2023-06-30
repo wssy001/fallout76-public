@@ -1,6 +1,7 @@
 package cyou.wssy001.dodoadopter.dto;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.annotation.JSONField;
 import cyou.wssy001.common.dto.BasePlatformEventDTO;
 import lombok.Getter;
 import lombok.Setter;

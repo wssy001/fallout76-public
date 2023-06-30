@@ -47,17 +47,18 @@ public class GetUserIdKookEventHandler implements BaseHandler {
 
     @Override
     public BaseReplyMsgDTO consume(BaseEvent baseEvent, BasePlatformEventDTO basePlatformEventDTO) {
-        if (baseEvent instanceof BasePrivateEvent basePrivateEvent && basePlatformEventDTO instanceof KookEventDTO kookEventDTO) {
+        if (basePlatformEventDTO instanceof KookEventDTO kookEventDTO) {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("        ");
             JSONObject author = kookEventDTO.getJsonObject()
                     .getJSONObject("author");
+            String authorId = kookEventDTO.getAuthorId();
             stringBuilder.append(author.getString("username"))
                     .append("#")
                     .append(author.getString("identify_num"))
                     .append("    您好：\\n您在 Kook 的 Open ID 为：")
-                    .append(kookEventDTO.getAuthorId());
-            String replyMsg = String.format(KookReplyMsgTemplateEnum.TEXT_MSG.getMsg(), kookEventDTO.getAuthorId(), stringBuilder);
+                    .append(authorId);
+            String replyMsg = String.format(KookReplyMsgTemplateEnum.TEXT_MSG.getMsg(), authorId, stringBuilder);
             return new KookReplyMsgDTO()
                     .setApiEndPoint("/api/v3/direct-message/create")
                     .setEventKey(baseEvent.getEventKey())

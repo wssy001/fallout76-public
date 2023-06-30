@@ -52,9 +52,9 @@ public class DoDoReplyService implements ReplyService {
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(dodoConfig.getOpenApiBaseUrl() + doDoReplyMsgDTO.getApiEndPoint()))
-                    .header(HttpHeaders.USER_AGENT, HttpEnum.USER_AGENT.getValue())
-                    .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                    .header(HttpHeaders.AUTHORIZATION, String.format("Bot %s.%s", clientId, botToken))
+                    .setHeader(HttpHeaders.USER_AGENT, HttpEnum.USER_AGENT.getValue())
+                    .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                    .setHeader(HttpHeaders.AUTHORIZATION, String.format("Bot %s.%s", clientId, botToken))
                     .POST(HttpRequest.BodyPublishers.ofString(doDoReplyMsgDTO.getMsg()))
                     .build();
 

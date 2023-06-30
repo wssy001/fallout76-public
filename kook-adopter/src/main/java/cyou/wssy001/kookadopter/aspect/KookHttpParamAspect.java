@@ -41,7 +41,7 @@ import java.util.Base64;
 @RequiredArgsConstructor
 public class KookHttpParamAspect {
     private final KookConfig kookConfig;
-    private final CheckUserService<KookEventDTO> checkUserService;
+    private final CheckUserService checkKookAdminService;
     private final RateLimitService rateLimitService;
     private final HttpServletRequest httpServletRequest;
     private final HttpServletResponse httpServletResponse;
@@ -112,14 +112,16 @@ public class KookHttpParamAspect {
                     return null;
                 }
 
-                if (checkUserService.check(kookEventDTO)) {
+                if (checkKookAdminService.check(kookEventDTO)) {
                     baseEvent = new BaseAdminEvent()
                             .setEventKey(key)
-                            .setPlatform(PlatformEnum.KOOK);
+                            .setPlatform(PlatformEnum.KOOK)
+                            .setEventType(EventEnum.ADMIN);
                 } else {
                     baseEvent = new BasePrivateEvent()
                             .setEventKey(key)
-                            .setPlatform(PlatformEnum.KOOK);
+                            .setPlatform(PlatformEnum.KOOK)
+                            .setEventType(EventEnum.FRIEND);
                 }
             }
             case "GROUP" -> {

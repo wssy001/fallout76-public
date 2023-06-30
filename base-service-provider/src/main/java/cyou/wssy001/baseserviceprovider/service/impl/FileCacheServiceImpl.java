@@ -5,6 +5,7 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.file.FileWriter;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONWriter;
 import cyou.wssy001.common.entity.NukaCode;
 import cyou.wssy001.common.entity.PhotoInfo;
 import cyou.wssy001.common.service.FileCacheService;
@@ -64,7 +65,7 @@ public class FileCacheServiceImpl implements FileCacheService {
 
         String path = PathUtil.getJarPath() + "/config/nukacode/nukaCode.json";
         FileWriter writer = new FileWriter(path);
-        writer.write(JSON.toJSONString(nukaCode));
+        writer.write(JSON.toJSONString(nukaCode, JSONWriter.Feature.PrettyFormat));
         log.info("******FileCacheServiceImpl.cacheNukaCode：写入文件成功，路径：{}", path);
         return true;
     }
@@ -94,7 +95,7 @@ public class FileCacheServiceImpl implements FileCacheService {
 
         String path = PathUtil.getJarPath() + "/config/photo/photos.json";
         FileWriter writer = new FileWriter(path);
-        writer.write(JSONArray.toJSONString(photos));
+        writer.write(JSONArray.toJSONString(photos, JSONWriter.Feature.PrettyFormat));
         log.info("******FileCacheServiceImpl.cachePhotos：写入文件成功，路径：{}", path);
         return true;
     }

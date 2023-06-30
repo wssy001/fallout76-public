@@ -11,6 +11,7 @@ import cyou.wssy001.common.dto.BasePlatformEventDTO;
 import cyou.wssy001.common.entity.BaseAdminEvent;
 import cyou.wssy001.common.entity.BaseEvent;
 import cyou.wssy001.common.entity.BasePrivateEvent;
+import cyou.wssy001.common.enums.EventEnum;
 import cyou.wssy001.common.enums.PlatformEnum;
 import cyou.wssy001.common.service.CheckUserService;
 import cyou.wssy001.common.service.DuplicateMessageService;
@@ -19,7 +20,6 @@ import cyou.wssy001.qqadopter.config.QQConfig;
 import cyou.wssy001.qqadopter.dto.QQChannelEventDTO;
 import cyou.wssy001.qqadopter.dto.QQEventDTO;
 import cyou.wssy001.qqadopter.dto.QQFileUploadEventDTO;
-import cyou.wssy001.qqadopter.service.WeeklyOffersUpdateService;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -42,9 +42,8 @@ public class QQHttpParamAspect {
     private final QQConfig qqConfig;
     private final RateLimitService rateLimitService;
     private final HttpServletRequest httpServletRequest;
-    private final CheckUserService<QQEventDTO> checkUserService;
+    private final CheckUserService checkQQAdminService;
     private final DuplicateMessageService duplicateMessageService;
-    private final WeeklyOffersUpdateService weeklyOffersUpdateService;
 
     private static Mac mac;
 
@@ -81,15 +80,6 @@ public class QQHttpParamAspect {
 
         JSONObject jsonObject = JSON.parseObject(body);
         log.info("******QQHttpParamAspect.checkQQHttpParam：收到请求：{}", jsonObject.toJSONString());
-
-        // 更新日替
-        if (jsonObject.getString("post_type").equals("notice") &&
-                jsonObject.getString("notice_type").equals("group_upload")) {
-
-            weeklyOffersUpdateService.updateWeeklyOffers(jsonObject.to(QQFileUploadEventDTO.class));
-            return null;
-        }
-
         String message = jsonObject.getString("message");
         String key = ReUtil.getGroup0("^/[一-龥a-zA-z]+", message);
         if (StrUtil.isBlank(key)) return null;
@@ -127,14 +117,16 @@ public class QQHttpParamAspect {
                 if (!qqConfig.isEnableQQ()) return null;
 
                 basePlatformEventDTO = jsonObject.toJavaObject(QQEventDTO.class);
-                if (checkUserService.check((QQEventDTO) basePlatformEventDTO)) {
+                if (checkQQAdminService.check(basePlatformEventDTO)) {
                     baseEvent = new BaseAdminEvent()
                             .setEventKey(key)
-                            .setPlatform(PlatformEnum.QQ);
+                            .setPlatform(PlatformEnum.QQ)
+                            .setEventType(EventEnum.ADMIN);
                 } else {
                     baseEvent = new BasePrivateEvent()
                             .setEventKey(key)
-                            .setPlatform(PlatformEnum.QQ);
+                            .setPlatform(PlatformEnum.QQ)
+                            .setEventType(EventEnum.FRIEND);
                 }
             }
             default -> {

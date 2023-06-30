@@ -37,7 +37,7 @@ Fallout 76小助手
 > ####   前往[本项目Docker仓库](https://hub.docker.com/r/wssy001/fallout76-public)，选择合适的镜像，使用<code>docker run -itd --name fallout76-assistant -p 35701:35701 -v /path/to/config:/docker/image/path/to/config fallout76:latest</code>
 ### Jar包
 >#### （不推荐此类方式）运行中需要额外的JVM，强制用户安装使用JDK
->####  下载前请先确保你安装了Open JDK 19及以上
+>####  下载前请先确保你安装了Open JDK 20及以上
 >####  下载最新版本的.jar文件，使用<code>java -server --enable-preview -Xmx512m -Xms128m -jar xxx.jar</code> 即可运行
 ***
 ### 如何编译（Native）

@@ -8,6 +8,7 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import cyou.wssy001.common.entity.BaseAdminEvent;
 import cyou.wssy001.common.entity.BaseEvent;
+import cyou.wssy001.common.entity.BasePrivateEvent;
 import cyou.wssy001.common.enums.EventEnum;
 import cyou.wssy001.common.enums.PlatformEnum;
 import cyou.wssy001.common.service.CheckUserService;
@@ -38,7 +39,7 @@ import java.security.AlgorithmParameters;
 @RequiredArgsConstructor
 public class DoDoHttpParamAspect {
     private final DoDoConfig dodoConfig;
-    private final CheckUserService<DoDoEventDTO> checkUserService;
+    private final CheckUserService checkDoDoAdminService;
     private final RateLimitService rateLimitService;
     private final HttpServletRequest httpServletRequest;
     private final HttpServletResponse httpServletResponse;
@@ -140,11 +141,18 @@ public class DoDoHttpParamAspect {
                     return null;
                 }
 
-                EventEnum eventEnum = checkUserService.check(dodoEventDTO) ? EventEnum.ADMIN : EventEnum.FRIEND;
-                baseEvent = new BaseAdminEvent()
-                        .setEventKey(key)
-                        .setPlatform(PlatformEnum.DODO)
-                        .setEventType(eventEnum);
+                if (checkDoDoAdminService.check(dodoEventDTO)) {
+                    baseEvent = new BaseAdminEvent()
+                            .setEventKey(key)
+                            .setPlatform(PlatformEnum.DODO)
+                            .setEventType(EventEnum.ADMIN);
+                } else {
+                    baseEvent = new BasePrivateEvent()
+                            .setEventKey(key)
+                            .setPlatform(PlatformEnum.DODO)
+                            .setEventType(EventEnum.FRIEND);
+                }
+
             }
             default -> {
                 return null;
