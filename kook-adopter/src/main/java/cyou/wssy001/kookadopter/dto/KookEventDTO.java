@@ -18,20 +18,20 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class KookEventDTO extends BasePlatformEventDTO {
     private String challenge;
-
+    @JSONField(name = "channel_type")
     private String channelType;
 
     private String type;
-
+    @JSONField(name = "target_id")
     private String targetId;
-
+    @JSONField(name = "author_id")
     private String authorId;
 
     private String msgId;
 
     @JSONField(name = "extra")
     private JSONObject jsonObject;
-
+    @JSONField(name = "verify_token")
     private String verifyToken;
 
     private String content;

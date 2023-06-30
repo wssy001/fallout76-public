@@ -30,4 +30,6 @@ public interface PhotoService {
     void createHelpPhoto(String name, HashMap<Set<String>, String> map);
 
     boolean updatePhotoUrl(PhotoInfo photoInfo);
+
+    boolean storePhotoCache();
 }

@@ -45,9 +45,9 @@ public class QQReplyService implements ReplyService {
             String accessToken = qqConfig.getAccessToken() == null ? "" : qqConfig.getAccessToken();
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(qqConfig.getGoCqhttpUrl() + qqReplyMsgDTO.getApiEndPoint()))
-                    .header(HttpHeaders.USER_AGENT, HttpEnum.USER_AGENT.getValue())
-                    .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                    .setHeader(HttpHeaders.USER_AGENT, HttpEnum.USER_AGENT.getValue())
+                    .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                    .setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                     .POST(HttpRequest.BodyPublishers.ofString(qqReplyMsgDTO.getMsg()))
                     .build();
 

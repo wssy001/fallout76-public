@@ -48,9 +48,9 @@ public class KookReplyService implements ReplyService {
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(kookConfig.getOpenApiBaseUrl() + kookReplyMsgDTO.getApiEndPoint()))
-                    .header(HttpHeaders.USER_AGENT, HttpEnum.USER_AGENT.getValue())
-                    .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                    .header(HttpHeaders.AUTHORIZATION, "Bot " + kookConfig.getToken())
+                    .setHeader(HttpHeaders.USER_AGENT, HttpEnum.USER_AGENT.getValue())
+                    .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                    .setHeader(HttpHeaders.AUTHORIZATION, "Bot " + kookConfig.getToken())
                     .POST(HttpRequest.BodyPublishers.ofString(kookReplyMsgDTO.getMsg()))
                     .build();
 

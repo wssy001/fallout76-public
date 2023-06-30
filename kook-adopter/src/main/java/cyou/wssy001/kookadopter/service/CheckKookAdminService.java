@@ -1,5 +1,6 @@
 package cyou.wssy001.kookadopter.service;
 
+import cyou.wssy001.common.dto.BasePlatformEventDTO;
 import cyou.wssy001.common.service.CheckUserService;
 import cyou.wssy001.kookadopter.config.KookConfig;
 import cyou.wssy001.kookadopter.dto.KookEventDTO;
@@ -12,16 +13,19 @@ import org.springframework.stereotype.Service;
  * @Date: 2023/3/16 16:27
  * @Version: 1.0
  */
+@Service
 @RequiredArgsConstructor
-@Service("checkKookAdmin")
-public class CheckKookAdminService implements CheckUserService<KookEventDTO> {
+public class CheckKookAdminService implements CheckUserService {
     private final KookConfig kookConfig;
 
 
     @Override
-    public boolean check(KookEventDTO kookEventDTO) {
-        String authorId = kookEventDTO.getAuthorId();
-        return kookConfig.getAdmins()
-                .contains(authorId);
+    public boolean check(BasePlatformEventDTO basePlatformEventDTO) {
+        if (basePlatformEventDTO instanceof KookEventDTO kookEventDTO) {
+            String authorId = kookEventDTO.getAuthorId();
+            return kookConfig.getAdmins()
+                    .contains(authorId);
+        }
+        return false;
     }
 }

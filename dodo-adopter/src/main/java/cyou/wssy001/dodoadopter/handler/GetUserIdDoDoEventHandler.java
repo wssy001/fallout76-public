@@ -63,7 +63,6 @@ public class GetUserIdDoDoEventHandler implements BaseHandler {
 
             String format = String.format(DoDoReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), stringBuilder);
             String replyMsg = String.format(DoDoReplyMsgTemplateEnum.PRIVATE_TEXT_MSG.getMsg(), islandSourceId, dodoSourceId, format);
-
             return new DoDoReplyMsgDTO()
                     .setApiEndPoint("/api/v2/personal/message/send")
                     .setEventKey(eventKey)
