@@ -1,6 +1,7 @@
 package cyou.wssy001.baseserviceprovider.service.impl;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
+import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
@@ -48,7 +49,7 @@ public class NukaCodeServiceImpl implements NukaCodeService, ApplicationListener
         log.info("******NukaCodeServiceImpl.onApplicationEvent：正在初始化核弹密码");
 
         NukaCode nukaCode = fileCacheService.getNukaCode();
-        if (nukaCode == null) {
+        if (nukaCode == null || ObjUtil.hasEmpty(nukaCode.getStartTime(), nukaCode.getExpireTime())) {
             refreshNukaCode(false);
             fileCacheService.cacheNukaCode(NukaCodeServiceImpl.nukaCode.get());
         } else if (nukaCode.getExpireTime().isBefore(LocalDateTime.now(ZoneId.of("GMT+8")))) {

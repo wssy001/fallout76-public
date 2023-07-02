@@ -11,9 +11,9 @@ spring:
     allow-bean-definition-overriding: true
     allow-circular-references: true
   datasource:
-    url:
-    password:
-    username:
+    url: jdbc:mysql://localhost:3306/fallout76-wiki?useUnicode=true&useSSL=false&autoReconnect=true&characterEncoding=utf-8&rewriteBatchedStatements=true
+    password: 123456
+    username: root
 
 mybatis:
   mapper-locations: classpath*:**/dao/*.xml
