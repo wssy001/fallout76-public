@@ -27,7 +27,7 @@ import java.util.Set;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class WeeklyOffersUpdateKookEventHandler implements BaseHandler {
+public class ResourceUpdateKookEventHandler implements BaseHandler {
     private final PhotoService photoService;
     private final ResourceUploadService kookResourceUploadService;
 
@@ -44,36 +44,43 @@ public class WeeklyOffersUpdateKookEventHandler implements BaseHandler {
 
     @Override
     public Set<String> getKeys() {
-        return Set.of("/更新日替");
+        return Set.of("/资源更新");
     }
 
     @Override
     public String getDescription() {
-        return "更新原子商店特惠预览图";
+        return "动态更新资源链接";
     }
 
     @Override
     public BaseReplyMsgDTO consume(BaseEvent baseEvent, BasePlatformEventDTO basePlatformEventDTO) {
         if (baseEvent instanceof BaseAdminEvent && basePlatformEventDTO instanceof KookEventDTO kookEventDTO) {
-            Map<String, String> map = new HashMap<>();
-            String url = ReUtil.getGroup0(Validator.URL_HTTP.pattern(), kookEventDTO.getContent());
-            boolean updated = false;
-            url = kookResourceUploadService.upload(url);
-            if (StrUtil.isNotBlank(url)) {
-                map.put("1", url);
-                PhotoInfo photoInfo = new PhotoInfo()
-                        .setPlatform(PlatformEnum.KOOK)
-                        .setKey("weeklyOffers")
-                        .setUrlMap(map);
-                updated = photoService.updatePhotoUrl(photoInfo);
-            }
-
             String format;
-            if (updated && photoService.storePhotoCache()) {
-                format = "原子商店特惠预览图更新成功";
+            String content = kookEventDTO.getContent();
+            String[] commandArgs = content.split("\\s+");
+            if (commandArgs.length != 3) {
+                log.error("******ResourceUpdateKookEventHandler.consume：资源更新失败，参数异常");
+                format = "参数异常，请检查";
             } else {
-                log.error("******WeeklyOffersUpdateKookEventHandler.consume：原子商店特惠预览图更新失败");
-                format = "原子商店特惠预览图更新失败";
+                String url = ReUtil.getGroup0(Validator.URL_HTTP.pattern(), commandArgs[2]);
+                boolean updated = false;
+                url = kookResourceUploadService.upload(url);
+                Map<String, String> map = new HashMap<>();
+                if (StrUtil.isNotBlank(url)) {
+                    map.put("1", url);
+                    PhotoInfo photoInfo = new PhotoInfo()
+                            .setPlatform(PlatformEnum.KOOK)
+                            .setKey(commandArgs[1])
+                            .setUrlMap(map);
+                    updated = photoService.updatePhotoUrl(photoInfo);
+                }
+
+                if (updated && photoService.storePhotoCache()) {
+                    format = "资源更新成功";
+                } else {
+                    log.error("******ResourceUpdateKookEventHandler.consume：资源更新失败");
+                    format = "资源更新失败";
+                }
             }
 
             String authorId = kookEventDTO.getAuthorId();

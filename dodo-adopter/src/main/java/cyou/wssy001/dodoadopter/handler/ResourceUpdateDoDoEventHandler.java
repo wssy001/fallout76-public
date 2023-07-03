@@ -1,6 +1,5 @@
 package cyou.wssy001.dodoadopter.handler;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
@@ -35,7 +34,7 @@ import java.util.Set;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class WeeklyOffersUpdateDoDoEventHandler implements BaseHandler {
+public class ResourceUpdateDoDoEventHandler implements BaseHandler {
     private final PhotoService photoService;
     private final ResourceUploadService dodoResourceUploadService;
 
@@ -52,12 +51,12 @@ public class WeeklyOffersUpdateDoDoEventHandler implements BaseHandler {
 
     @Override
     public Set<String> getKeys() {
-        return Set.of("/更新日替");
+        return Set.of("/资源更新");
     }
 
     @Override
     public String getDescription() {
-        return "更新原子商店特惠预览图";
+        return "动态更新资源链接";
     }
 
     @Override
@@ -67,25 +66,32 @@ public class WeeklyOffersUpdateDoDoEventHandler implements BaseHandler {
             JSONObject eventBody = dodoEventDTOData.getEventBody();
             String content = eventBody.getJSONObject("messageBody")
                     .getString("content");
-            String url = ReUtil.getGroup0(Validator.URL_HTTP.pattern(), content);
-            boolean updated = false;
-            url = dodoResourceUploadService.upload(url);
-            if (StrUtil.isNotBlank(url)) {
-                Map<String, String> map = new HashMap<>();
-                map.put("1", url);
-                PhotoInfo photoInfo = new PhotoInfo()
-                        .setPlatform(PlatformEnum.DODO)
-                        .setKey("weeklyOffers")
-                        .setUrlMap(map);
-                updated = photoService.updatePhotoUrl(photoInfo);
-            }
+            String[] commandArgs = content.split("\\s+");
 
             String format;
-            if (updated && photoService.storePhotoCache()) {
-                format = String.format(DoDoReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "原子商店特惠预览图更新成功");
+            if (commandArgs.length != 3) {
+                log.error("******ResourceUpdateDoDoEventHandler.consume：资源更新失败，参数异常");
+                format = String.format(DoDoReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "参数异常，请检查");
             } else {
-                log.error("******WeeklyOffersUpdateDoDoEventHandler.consume：原子商店特惠预览图更新失败");
-                format = String.format(DoDoReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "原子商店特惠预览图更新失败");
+                String url = ReUtil.getGroup0(Validator.URL_HTTP.pattern(), commandArgs[2]);
+                boolean updated = false;
+                url = dodoResourceUploadService.upload(url);
+                Map<String, String> map = new HashMap<>();
+                if (StrUtil.isNotBlank(url)) {
+                    map.put("1", url);
+                    PhotoInfo photoInfo = new PhotoInfo()
+                            .setPlatform(PlatformEnum.DODO)
+                            .setKey(commandArgs[1])
+                            .setUrlMap(map);
+                    updated = photoService.updatePhotoUrl(photoInfo);
+                }
+
+                if (updated && photoService.storePhotoCache()) {
+                    format = String.format(DoDoReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "资源更新成功");
+                } else {
+                    log.error("******ResourceUpdateDoDoEventHandler.consume：资源更新失败");
+                    format = String.format(DoDoReplyMsgTemplateEnum.TEXT_MSG_TEMPLATE.getMsg(), "资源更新失败");
+                }
             }
 
             String eventKey = baseEvent.getEventKey();
