@@ -4,7 +4,7 @@
     <parent>
         <groupId>cyou.wssy001</groupId>
         <artifactId>fallout76-assistant</artifactId>
-        <version>1.3.2</version>
+        <version>1.3.3</version>
     </parent>
 
     <artifactId>base-service-provider</artifactId>
