@@ -325,6 +325,22 @@ public enum QQReplyMsgTemplateEnum {
                 }
             ]
             """),
+    INVADERS_FROM_BEYOND_MSG_TEMPLATE("""
+            [
+                {
+                    "type": "text",
+                    "data": {
+                        "text": "外来入侵者事件攻略指南图"
+                    }
+                },
+                {
+                    "type": "image",
+                    "data": {
+                        "file": "%s"
+                    }
+                }
+            ]
+            """),
     ;
     private final String msg;
 }
