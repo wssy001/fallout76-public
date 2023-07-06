@@ -7,12 +7,13 @@ import cyou.wssy001.common.entity.BaseAdminEvent;
 import cyou.wssy001.common.entity.BaseEvent;
 import cyou.wssy001.common.enums.EventEnum;
 import cyou.wssy001.common.enums.PlatformEnum;
+import cyou.wssy001.common.handler.BaseHandler;
 import cyou.wssy001.common.handler.BaseHelpHandler;
 import cyou.wssy001.kookadopter.dto.KookEventDTO;
 import cyou.wssy001.kookadopter.dto.KookReplyMsgDTO;
 import cyou.wssy001.kookadopter.enums.KookReplyMsgTemplateEnum;
 import org.apache.commons.text.StringEscapeUtils;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Iterator;
 import java.util.List;
@@ -23,21 +24,21 @@ import java.util.List;
  * @Date: 2023/4/14 23:57
  * @Version: 1.0
  */
-@Component
+@Service
 public class GetAdminHelpKookEventHandler implements BaseHelpHandler {
     private final String msg;
 
 
-    public GetAdminHelpKookEventHandler(List<BaseHelpHandler> baseHelpHandlers) {
+    public GetAdminHelpKookEventHandler(List<BaseHandler> baseHandlers) {
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (BaseHelpHandler baseHelpHandler : baseHelpHandlers) {
-            if (baseHelpHandler.getKeys().contains("/help")) continue;
-            if (!baseHelpHandler.getPlatform().equals(PlatformEnum.KOOK)) continue;
-            if (!baseHelpHandler.getEventType().equals(EventEnum.ADMIN)) continue;
+        for (BaseHandler baseHandler : baseHandlers) {
+            if (baseHandler.getKeys().contains("/help")) continue;
+            if (!baseHandler.getPlatform().equals(PlatformEnum.KOOK)) continue;
+            if (!baseHandler.getEventType().equals(EventEnum.ADMIN)) continue;
 
             stringBuilder.append("`");
-            Iterator<String> iterator = baseHelpHandler.getKeys()
+            Iterator<String> iterator = baseHandler.getKeys()
                     .iterator();
             while (iterator.hasNext()) {
                 String key = iterator.next();
@@ -46,7 +47,7 @@ public class GetAdminHelpKookEventHandler implements BaseHelpHandler {
             }
             stringBuilder.append("`")
                     .append("\\t\\t")
-                    .append(baseHelpHandler.getDescription())
+                    .append(baseHandler.getDescription())
                     .append("\\n");
         }
         msg = stringBuilder.toString();
@@ -66,14 +67,14 @@ public class GetAdminHelpKookEventHandler implements BaseHelpHandler {
     public BaseReplyMsgDTO consume(BaseEvent baseEvent, BasePlatformEventDTO basePlatformEventDTO) {
         if (baseEvent instanceof BaseAdminEvent && basePlatformEventDTO instanceof KookEventDTO kookEventDTO) {
             String format;
-            String targetId = kookEventDTO.getTargetId();
+            String authorId = kookEventDTO.getAuthorId();
             if (StrUtil.isBlank(msg)) {
                 format = String.format(KookReplyMsgTemplateEnum.ERROR_MSG_CARD.getMsg(), "暂无帮助内容，请联系管理员添加");
             } else {
                 format = String.format(KookReplyMsgTemplateEnum.HELP_MSG_CARD.getMsg(), msg);
             }
 
-            String replyMsg = String.format(KookReplyMsgTemplateEnum.CARD_MSG.getMsg(), targetId, StringEscapeUtils.escapeJava(format));
+            String replyMsg = String.format(KookReplyMsgTemplateEnum.CARD_MSG.getMsg(), authorId, StringEscapeUtils.escapeJava(format));
             return new KookReplyMsgDTO()
                     .setApiEndPoint("/api/v3/direct-message/create")
                     .setEventKey(baseEvent.getEventKey())

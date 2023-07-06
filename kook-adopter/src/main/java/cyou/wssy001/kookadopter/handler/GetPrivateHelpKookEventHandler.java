@@ -13,7 +13,7 @@ import cyou.wssy001.kookadopter.dto.KookEventDTO;
 import cyou.wssy001.kookadopter.dto.KookReplyMsgDTO;
 import cyou.wssy001.kookadopter.enums.KookReplyMsgTemplateEnum;
 import org.apache.commons.text.StringEscapeUtils;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Iterator;
 import java.util.List;
@@ -24,7 +24,7 @@ import java.util.List;
  * @Date: 2023/4/14 23:57
  * @Version: 1.0
  */
-@Component
+@Service
 public class GetPrivateHelpKookEventHandler implements BaseHelpHandler {
     private final String msg;
 
@@ -66,7 +66,7 @@ public class GetPrivateHelpKookEventHandler implements BaseHelpHandler {
     @Override
     public BaseReplyMsgDTO consume(BaseEvent baseEvent, BasePlatformEventDTO basePlatformEventDTO) {
         if (baseEvent instanceof BasePrivateEvent && basePlatformEventDTO instanceof KookEventDTO kookEventDTO) {
-            String targetId = kookEventDTO.getTargetId();
+            String authorId = kookEventDTO.getAuthorId();
             String format;
             if (StrUtil.isBlank(msg)) {
                 format = String.format(KookReplyMsgTemplateEnum.ERROR_MSG_CARD.getMsg(), "暂无帮助内容，请联系管理员添加");
@@ -74,7 +74,7 @@ public class GetPrivateHelpKookEventHandler implements BaseHelpHandler {
                 format = String.format(KookReplyMsgTemplateEnum.HELP_MSG_CARD.getMsg(), msg);
             }
 
-            String replyMsg = String.format(KookReplyMsgTemplateEnum.CARD_MSG.getMsg(), targetId, StringEscapeUtils.escapeJava(format));
+            String replyMsg = String.format(KookReplyMsgTemplateEnum.CARD_MSG.getMsg(), authorId, StringEscapeUtils.escapeJava(format));
             return new KookReplyMsgDTO()
                     .setApiEndPoint("/api/v3/direct-message/create")
                     .setEventKey(baseEvent.getEventKey())

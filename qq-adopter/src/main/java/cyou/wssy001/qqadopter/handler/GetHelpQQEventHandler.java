@@ -14,7 +14,7 @@ import cyou.wssy001.qqadopter.dto.QQEventDTO;
 import cyou.wssy001.qqadopter.dto.QQReplyMsgDTO;
 import cyou.wssy001.qqadopter.enums.QQReplyMsgTemplateEnum;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.util.Iterator;
@@ -29,7 +29,7 @@ import java.util.Set;
  * @Version: 1.0
  */
 @Slf4j
-@Component
+@Service
 public class GetHelpQQEventHandler implements BaseHelpHandler {
     private final String msg;
 
