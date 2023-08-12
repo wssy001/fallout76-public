@@ -1,13 +1,11 @@
 package cyou.wssy001.baseserviceprovider;
 
-import cyou.wssy001.baseserviceprovider.config.ProjectRuntimeHintRegister;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.context.annotation.ImportRuntimeHints;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.security.Provider;
@@ -17,7 +15,6 @@ import java.security.Security;
 @SpringBootApplication
 @EnableAspectJAutoProxy
 @ComponentScan(basePackages = "cyou.wssy001.**")
-@ImportRuntimeHints(value = {ProjectRuntimeHintRegister.class})
 @MapperScan(value = "cyou.wssy001.wikiprovider.dao", sqlSessionTemplateRef = "sqlSessionTemplate")
 public class BaseServiceProviderApplication {
 

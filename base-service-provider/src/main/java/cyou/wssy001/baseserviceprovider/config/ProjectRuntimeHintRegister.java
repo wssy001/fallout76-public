@@ -10,9 +10,13 @@ import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.boot.availability.ApplicationAvailability;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportRuntimeHints;
 
 import static org.springframework.aot.hint.MemberCategory.*;
 
+@Configuration
+@ImportRuntimeHints(ProjectRuntimeHintRegister.class)
 public class ProjectRuntimeHintRegister implements RuntimeHintsRegistrar {
 
     @Override
