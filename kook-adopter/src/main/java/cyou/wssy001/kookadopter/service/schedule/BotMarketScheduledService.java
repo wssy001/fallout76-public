@@ -32,6 +32,8 @@ public class BotMarketScheduledService {
     // 每隔30分钟发送一次心跳
     @Scheduled(fixedDelay = 30, timeUnit = TimeUnit.MINUTES)
     public void heartBeat() {
+        if (!kookConfig.isEnable()) return;
+
         String botMarketUUID = kookConfig.getBotMarketUUID();
         String url = kookConfig.getBotMarketOnlineApiUrl();
         if (StrUtil.hasBlank(botMarketUUID, url)) {
