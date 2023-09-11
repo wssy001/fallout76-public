@@ -13,7 +13,7 @@ import cyou.wssy001.common.handler.BaseHelpHandler;
 import cyou.wssy001.dodoadopter.dto.DoDoEventDTO;
 import cyou.wssy001.dodoadopter.dto.DoDoReplyMsgDTO;
 import cyou.wssy001.dodoadopter.enums.DoDoReplyMsgTemplateEnum;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Iterator;
 import java.util.List;
@@ -24,7 +24,7 @@ import java.util.List;
  * @Date: 2023/4/14 23:57
  * @Version: 1.0
  */
-@Component
+@Service
 public class GetAdminHelpDoDoEventHandler implements BaseHelpHandler {
     private final String msg;
 

@@ -12,7 +12,7 @@ import cyou.wssy001.kookadopter.dto.KookEventDTO;
 import cyou.wssy001.kookadopter.dto.KookReplyMsgDTO;
 import cyou.wssy001.kookadopter.enums.KookReplyMsgTemplateEnum;
 import org.apache.commons.text.StringEscapeUtils;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Iterator;
 import java.util.List;
@@ -23,7 +23,7 @@ import java.util.List;
  * @Date: 2023/4/14 23:57
  * @Version: 1.0
  */
-@Component
+@Service
 public class GetHelpKookEventHandler implements BaseHelpHandler {
     private final String msg;
 

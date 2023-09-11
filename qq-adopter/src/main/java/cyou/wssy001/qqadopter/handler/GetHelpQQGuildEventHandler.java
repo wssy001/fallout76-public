@@ -13,7 +13,7 @@ import cyou.wssy001.common.util.PathUtil;
 import cyou.wssy001.qqadopter.dto.QQChannelEventDTO;
 import cyou.wssy001.qqadopter.dto.QQReplyMsgDTO;
 import cyou.wssy001.qqadopter.enums.QQReplyMsgTemplateEnum;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.util.Iterator;
@@ -27,7 +27,7 @@ import java.util.Set;
  * @Date: 2023/4/14 23:57
  * @Version: 1.0
  */
-@Component
+@Service
 public class GetHelpQQGuildEventHandler implements BaseHelpHandler {
     private final String msg;
 

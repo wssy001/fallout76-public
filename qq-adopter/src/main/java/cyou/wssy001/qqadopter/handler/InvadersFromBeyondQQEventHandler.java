@@ -13,13 +13,13 @@ import cyou.wssy001.qqadopter.dto.QQReplyMsgDTO;
 import cyou.wssy001.qqadopter.enums.QQReplyMsgTemplateEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Map;
 import java.util.Set;
 
 @Slf4j
-@Component
+@Service
 @RequiredArgsConstructor
 public class InvadersFromBeyondQQEventHandler implements BaseHandler {
     private final PhotoService photoService;
