@@ -1,0 +1,58 @@
+name: Native Image Windows Build
+on:
+  release:
+    types: [published]
+jobs:
+  build:
+    name: fallout76-assistant on ${{ matrix.arch }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            arch: win10-amd64
+    steps:
+      - name: 拉取项目
+        uses: actions/checkout@v3
+
+      - name: 配置环境
+        uses: graalvm/setup-graalvm@v1
+        with:
+          version: '22.3.1'
+          java-version: '19'
+          components: 'native-image'
+          github-token: ${{ secrets.RELEASE_TOKEN }}
+          native-image-job-reports: 'true'
+          cache: maven
+
+      - name: 构建 Native Image
+        shell: bash
+        run: |
+          cd D:/a/fallout76-public/fallout76-public
+          mvn clean install -U -Dmaven.test.skip=true
+          cd base-service-provider
+          mvn native:compile -Pnative -Dmaven.test.skip=true
+
+      - name: 打包
+        shell: bash
+        run: |
+          cd D:/a/fallout76-public/fallout76-public/base-service-provider
+          mkdir -p fallout76-assistant/config
+          cd fallout76-assistant
+          cp ../src/main/resources/application.yml config/
+          cp ../target/fallout76-assistant-robot.exe ./
+          echo 'fallout76-assistant-robot.exe -Djavax.xml.accessExternalDTD=all' >> run.bat
+          tar -zcvf fallout76-assistant.tar.gz ./*
+
+      - name: 获取当前 Tag
+        id: get_tag
+        shell: bash
+        run: echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: 上传 Native Image
+        uses: shogo82148/actions-upload-release-asset@v1
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_name: fallout76-assistant-${{ steps.get_tag.outputs.tag }}-win10-amd64.tar.gz
+          asset_path: D:/a/fallout76-public/fallout76-public/base-service-provider/fallout76-assistant/*.tar.gz
+          asset_content_type: application/x-compressed-tar

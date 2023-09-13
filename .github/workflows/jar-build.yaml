@@ -1,0 +1,51 @@
+name: Jar Build
+on:
+  release:
+    types: [published]
+jobs:
+  build:
+    name: fallout76-assistant on ${{ matrix.arch }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-20.04
+            arch: linux-amd64
+    steps:
+      - name: 拉取项目
+        uses: actions/checkout@v3
+
+      - name: 配置环境
+        uses: graalvm/setup-graalvm@v1
+        with:
+          version: '22.3.1'
+          java-version: '19'
+          components: 'native-image'
+          github-token: ${{ secrets.RELEASE_TOKEN }}
+          cache: maven
+
+      - name: 打包
+        run: |
+          cd /home/runner/work/fallout76-public/fallout76-public
+          mvn clean package -Dmaven.test.skip=true
+          cd base-service-provider
+          mkdir -p fallout76-assistant/config
+          cd fallout76-assistant
+          cp ../src/main/resources/application.yml config/
+          cp ../target/*.jar ./fallout76-assistant-robot.jar
+          tar -zcvf fallout76-assistant.tar.gz ./*
+
+      - name: 获取当前 Tag
+        id: get_tag
+        shell: bash
+        run: echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: 上传 Jar
+        uses: shogo82148/actions-upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_name: fallout76-assistant-${{ steps.get_tag.outputs.tag }}-jar.tar.gz
+          asset_path: /home/runner/work/fallout76-public/fallout76-public/base-service-provider/fallout76-assistant/*.tar.gz
+          asset_content_type: application/x-compressed-tar
