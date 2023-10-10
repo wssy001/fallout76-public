@@ -12,7 +12,6 @@ import cyou.wssy001.common.service.NukaCodeService;
 import cyou.wssy001.common.service.PhotoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.http.HttpHeaders;
@@ -64,7 +63,6 @@ public class NukaCodeServiceImpl implements NukaCodeService, ApplicationListener
         log.info("******NukaCodeServiceImpl.onApplicationEvent：初始化核弹密码完毕");
     }
 
-    @RegisterReflectionForBinding(NukaCode.class)
     public boolean refreshNukaCode(boolean cache) {
         log.info("******NukaCodeServiceImpl.refreshNukaCode：正在获取最新的核弹密码");
         String body = "";
@@ -95,7 +93,7 @@ public class NukaCodeServiceImpl implements NukaCodeService, ApplicationListener
             return false;
         }
 
-        log.info("******NukaCodeServiceImpl.refreshNukaCode：核弹密码获取成功");
+        log.info("******NukaCodeServiceImpl.refreshNukaCode：核弹密码获取成功 \n{}", body);
         JSONObject jsonObject = JSON.parseObject(body);
         JSONObject nukaCodes = jsonObject.getJSONObject("data")
                 .getJSONObject("nukeCodes");

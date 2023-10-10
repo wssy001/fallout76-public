@@ -12,7 +12,6 @@ import cyou.wssy001.common.service.FileCacheService;
 import cyou.wssy001.common.util.PathUtil;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -41,7 +40,6 @@ public class FileCacheServiceImpl implements FileCacheService {
     }
 
     @Override
-    @RegisterReflectionForBinding(NukaCode.class)
     public NukaCode getNukaCode() {
         File file = new File(PathUtil.getJarPath() + "/config/nukacode/nukaCode.json");
         log.info("******FileCacheServiceImpl.getNukaCode：正在读取核弹密码文件缓存，文件路径：{}", file.getPath());
@@ -55,7 +53,6 @@ public class FileCacheServiceImpl implements FileCacheService {
     }
 
     @Override
-    @RegisterReflectionForBinding(NukaCode.class)
     public boolean cacheNukaCode(NukaCode nukaCode) {
         log.info("******FileCacheServiceImpl.cacheNukaCode：正在尝试写入文件");
         if (nukaCode == null) {
@@ -71,7 +68,6 @@ public class FileCacheServiceImpl implements FileCacheService {
     }
 
     @Override
-    @RegisterReflectionForBinding(PhotoInfo.class)
     public List<PhotoInfo> getPhotos() {
         File file = new File(PathUtil.getJarPath() + "/config/photo/photos.json");
         log.info("******FileCacheServiceImpl.getNukaCode：正在读取图片文件缓存，文件路径：{}", file.getPath());
@@ -85,7 +81,6 @@ public class FileCacheServiceImpl implements FileCacheService {
     }
 
     @Override
-    @RegisterReflectionForBinding(PhotoInfo.class)
     public boolean cachePhotos(List<PhotoInfo> photos) {
         log.info("******FileCacheServiceImpl.cachePhotos：正在尝试写入文件");
         if (CollUtil.isEmpty(photos)) {

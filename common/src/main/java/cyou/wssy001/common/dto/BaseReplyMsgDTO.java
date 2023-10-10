@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * @Description: 消息回复基类
  * @Author: Tyler
@@ -13,7 +15,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-public abstract class BaseReplyMsgDTO {
+public abstract class BaseReplyMsgDTO implements Serializable {
 
     // 触发的指令
     public String eventKey;

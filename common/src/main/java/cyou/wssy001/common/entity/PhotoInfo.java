@@ -6,12 +6,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Map;
 
 @Getter
 @Setter
 @Accessors(chain = true)
-public class PhotoInfo {
+public class PhotoInfo implements Serializable {
     @JSONField(name = "code")
     private PlatformEnum platform;
     private String key;

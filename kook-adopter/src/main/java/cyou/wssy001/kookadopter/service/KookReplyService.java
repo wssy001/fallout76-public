@@ -9,7 +9,6 @@ import cyou.wssy001.kookadopter.config.KookConfig;
 import cyou.wssy001.kookadopter.dto.KookReplyMsgDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -73,7 +72,6 @@ public class KookReplyService implements ReplyService {
     }
 
     @Override
-    @RegisterReflectionForBinding(KookReplyMsgDTO.class)
     public void reply(BaseReplyMsgDTO msg, Object target) {
         reply(msg);
     }

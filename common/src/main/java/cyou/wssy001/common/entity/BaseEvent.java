@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * @Description: 指令触发产生的事件基类
  * @Author: Tyler
@@ -15,7 +17,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class BaseEvent {
+public class BaseEvent implements Serializable {
     PlatformEnum platform;
 
     String eventKey;
