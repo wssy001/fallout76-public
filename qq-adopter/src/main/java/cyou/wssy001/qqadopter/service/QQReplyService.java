@@ -8,7 +8,6 @@ import cyou.wssy001.qqadopter.config.QQConfig;
 import cyou.wssy001.qqadopter.dto.QQReplyMsgDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -69,7 +68,6 @@ public class QQReplyService implements ReplyService {
     }
 
     @Override
-    @RegisterReflectionForBinding(QQReplyMsgDTO.class)
     public void reply(BaseReplyMsgDTO msg, Object target) {
         reply(msg);
     }

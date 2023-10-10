@@ -19,8 +19,8 @@ public class NukaCodeScheduledService {
     private final NukaCodeService nukaCodeService;
 
 
-    // 北京时间 每周日的8时10分、9时10分和10时10分执行
-    @Scheduled(cron = "0 10 8,9,10 ? * SUN")
+    // 北京时间 每周日、周一的8时、10时、13时和17时执行
+    @Scheduled(cron = "0 0 8,10,13,17 ? * SUN,MON")
     public void refreshNukaCode() {
         log.info("******NukaCodeScheduledService.refreshNukaCode：正在更新NukaCode");
         boolean updated = nukaCodeService.refreshNukaCode(true);

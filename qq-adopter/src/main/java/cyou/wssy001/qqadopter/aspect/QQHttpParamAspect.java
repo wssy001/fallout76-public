@@ -19,7 +19,6 @@ import cyou.wssy001.common.service.RateLimitService;
 import cyou.wssy001.qqadopter.config.QQConfig;
 import cyou.wssy001.qqadopter.dto.QQChannelEventDTO;
 import cyou.wssy001.qqadopter.dto.QQEventDTO;
-import cyou.wssy001.qqadopter.dto.QQFileUploadEventDTO;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +27,6 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.Mac;
@@ -62,7 +60,6 @@ public class QQHttpParamAspect {
     }
 
     @Around("pointcut()")
-    @RegisterReflectionForBinding({QQEventDTO.class, QQChannelEventDTO.class, QQFileUploadEventDTO.class})
     public Object checkQQHttpParam(ProceedingJoinPoint joinPoint) throws Throwable {
         if (!qqConfig.isEnableQQ() && !qqConfig.isEnableQQChannel()) return null;
 

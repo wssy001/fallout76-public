@@ -14,7 +14,6 @@ import cyou.wssy001.common.service.PhotoService;
 import cyou.wssy001.common.util.PathUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.io.ClassPathResource;
@@ -80,7 +79,6 @@ public class PhotoServiceImpl implements PhotoService, ApplicationListener<Conte
     }
 
     @Override
-    @RegisterReflectionForBinding(PhotoInfo.class)
     public boolean refreshPhotos(boolean cache) {
         log.info("******PhotoServiceImpl.refreshPhotos：正在获取最新的图片信息");
         String body = "";
@@ -165,7 +163,7 @@ public class PhotoServiceImpl implements PhotoService, ApplicationListener<Conte
             image.flush();
             log.info("******PhotoServiceImpl.createNukaCodePhoto：图片：{} 生成成功，路径：{}", name, file.getPath());
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("******PhotoServiceImpl.createNukaCodePhoto：", e);
         }
     }
 
@@ -250,12 +248,13 @@ public class PhotoServiceImpl implements PhotoService, ApplicationListener<Conte
             baseImage.flush();
             log.info("******PhotoServiceImpl.createHelpPhoto：图片：{} 生成成功，路径：{}", name, file.getPath());
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("******PhotoServiceImpl.createHelpPhoto：", e);
         }
     }
 
     @Override
     public boolean updatePhotoUrl(PhotoInfo photoInfo) {
+        if (photoInfo == null) return false;
         photoInfoList.removeIf(record -> record.getKey().equals(photoInfo.getKey()) && record.getPlatform().equals(photoInfo.getPlatform()));
         photoInfoList.add(photoInfo);
         return true;

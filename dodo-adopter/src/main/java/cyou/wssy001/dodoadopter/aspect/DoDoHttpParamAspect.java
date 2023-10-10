@@ -25,7 +25,6 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.Cipher;
@@ -66,7 +65,6 @@ public class DoDoHttpParamAspect {
     }
 
     @Around("pointcut()")
-    @RegisterReflectionForBinding(DoDoEventDTO.class)
     public Object checkDoDoHttpParam(ProceedingJoinPoint joinPoint) throws Throwable {
         if (!dodoConfig.isEnable()) return null;
         if (cipher == null) {

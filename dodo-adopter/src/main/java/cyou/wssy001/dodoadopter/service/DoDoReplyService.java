@@ -9,7 +9,6 @@ import cyou.wssy001.dodoadopter.config.DoDoConfig;
 import cyou.wssy001.dodoadopter.dto.DoDoReplyMsgDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -76,7 +75,6 @@ public class DoDoReplyService implements ReplyService {
     }
 
     @Override
-    @RegisterReflectionForBinding(DoDoReplyMsgDTO.class)
     public void reply(BaseReplyMsgDTO msg, Object target) {
         reply(msg);
     }
