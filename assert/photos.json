@@ -397,58 +397,58 @@
   },
   {
     "code": 1,
-    "key": "weeklyOffers",
+    "key": "goldVendor",
     "urlMap": {
-      "1": "https://i0.hdslb.com/bfs/article/2901a12a5669c27fb0f447fe51c6a84cc5ca9492.png"
+      "1": "https://i0.hdslb.com/bfs/article/8058faf53b26898d07595c62f56600ec11144166.jpg"
     }
   },
   {
     "code": 2,
-    "key": "weeklyOffers",
+    "key": "goldVendor",
     "urlMap": {
-      "1": "https://i0.hdslb.com/bfs/article/2901a12a5669c27fb0f447fe51c6a84cc5ca9492.png"
+      "1": "https://i0.hdslb.com/bfs/article/8058faf53b26898d07595c62f56600ec11144166.jpg"
     }
   },
   {
     "code": 3,
-    "key": "weeklyOffers",
+    "key": "goldVendor",
     "urlMap": {
-      "1": "https://img.kookapp.cn/attachments/2023-08/30/u9PTBztx3S1400qb.png"
+      "1": "https://img.kookapp.cn/attachments/2023-09/27/9b8WyI1Wrg1b92m7.png"
     }
   },
   {
     "code": 4,
-    "key": "weeklyOffers",
+    "key": "goldVendor",
     "urlMap": {
-      "1": "https://img.imdodo.com/openapitest/upload/cdn/853D0BD63BF4A5583417489C4A5896B8_1693365520718.png"
+      "1": "https://img.imdodo.com/openapitest/upload/cdn/853D0BD63BF4A5583417489C4A5896B8_1695783398713.png"
     }
   },
   {
     "code": 1,
-    "key": "goldVendor",
+    "key": "weeklyOffers",
     "urlMap": {
-      "1": "https://i0.hdslb.com/bfs/article/da752a001b0f82b0d37a43309b0d27d6f2a6bbc3.jpg"
+      "1": "https://i0.hdslb.com/bfs/article/f9a20daf95290a4c790fe8e85181936211144166.png"
     }
   },
   {
     "code": 2,
-    "key": "goldVendor",
+    "key": "weeklyOffers",
     "urlMap": {
-      "1": "https://i0.hdslb.com/bfs/article/da752a001b0f82b0d37a43309b0d27d6f2a6bbc3.jpg"
+      "1": "https://i0.hdslb.com/bfs/article/f9a20daf95290a4c790fe8e85181936211144166.png"
     }
   },
   {
     "code": 3,
-    "key": "goldVendor",
+    "key": "weeklyOffers",
     "urlMap": {
-      "1": "https://img.kookapp.cn/attachments/2023-08/30/ND6W33uwek0wt1tf.png"
+      "1": "https://img.kookapp.cn/attachments/2023-09/30/1HymFO89E41400qb.png"
     }
   },
   {
     "code": 4,
-    "key": "goldVendor",
+    "key": "weeklyOffers",
     "urlMap": {
-      "1": "https://img.imdodo.com/openapitest/upload/cdn/853D0BD63BF4A5583417489C4A5896B8_1693365597225.png"
+      "1": "https://img.imdodo.com/openapitest/upload/cdn/853D0BD63BF4A5583417489C4A5896B8_1696055542949.png"
     }
   }
 ]
