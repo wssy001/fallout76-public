@@ -65,7 +65,7 @@
         </rollingPolicy>
     </appender>
 
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="errorAppender"/>
         <appender-ref ref="fileAppender"/>
         <appender-ref ref="consoleAppender"/>

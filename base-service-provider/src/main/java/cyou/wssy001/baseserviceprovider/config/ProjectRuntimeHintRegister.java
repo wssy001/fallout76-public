@@ -34,16 +34,20 @@ public class ProjectRuntimeHintRegister implements RuntimeHintsRegistrar {
 
     @Override
     public void registerHints(RuntimeHints hints, ClassLoader classLoader) {
-        hints.reflection().registerType(KookHttpParamAspect.class,
+        hints.reflection()
+                .registerType(KookHttpParamAspect.class,
                         builder -> builder.withMembers(MemberCategory.INVOKE_DECLARED_METHODS))
                 .registerType(QQHttpParamAspect.class,
                         builder -> builder.withMembers(MemberCategory.INVOKE_DECLARED_METHODS))
                 .registerType(DoDoHttpParamAspect.class,
                         builder -> builder.withMembers(MemberCategory.INVOKE_DECLARED_METHODS))
                 .registerType(PlatformEnum.class, MemberCategory.values())
+                .registerType(TypeReference.of("com.github.benmanes.caffeine.cache.SSMSA"),
+                        PUBLIC_FIELDS, INVOKE_DECLARED_CONSTRUCTORS, INVOKE_PUBLIC_METHODS)
         ;
 
-        hints.proxies().registerJdkProxy(FactoryBean.class)
+        hints.proxies()
+                .registerJdkProxy(FactoryBean.class)
                 .registerJdkProxy(HttpServletRequest.class)
                 .registerJdkProxy(HttpServletResponse.class)
                 .registerJdkProxy(BeanClassLoaderAware.class)
@@ -51,16 +55,11 @@ public class ProjectRuntimeHintRegister implements RuntimeHintsRegistrar {
                 .registerJdkProxy(ApplicationAvailability.class)
         ;
 
-        hints.reflection()
-                .registerType(
-                        TypeReference.of("com.github.benmanes.caffeine.cache.SSMSA"),
-                        PUBLIC_FIELDS, INVOKE_DECLARED_CONSTRUCTORS, INVOKE_PUBLIC_METHODS)
-        ;
         hints.resources()
                 .registerPattern("config/**")
                 .registerPattern("help/*")
                 .registerPattern("nukacode/*")
-                .registerPattern("dao/*.xml");
+        ;
 
         hints.serialization()
                 .registerType(NukaCode.class)
@@ -69,6 +68,7 @@ public class ProjectRuntimeHintRegister implements RuntimeHintsRegistrar {
                 .registerType(BaseEvent.class)
                 .registerType(BasePlatformEventDTO.class)
                 .registerType(DoDoEventDTO.class)
+                .registerType(DoDoEventDTO.EventBody.class)
                 .registerType(DoDoReplyMsgDTO.class)
                 .registerType(QQEventDTO.class)
                 .registerType(QQChannelEventDTO.class)
