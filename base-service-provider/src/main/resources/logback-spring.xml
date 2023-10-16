@@ -12,9 +12,6 @@
 
     <!-- 控制台输出 -->
     <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>INFO</level>
-        </filter>
         <encoder>
             <pattern>${CONSOLE_LOG_PATTERN}</pattern>
         </encoder>
@@ -22,6 +19,11 @@
 
     <!-- 按照每天生成输出日志文件 -->
     <appender name="fileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
         <encoder>
             <!--格式化输出：%d表示日期，%thread表示线程，%-5level：级别从左显示五个字符宽度，%logger{36}：logger是class的全名,后面的数字代表限制最长的字符，%msg：日志消息，%n换行符-->
             <!--            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>-->
@@ -33,11 +35,11 @@
             <fileNamePattern>${LOG_FILE_PATH}/fallout76-assistant-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
             <!-- each file should be at most 10MB, keep 60 days worth of history, but at most 2GB -->
             <!--单个文件大小-->
-            <maxFileSize>30MB</maxFileSize>
+            <maxFileSize>10MB</maxFileSize>
             <!--日志文件保留天数-->
-            <maxHistory>60</maxHistory>
+            <maxHistory>30</maxHistory>
             <!--用来指定日志文件的上限大小，到了这个值就会删除旧日志-->a
-            <totalSizeCap>2GB</totalSizeCap>
+            <totalSizeCap>300MB</totalSizeCap>
         </rollingPolicy>
     </appender>
 
@@ -46,6 +48,8 @@
         <!-- 此日志文件只记录ERROR级别的 -->
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
         </filter>
         <encoder>
             <pattern>${PATTERN}</pattern>
@@ -55,13 +59,13 @@
             <!--基于大小和时间的轮转策略，当日志内容超出文件大小限制后，会自动生成一个文件来继续记录和重命名-->
             <fileNamePattern>${LOG_FILE_PATH}/fallout76-assistant-error-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
             <!-- each file should be at most 10MB, keep 60 days worth of history, but at most 2GB -->
-            <maxFileSize>30MB</maxFileSize>
-            <maxHistory>60</maxHistory>
-            <totalSizeCap>2GB</totalSizeCap>
+            <maxFileSize>10MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>300MB</totalSizeCap>
         </rollingPolicy>
     </appender>
 
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="errorAppender"/>
         <appender-ref ref="fileAppender"/>
         <appender-ref ref="consoleAppender"/>

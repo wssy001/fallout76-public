@@ -1,11 +1,12 @@
 package cyou.wssy001.dodoadopter.dto;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.alibaba.fastjson2.annotation.JSONField;
 import cyou.wssy001.common.dto.BasePlatformEventDTO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
 
 /**
  * @Description: DoDoEventDTO
@@ -23,7 +24,7 @@ public class DoDoEventDTO extends BasePlatformEventDTO {
 
     @Getter
     @Setter
-    public static class EventBody {
+    public static class EventBody implements Serializable {
         private JSONObject eventBody;
         private String eventId;
         private String eventType;

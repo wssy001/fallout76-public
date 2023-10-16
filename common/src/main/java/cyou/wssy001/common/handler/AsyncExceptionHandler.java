@@ -13,7 +13,7 @@ public class AsyncExceptionHandler implements AsyncUncaughtExceptionHandler {
     @Override
     public void handleUncaughtException(Throwable ex, Method method, Object... params) {
         if (ex instanceof CustomException e) {
-            log.error("******AsyncExceptionHandler.handleUncaughtException：异步任务出现异常，方法：{}，信息：{}", method.toGenericString(), e.getMsg());
+            log.error("******AsyncExceptionHandler.handleUncaughtException：异步任务出现异常，方法：{}，信息：{}", method.toGenericString(), e.getMsg(), e);
         }
     }
 }

@@ -1,7 +1,6 @@
 package cyou.wssy001.baseserviceprovider;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
@@ -15,7 +14,7 @@ import java.security.Security;
 @SpringBootApplication
 @EnableAspectJAutoProxy
 @ComponentScan(basePackages = "cyou.wssy001.**")
-@MapperScan(value = "cyou.wssy001.wikiprovider.dao", sqlSessionTemplateRef = "sqlSessionTemplate")
+//@MapperScan(value = "cyou.wssy001.wikiprovider.dao", sqlSessionTemplateRef = "sqlSessionTemplate")
 public class BaseServiceProviderApplication {
 
     static {
