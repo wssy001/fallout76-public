@@ -6,7 +6,7 @@
     <parent>
         <groupId>cyou.wssy001</groupId>
         <artifactId>fallout76-assistant</artifactId>
-        <version>1.3.4.1.dev</version>
+        <version>1.3.4.1</version>
     </parent>
 
     <artifactId>qq-adopter</artifactId>
