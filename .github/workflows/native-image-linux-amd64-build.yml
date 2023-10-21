@@ -39,7 +39,8 @@ jobs:
           cd fallout76-assistant
           cp ../src/main/resources/application.yml config/
           cp ../target/fallout76-assistant-robot ./
-          cp ../target/*.so lib/
+          cp ../target/*.so ./
+          cp $GRAALVM_HOME/lib/*font* lib/
           echo '#!/bin/bash' > run.sh
           echo './fallout76-assistant-robot -Xmx512m -XX:+PrintGC -XX:+PrintGCTimes -XX:+VerboseGC -Djava.home=. -Djavax.xml.accessExternalDTD=all' >> run.sh
           chmod +x run.sh

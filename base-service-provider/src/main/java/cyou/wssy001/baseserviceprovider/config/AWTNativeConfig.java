@@ -13,11 +13,13 @@ public class AWTNativeConfig implements RuntimeHintsRegistrar {
 
     @Override
     public void registerHints(RuntimeHints hints, ClassLoader classLoader) {
-        hints.jni()
-                .registerType(java.lang.System.class, MemberCategory.values())
+        hints.reflection()
+                .registerType(TypeReference.of("sun.java2d.marlin.DMarlinRenderingEngine"), this::buildDMarlinRenderingEngine)
         ;
 
         hints.jni()
+                .registerType(java.lang.System.class, MemberCategory.values())
+
                 .registerType(TypeReference.of("java.awt.AlphaComposite"), MemberCategory.values())
                 .registerType(TypeReference.of("java.awt.Color"), MemberCategory.values())
                 .registerType(TypeReference.of("java.awt.GraphicsEnvironment"), MemberCategory.values())
@@ -39,15 +41,18 @@ public class AWTNativeConfig implements RuntimeHintsRegistrar {
                 .registerType(TypeReference.of("sun.awt.image.IntegerComponentRaster"), MemberCategory.values())
                 .registerType(TypeReference.of("sun.font.CharToGlyphMapper"), MemberCategory.values())
                 .registerType(TypeReference.of("sun.font.Font2D"), MemberCategory.values())
+                .registerType(TypeReference.of("sun.font.FontConfigManager$FcCompFont"), MemberCategory.values())
+                .registerType(TypeReference.of("sun.font.FontConfigManager$FontConfigFont"), MemberCategory.values())
+                .registerType(TypeReference.of("sun.font.FontConfigManager$FontConfigInfo"), MemberCategory.values())
                 .registerType(TypeReference.of("sun.font.FontStrike"), MemberCategory.values())
                 .registerType(TypeReference.of("sun.font.FontUtilities"), MemberCategory.values())
                 .registerType(TypeReference.of("sun.font.FreetypeFontScaler"), MemberCategory.values())
+                .registerType(TypeReference.of("sun.font.GlyphLayout$GVData"), MemberCategory.values())
                 .registerType(TypeReference.of("sun.font.GlyphList"), MemberCategory.values())
                 .registerType(TypeReference.of("sun.font.PhysicalStrike"), MemberCategory.values())
                 .registerType(TypeReference.of("sun.font.StrikeMetrics"), MemberCategory.values())
                 .registerType(TypeReference.of("sun.font.TrueTypeFont"), MemberCategory.values())
                 .registerType(TypeReference.of("sun.font.Type1Font"), MemberCategory.values())
-                .registerType(TypeReference.of("sun.font.GlyphLayout$GVData"), MemberCategory.values())
                 .registerType(TypeReference.of("sun.java2d.Disposer"), MemberCategory.values())
                 .registerType(TypeReference.of("sun.java2d.InvalidPipeException"), MemberCategory.values())
                 .registerType(TypeReference.of("sun.java2d.NullSurfaceData"), MemberCategory.values())
@@ -82,6 +87,7 @@ public class AWTNativeConfig implements RuntimeHintsRegistrar {
 
                 .registerType(TypeReference.of("sun.awt.image.BufImgSurfaceData$ICMColorData"), this::buildICMColorData)
                 .registerType(TypeReference.of("sun.font.StrikeMetrics"), this::buildStrikeMetrics)
+                .registerType(TypeReference.of("sun.font.FontConfigManager$FontConfigFont"), this::buildFontConfigFont)
                 .registerType(TypeReference.of("sun.java2d.loops.Blit"), this::buildBlit)
                 .registerType(TypeReference.of("sun.java2d.loops.BlitBg"), this::buildBlit)
                 .registerType(TypeReference.of("sun.java2d.loops.DrawGlyphList"), this::buildBlit)
@@ -108,6 +114,14 @@ public class AWTNativeConfig implements RuntimeHintsRegistrar {
         hints.resources()
                 .registerResourceBundle("sun.awt.resources.awt")
         ;
+    }
+
+    private void buildDMarlinRenderingEngine(TypeHint.Builder builder) {
+        builder.withMethod("<init>", Collections.emptyList(), ExecutableMode.INVOKE);
+    }
+
+    private void buildFontConfigFont(TypeHint.Builder builder) {
+        builder.withMethod("<init>", Collections.emptyList(), ExecutableMode.INVOKE);
     }
 
     private void buildICMColorData(TypeHint.Builder builder) {
