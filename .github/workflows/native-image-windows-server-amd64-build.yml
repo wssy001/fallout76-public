@@ -42,7 +42,7 @@ jobs:
           cp ../src/main/resources/application.yml config/
           cp ../target/fallout76-assistant-robot.exe ./
           cp ../target/*.dll ./
-          cp $GRAALVM_HOME/lib/*font* lib/
+          cp $GRAALVM_HOME\\lib\\*font* lib/
           echo 'fallout76-assistant-robot.exe -Xmx512m -XX:+PrintGC -XX:+PrintGCTimes -XX:+VerboseGC -Djava.home=. -Djavax.xml.accessExternalDTD=all' >> run.bat
           tar -zcvf fallout76-assistant.tar.gz ./*
 

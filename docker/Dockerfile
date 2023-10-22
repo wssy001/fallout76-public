@@ -8,4 +8,4 @@ RUN cd /usr/fallout76-assistant \
     && chmod a+rw /usr/fallout76-assistant/*
 
 WORKDIR /usr/fallout76-assistant
-CMD ["/usr/fallout76-assistant/fallout76-assistant-robot","-Xmx512m","-XX:+PrintGC","-XX:+PrintGCTimes","-XX:+VerboseGC","-Djava.home=.","-Djavax.xml.accessExternalDTD=all"]
+CMD ["/usr/fallout76-assistant/fallout76-assistant-robot","-Xmx256m","-XX:+PrintGC","-XX:+PrintGCTimes","-XX:+VerboseGC","-Djava.home=."]
