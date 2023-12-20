@@ -1,7 +1,5 @@
 package cyou.wssy001.fallout76assistant.base.config;
 
-import cyou.wssy001.fallout76assistant.common.exception.CustomException;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.threads.VirtualThreadExecutor;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
@@ -14,7 +12,6 @@ import java.util.concurrent.Executor;
 
 @Slf4j
 @Configuration
-@RequiredArgsConstructor
 @EnableAsync(proxyTargetClass = true)
 public class AsyncConfig implements AsyncConfigurer {
 
@@ -26,10 +23,8 @@ public class AsyncConfig implements AsyncConfigurer {
 
     @Override
     public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-        return (ex, method, params) -> {
-            if (ex instanceof CustomException e)
-                log.error("******异步任务出现异常，方法：{}，信息：{}", method.toGenericString(), e.getMsg());
-        };
+        return (ex, method, params) ->
+                log.error("******异步任务出现异常，方法：{}", method.toGenericString(), ex);
     }
 
 }

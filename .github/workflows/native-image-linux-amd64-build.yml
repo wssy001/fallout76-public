@@ -1,7 +1,7 @@
 name: Native Image Linux Build
 on:
   release:
-    types: [published]
+    types: [ published ]
 jobs:
   build:
     name: fallout76-assistant on ${{ matrix.arch }}
@@ -18,10 +18,9 @@ jobs:
       - name: 配置环境
         uses: graalvm/setup-graalvm@v1
         with:
-          version: '22.3.1'
-          java-version: '19'
-          components: 'native-image'
-          github-token: ${{ secrets.RELEASE_TOKEN }}
+          java-version: '21'
+          distribution: 'graalvm'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           native-image-job-reports: 'true'
           cache: maven
 
@@ -36,11 +35,13 @@ jobs:
         run: |
           cd /home/runner/work/fallout76-public/fallout76-public/base-service-provider
           mkdir -p fallout76-assistant/config
+          mkdir -p fallout76-assistant/lib
           cd fallout76-assistant
           cp ../src/main/resources/application.yml config/
           cp ../target/fallout76-assistant-robot ./
+          cp ../target/*.so lib/
           echo '#!/bin/bash' > run.sh
-          echo './fallout76-assistant-robot -Djavax.xml.accessExternalDTD=all' >> run.sh
+          echo './fallout76-assistant-robot -Xmx512m -XX:+PrintGC -XX:+PrintGCTimes -XX:+VerboseGC -Djava.home=. -Djavax.xml.accessExternalDTD=all' >> run.sh
           chmod +x run.sh
           tar -zcvf fallout76-assistant.tar.gz ./*
 

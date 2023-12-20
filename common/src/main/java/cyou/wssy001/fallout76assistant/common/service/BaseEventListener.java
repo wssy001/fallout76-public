@@ -21,9 +21,12 @@ public interface BaseEventListener<E extends BaseEvent> {
     Set<EventTypeEnum> eventTypeSet();
 
     default boolean match(BaseEvent baseEvent) {
-        return keySet().contains(baseEvent.getKey()) &&
-                eventSourceSet().contains(baseEvent.getEventSource()) &&
-                eventTypeSet().contains(baseEvent.getEventType());
+        return keySet()
+                .contains(baseEvent.getKey()) &&
+                eventSourceSet()
+                        .contains(baseEvent.getEventSource()) &&
+                eventTypeSet()
+                        .contains(baseEvent.getEventType());
     }
 
     void handleEvent(E event);

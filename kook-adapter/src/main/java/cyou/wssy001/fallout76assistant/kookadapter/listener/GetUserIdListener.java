@@ -5,7 +5,6 @@ import com.alibaba.fastjson2.JSONWriter;
 import cyou.wssy001.fallout76assistant.common.enums.EventTypeEnum;
 import cyou.wssy001.fallout76assistant.kookadapter.event.KookEvent;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
@@ -32,10 +31,9 @@ public class GetUserIdListener implements BaseKookEventListener {
     }
 
     @Override
-    @RegisterReflectionForBinding(KookEvent.class)
     @EventListener(condition = "@getUserIdListener.match(#root.args[0])")
     public void handleEvent(KookEvent kookEvent) {
-        log.debug("******KookEventPublisher.publishEvent：{}", Thread.currentThread());
+        log.debug("******GetUserIdListener.handleEvent：{}", Thread.currentThread());
         log.debug("******GetUserIdListener.handleEvent：正在处理事件：\n{}", JSON.toJSONString(kookEvent, JSONWriter.Feature.PrettyFormat));
     }
 

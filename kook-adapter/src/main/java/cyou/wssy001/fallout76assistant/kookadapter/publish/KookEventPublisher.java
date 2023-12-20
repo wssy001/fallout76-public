@@ -9,7 +9,6 @@ import cyou.wssy001.fallout76assistant.common.service.EventPublisher;
 import cyou.wssy001.fallout76assistant.kookadapter.event.KookEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -29,7 +28,6 @@ public class KookEventPublisher implements EventPublisher {
 
     @Async
     @Override
-    @RegisterReflectionForBinding(KookEvent.class)
     public void publishEvent(BaseEvent baseEvent) {
         if (baseEvent instanceof KookEvent kookEvent) {
             log.debug("******KookEventPublisher.publishEvent：{}", Thread.currentThread());

@@ -4,10 +4,13 @@ server:
 spring:
   main:
     allow-bean-definition-overriding: true
+  threads:
+    virtual:
+      enabled: true
 
 logging:
   level:
-    cyou.wssy001.fallout76assistant : debug
+    cyou.wssy001.fallout76assistant: debug
 
 robot-config:
   #Go-CQHTTP 配置，采用Webhook模式
